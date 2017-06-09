@@ -1,6 +1,6 @@
 ﻿# CMake entry point
 cmake_minimum_required(VERSION 3.0)
-project (sden)
+project (sdenv2)
 
 find_package(OpenGL REQUIRED)
 
@@ -128,7 +128,7 @@ set(ALL_LIBS
 	GLEW_200
 )
 
-add_executable(SDEN_Project
+add_executable(SDENV2_Project
 	sdenv2/project/main.cpp
 )
 
@@ -146,7 +146,7 @@ target_link_libraries(SDENV2_Project
 )
 
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-	target_link_libraries(SDEN_Project
+	target_link_libraries(SDENV2_Project
 		-lGL
 	)
 ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
