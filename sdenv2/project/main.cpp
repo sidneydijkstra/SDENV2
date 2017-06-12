@@ -1,26 +1,19 @@
 ﻿
 #include "renderer.h"
 
-// devine functions
-#define SWIDTH 800;
-#define SHEIGHT 600;
+#include <iostream>
 
 // main function
 int main() {
-	int screenWidth = SWIDTH;
-	int screenHeight = SWIDTH;
-	// create renderer
+	// create the renderer and call its constructor
 	Renderer* renderer = new Renderer();
-	// create window
-	renderer->createWindow(screenWidth, screenHeight);
 
-	// run main game loop
+	// call the run function
 	renderer->run();
 
-	// deletet renderer
+	// delete the renderer
 	delete renderer;
 
-	// stop program
-	glfwTerminate();
+	// rerurn 0
 	return 0;
 }

@@ -130,6 +130,14 @@ set(ALL_LIBS
 
 add_executable(SDENV2_Project
 	sdenv2/project/main.cpp
+	sdenv2/project/renderer.cpp
+	sdenv2/project/renderer.h
+	sdenv2/project/shader.cpp
+	sdenv2/project/shader.h
+	sdenv2/project/mesh.cpp
+	sdenv2/project/mesh.h
+	sdenv2/project/texture.cpp
+	sdenv2/project/texture.h
 )
 
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT SDENV2_Project)
