@@ -11,10 +11,16 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-// include mesh
-#include "mesh.h"
 // include shader
 #include "shader.h"
+// include sceneManager
+#include "scenemanager.h"
+// include scene
+#include "scene.h"
+// include mesh
+#include "mesh.h"
+// include scene
+#include "camera.h";
 
 class Renderer
 {
@@ -26,7 +32,7 @@ public:
 	void run();
 
 	// renderer functions to render objects
-	void render3DCube(Mesh* mesh, Shader* shader);
+	void render3DCube(Mesh* mesh, Shader* shader, Scene* scene);
 private:
 	// the window
 	GLFWwindow* _window;
@@ -47,6 +53,9 @@ private:
 
 	// shaders
 	Shader* normalShader;
+
+	// scene manager
+	SceneManager* scenemanager;
 };
 
 #endif /* end renderer */

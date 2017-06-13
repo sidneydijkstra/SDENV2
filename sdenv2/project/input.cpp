@@ -28,7 +28,7 @@ Input::Input(GLFWwindow* glfwWindow){
 	}
 
 	// input create message
-	//std::cout << "Input created!" << std::endl;
+	//std::cout << "created new input" << std::endl;
 }
 
 // get mouse x

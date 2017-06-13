@@ -41,17 +41,13 @@ void Renderer::createWindow() {
 	glEnable(GL_DEPTH_TEST);
 }
 
-#include "input.h"
-Input* input;
 // main game loop
 void Renderer::run() {
 	// init shaders
 	normalShader = new Shader("shaders/normal.vert", "shaders/normal.frag");
 
-	input = new Input(_window);
-
-	Mesh* mymesh = new Mesh();
-	mymesh->loadMeshTexture("assets/maja.jpg");
+	// init scene manager
+	scenemanager = new SceneManager(_window);
 
 	// game loop
 	while (!glfwWindowShouldClose(_window)) {
@@ -67,19 +63,28 @@ void Renderer::run() {
 		calculateDeltatime();
 		calculateFPS();
 		
+		// update scene manager and scene manager updates current scene
+		scenemanager->update(_deltaTime);
+
+		// use normal shader
 		normalShader->use();
-		render3DCube(mymesh, normalShader);
+
+		// update current scene childeren
+		int childcount = scenemanager->getCurrentScene()->getChildCount();
+		std::vector<Mesh*> childeren = scenemanager->getCurrentScene()->getChilderen();
+		Scene* scene = scenemanager->getCurrentScene();
+		for (int i = 0; i < childcount; i++){
+			render3DCube(childeren[i], normalShader, scene);
+		}
 
 		// Swap the screen buffers
 		glfwSwapBuffers(_window);
 
 	}
 
-	delete mymesh;
-
 }
 
-void Renderer::render3DCube(Mesh* mesh, Shader* shader) {
+void Renderer::render3DCube(Mesh* mesh, Shader* shader, Scene* scene) {
 	// bind VAO
 	glBindVertexArray(mesh->_VAO);
 
@@ -89,12 +94,15 @@ void Renderer::render3DCube(Mesh* mesh, Shader* shader) {
 	
 	// get model matrix
 	glm::mat4 model;
-	model = glm::scale(model, glm::vec3(1, 1, 1));
-	model = glm::translate(model, glm::vec3(0.0f,  0.0f, -2.0f));
-	model = glm::rotate(model, 0.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::scale(model, mesh->scale);								// scale
+	model = glm::translate(model, mesh->position);						// position
+	model = glm::rotate(model, mesh->rotation.x, glm::vec3(1, 0, 0));	// rotation x
+	model = glm::rotate(model, mesh->rotation.y, glm::vec3(0, 1, 0));	// rotation y
+	model = glm::rotate(model, mesh->rotation.z, glm::vec3(0, 0, 1));	// rotation z
 
 	// get view
-	glm::mat4 view = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+	glm::mat4 view = glm::lookAt(scene->getCamera()->position, scene->getCamera()->position + scene->getCamera()->front, scene->getCamera()->up);
+	//glm::mat4 view = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 
 	// get projectioins
 	glm::mat4 projection = glm::perspective(glm::radians(45.0f), (GLfloat)_windowWidth / (GLfloat)_windowHeight, 0.001f, 100.0f);
