@@ -11,9 +11,11 @@ Scene::Scene(Input* _input, Camera* _camera) {
 
 	// set meshes
 	cube = new Mesh();
-	cube->loadMeshTexture("assets/timmy.jpg");
+	cube->loadMeshTexture("assets/maja.jpg");
 
 	this->addChild(cube);
+
+	cube->loadObject("assets/bunny.obj");
 
 	// scene create message
 	std::cout << "created new scene" << std::endl;
@@ -21,7 +23,7 @@ Scene::Scene(Input* _input, Camera* _camera) {
 
 // scene update
 void Scene::update(float deltatime){
-	cube->rotation.x += 1 * deltatime;
+	//cube->rotation.x += 1 * deltatime;
 }
 
 // scene deconstructor

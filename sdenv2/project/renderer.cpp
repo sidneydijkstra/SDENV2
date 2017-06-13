@@ -13,7 +13,7 @@ Renderer::Renderer(){
 // create the window
 void Renderer::createWindow() {
 	// create a window object
-	_window = glfwCreateWindow(_windowWidth, _windowHeight, "SDEN", nullptr, nullptr);
+	_window = glfwCreateWindow(_windowWidth, _windowHeight, "SDENV2", nullptr, nullptr);
 
 	// check if window is created
 	if (_window == nullptr) {
@@ -113,7 +113,7 @@ void Renderer::render3DCube(Mesh* mesh, Shader* shader, Scene* scene) {
 	shader->setMat4("projection", projection);
 	
 	// draw cube
-	glDrawArrays(GL_TRIANGLES, 0, 36);
+	glDrawArrays(GL_TRIANGLES, 0, mesh->_drawsize);
 	glBindVertexArray(0);
 }
 
@@ -143,4 +143,6 @@ Renderer::~Renderer() {
 	delete _window;
 	// delete shader
 	delete normalShader;
+	// delete scene manager
+	delete scenemanager;
 }

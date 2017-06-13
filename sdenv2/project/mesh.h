@@ -28,10 +28,16 @@ public:
 	// init 3D cube buffer
 	void initCubeBuffer();
 	GLuint _VAO, _VBO;
+	int _drawsize = 36;
 
-	// load mesh texture
+	// load 3d object
+	void loadObject(const char * location);
+
+	// load mesh textures
 	void loadMeshTexture(const char* location);
-	GLuint _normalTexture;
+
+	// mesh textures
+	GLuint _normalTexture = NULL;
 private:
 	Texture* _textureLoader;
 };
