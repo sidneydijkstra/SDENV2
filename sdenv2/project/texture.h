@@ -20,4 +20,4 @@ private:
 	
 };
 
-#endif
+#endif /* end texture */

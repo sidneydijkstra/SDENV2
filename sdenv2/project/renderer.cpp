@@ -41,10 +41,14 @@ void Renderer::createWindow() {
 	glEnable(GL_DEPTH_TEST);
 }
 
+#include "input.h"
+Input* input;
 // main game loop
 void Renderer::run() {
 	// init shaders
 	normalShader = new Shader("shaders/normal.vert", "shaders/normal.frag");
+
+	input = new Input(_window);
 
 	Mesh* mymesh = new Mesh();
 	mymesh->loadMeshTexture("assets/maja.jpg");
@@ -55,7 +59,8 @@ void Renderer::run() {
 		// clear color buffer
 		glClearColor(2.1f, 0.7f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+		glfwPollEvents();
+		
 		normalShader->use();
 		render3DCube(mymesh, normalShader);
 
@@ -88,15 +93,10 @@ void Renderer::render3DCube(Mesh* mesh, Shader* shader) {
 	// get projectioins
 	glm::mat4 projection = glm::perspective(glm::radians(45.0f), (GLfloat)_windowWidth / (GLfloat)_windowHeight, 0.001f, 100.0f);
 
-	// get uniform locations
-	GLint uniformModel = glGetUniformLocation(shader->program, "model");
-	GLint uniformView = glGetUniformLocation(shader->program, "view");
-	GLint uniformProjection = glGetUniformLocation(shader->program, "projection");
-
-	// set mat4 uniforms
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(view));
-	glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
+	// set uniforms
+	shader->setMat4("model", model);
+	shader->setMat4("view", view);
+	shader->setMat4("projection", projection);
 	
 	// draw cube
 	glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -107,4 +107,6 @@ void Renderer::render3DCube(Mesh* mesh, Shader* shader) {
 Renderer::~Renderer() {
 	// delete the window
 	delete _window;
+	// delete shader
+	delete normalShader;
 }

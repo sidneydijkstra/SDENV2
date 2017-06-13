@@ -138,6 +138,10 @@ add_executable(SDENV2_Project
 	sdenv2/project/mesh.h
 	sdenv2/project/texture.cpp
 	sdenv2/project/texture.h
+	sdenv2/project/input.cpp
+	sdenv2/project/input.h
+	sdenv2/project/camera.cpp
+	sdenv2/project/camera.h
 )
 
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT SDENV2_Project)
