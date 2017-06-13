@@ -35,6 +35,16 @@ private:
 	// create the window
 	void createWindow();
 
+	// renderer deltatime
+	void calculateDeltatime();
+	GLfloat _deltaTime = 0.0f;
+	GLfloat _lastFrame = 0.0f;
+	// renderer fps
+	void calculateFPS();
+	GLfloat _currentTime;
+	GLfloat _lastTime;
+	GLfloat _fps;
+
 	// shaders
 	Shader* normalShader;
 };

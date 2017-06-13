@@ -59,7 +59,13 @@ void Renderer::run() {
 		// clear color buffer
 		glClearColor(2.1f, 0.7f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		// pull events
 		glfwPollEvents();
+
+		// calculate deltattime and fps
+		calculateDeltatime();
+		calculateFPS();
 		
 		normalShader->use();
 		render3DCube(mymesh, normalShader);
@@ -101,6 +107,26 @@ void Renderer::render3DCube(Mesh* mesh, Shader* shader) {
 	// draw cube
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glBindVertexArray(0);
+}
+
+// calculate deltatime
+void Renderer::calculateDeltatime() {
+	GLfloat _currentFrame = glfwGetTime();
+	_deltaTime = _currentFrame - _lastFrame;
+	_lastFrame = _currentFrame;
+}
+
+// calculate fps 
+void Renderer::calculateFPS() {
+	_currentTime = glfwGetTime();
+	_fps++;
+	if (_currentTime - _lastTime >= 1) {
+		// print fps
+		std::cout << "fps: " << _fps << std::endl;
+
+		_lastTime = glfwGetTime();
+		_fps = 0;
+	}
 }
 
 // renderer deconstructor
