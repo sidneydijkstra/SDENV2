@@ -41,8 +41,17 @@ void Renderer::createWindow() {
 	glEnable(GL_DEPTH_TEST);
 }
 
+
+// renderer debug variables
+#include "input.h"
+Input* input;
+
 // main game loop
 void Renderer::run() {
+
+	// debug
+	input = new Input(_window);
+
 	// init shaders
 	normalShader = new Shader("shaders/normal.vert", "shaders/normal.frag");
 
@@ -77,12 +86,19 @@ void Renderer::run() {
 			render3DCube(childeren[i], normalShader, scene);
 		}
 
+		// debug
+		// recompile shader
+		if (input->getKey(GLFW_KEY_G)) {
+			normalShader = new Shader("shaders/normal.vert", "shaders/normal.frag");
+		}
+
 		// Swap the screen buffers
 		glfwSwapBuffers(_window);
 
 	}
 
 }
+
 
 void Renderer::render3DCube(Mesh* mesh, Shader* shader, Scene* scene) {
 	// bind VAO
@@ -111,6 +127,14 @@ void Renderer::render3DCube(Mesh* mesh, Shader* shader, Scene* scene) {
 	shader->setMat4("model", model);
 	shader->setMat4("view", view);
 	shader->setMat4("projection", projection);
+
+	// set object color uniform
+	shader->setVec3("fragObjectColor", glm::vec3(1,1,1));
+	
+	// set lighting uniforms
+	shader->setVec3("fragLightColor", scene->getLight()->lightColor);
+	shader->setVec3("fragLightPosition", scene->getLight()->position);
+	shader->setVec3("fragViewPosition", scene->getCamera()->position);
 	
 	// draw cube
 	glDrawArrays(GL_TRIANGLES, 0, mesh->_drawsize);

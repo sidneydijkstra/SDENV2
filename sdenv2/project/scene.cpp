@@ -9,9 +9,13 @@ Scene::Scene(Input* _input, Camera* _camera) {
 	input = _input;
 	camera = _camera;
 
+	// add light
+	addLight();
+	light->position = glm::vec3(2, 2, 2);
+
 	// set meshes
 	cube = new Mesh();
-	cube->loadMeshTexture("assets/maja.jpg");
+	cube->loadMeshTexture("assets/gold.jpg");
 
 	this->addChild(cube);
 

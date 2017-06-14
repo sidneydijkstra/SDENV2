@@ -24,6 +24,7 @@ public:
 
 	// shader uniform functions
 	void setMat4(const char * name, glm::mat4);
+	void setVec3(const char * name, glm::vec3 value);
 private :
 
 };
