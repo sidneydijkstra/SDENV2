@@ -19,7 +19,8 @@ Scene::Scene(Input* _input, Camera* _camera) {
 
 	this->addChild(cube);
 
-	cube->loadObject("assets/bunny.obj");
+
+	cube->loadObject("assets/gokart.obj");
 
 	// scene create message
 	std::cout << "created new scene" << std::endl;
@@ -27,7 +28,7 @@ Scene::Scene(Input* _input, Camera* _camera) {
 
 // scene update
 void Scene::update(float deltatime){
-	//cube->rotation.x += 1 * deltatime;
+	cube->rotation.y += 1 * deltatime;
 }
 
 // scene deconstructor

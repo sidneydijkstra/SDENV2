@@ -19,6 +19,8 @@ public:
 
 	glm::vec3 position = glm::vec3(0, 0, 0);
 	glm::vec3 lightColor = glm::vec3(1, 1, 1);
+	float ambientStrength = 0.15f;
+	float specularStrength = 0.5f;
 
 private:
 

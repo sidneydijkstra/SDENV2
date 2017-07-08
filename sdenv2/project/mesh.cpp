@@ -150,7 +150,7 @@ void Mesh::loadObject(const char* location) {
 	// create the vertices
 	GLfloat *vertices = new GLfloat[vertexIndices.size() * 8];
 	for (unsigned int i = 0; i<vertexIndices.size(); i++) {
-		//push vertices/uv's and normals to correct place in vertices
+		// create vertices
 		unsigned int vertexIndex = vertexIndices[i];
 		vertices[i * 8] = temp_vertices[vertexIndex - 1].x;
 		vertices[i * 8 + 1] = temp_vertices[vertexIndex - 1].y;

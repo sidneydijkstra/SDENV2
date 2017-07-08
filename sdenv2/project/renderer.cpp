@@ -45,6 +45,7 @@ void Renderer::createWindow() {
 // renderer debug variables
 #include "input.h"
 Input* input;
+bool renderTriangle = true;
 
 // main game loop
 void Renderer::run() {
@@ -91,6 +92,10 @@ void Renderer::run() {
 		if (input->getKey(GLFW_KEY_G)) {
 			normalShader = new Shader("shaders/normal.vert", "shaders/normal.frag");
 		}
+		// set render type
+		if (input->getKey(GLFW_KEY_H)) {
+			renderTriangle = !renderTriangle;
+		}
 
 		// Swap the screen buffers
 		glfwSwapBuffers(_window);
@@ -135,9 +140,16 @@ void Renderer::render3DCube(Mesh* mesh, Shader* shader, Scene* scene) {
 	shader->setVec3("fragLightColor", scene->getLight()->lightColor);
 	shader->setVec3("fragLightPosition", scene->getLight()->position);
 	shader->setVec3("fragViewPosition", scene->getCamera()->position);
+
+	shader->setFloat("fragAmbientStrength", scene->getLight()->ambientStrength);
+	shader->setFloat("fragSpecularStrength", scene->getLight()->specularStrength);
 	
 	// draw cube
-	glDrawArrays(GL_TRIANGLES, 0, mesh->_drawsize);
+	if (renderTriangle) {
+		glDrawArrays(GL_TRIANGLES, 0, mesh->_drawsize);
+	}else {
+		glDrawArrays(GL_TRIANGLES, 0, mesh->_drawsize);
+	}
 	glBindVertexArray(0);
 }
 

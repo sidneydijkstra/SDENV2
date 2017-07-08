@@ -16,6 +16,9 @@ uniform vec3 fragLightColor;
 uniform vec3 fragLightPosition;
 uniform vec3 fragViewPosition;
 
+uniform float fragAmbientStrength;
+uniform float fragSpecularStrength;
+
 void main(){
 
     // genarate texture
@@ -25,7 +28,7 @@ void main(){
     vec3 norm = normalize(fragNormal);
 
     // ambient
-    float ambientStrength = 0.15f;
+    float ambientStrength = fragAmbientStrength;
     vec3 ambient = ambientStrength * fragLightColor;
 
     // diffuse
@@ -34,7 +37,7 @@ void main(){
     vec3 diffuse = diff * fragLightColor;
 
     // specular
-    float specularStrength = 0.5f;
+    float specularStrength = fragSpecularStrength;
     vec3 viewDir = normalize(fragViewPosition - fragPosition);
     vec3 reflectDir = reflect(-lightDir, norm);
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), 64);
