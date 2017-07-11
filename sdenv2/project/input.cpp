@@ -7,15 +7,16 @@ void _handleScroll(GLFWwindow* window, double xoffset, double yoffset);
 
 // key
 bool _keys[GLFW_KEY_LAST];
+bool _keysDown[GLFW_KEY_LAST];
 
 // mouse
 int _mouseX;
 int _mouseY;
 
 // input constructor
-Input::Input(GLFWwindow* glfwWindow){
+Input::Input(GLFWwindow* _glfwWindow){
 	// set window
-	_window = glfwWindow;
+	_window = _glfwWindow;
 
 	// Set the required callback functions
 	glfwSetKeyCallback(_window, _handleKey);
@@ -25,6 +26,7 @@ Input::Input(GLFWwindow* glfwWindow){
 	// set all key bools to false
 	for (int i = 0; i < GLFW_KEY_LAST; i++) {
 		_keys[i] = false;
+		_keysDown[i] = false;
 	}
 
 	// input create message
@@ -42,8 +44,18 @@ float Input::getMouseY() {
 }
 
 // get key press
-bool Input::getKey(int keycode) {
-	return _keys[keycode];
+bool Input::getKey(int _keycode) {
+	return _keys[_keycode];
+}
+
+bool Input::getKeyDown(int _keycode) {
+	if (_keys[_keycode] && !_keysDown[_keycode]) {
+		_keysDown[_keycode] = true;
+		return true;
+	}else if (!_keys[_keycode] && _keysDown[_keycode]) {
+		_keysDown[_keycode] = false;
+	}
+	return false;
 }
 
 // key handeler

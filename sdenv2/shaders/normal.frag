@@ -46,6 +46,9 @@ void main(){
     // calculate result
     vec3 result = (ambient + diffuse + specular);
 
+    float gamma = 1.7;
+    result.rgb = pow(result.rgb, vec3(1.0/gamma));
     // set exit color
     exitColor = vec4(result * mytexture.rgb, mytexture.a);
+    //exitColor = vec4(result * vec3(1.2,0.2,2.3), 1);
 }

@@ -53,6 +53,7 @@ private:
 
 	// shaders
 	Shader* normalShader;
+	Shader* framebufferShader;
 
 	// scene manager
 	SceneManager* scenemanager;

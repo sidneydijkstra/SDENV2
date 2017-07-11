@@ -15,10 +15,11 @@
 class Shader
 {
 public:
-	Shader(const GLchar* vertexPath, const GLchar* fragmentPath);
+	Shader(const GLchar* vertexPath, const GLchar* geometryPath, const GLchar* fragmentPath);
 
 	// The program ID
 	GLuint program;
+
 	// Use the program
 	void use();
 
@@ -26,8 +27,16 @@ public:
 	void setMat4(const char* name, glm::mat4 value);
 	void setVec3(const char* name, glm::vec3 value);
 	void setFloat(const char* name, float value);
-private :
+	void setInt(const char * name, float value);
+private:
+	// load shader file
+	std::string loadShaderFile(const GLchar* path);
 
+	// create shader
+	GLuint createShader(GLenum type, const GLchar* source, std::string name);
+
+	// load shader program
+	void loadShaderProgram();
 };
 
 #endif /* end shader */

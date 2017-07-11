@@ -14,16 +14,17 @@
 class Input
 {
 public:
-	Input(GLFWwindow* glfwWindow);
+	Input(GLFWwindow* _glfwWindow);
 	~Input();
 
 	// input functions
 	float getMouseX();
 	float getMouseY();
-	bool getKey(int keycode);
+	bool getKey(int _keycode);
+	bool getKeyDown(int _keycode);
 private:
 	// window
 	GLFWwindow* _window;
-};
+}; 
 
 #endif /* end input */
