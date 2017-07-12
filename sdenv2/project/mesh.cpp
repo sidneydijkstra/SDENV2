@@ -3,7 +3,7 @@
 // mesh constructor
 Mesh::Mesh(){
 	_textureLoader = new Texture();
-	initCubeBuffer();
+	loadCube();
 }
 
 // load mesh texture
@@ -12,7 +12,7 @@ void Mesh::loadMeshTexture(const char* location) {
 }
 
 // create the cube buffer
-void Mesh::initCubeBuffer() {
+void Mesh::loadCube() {
 	GLfloat vertices[] = {
 		// Positions           // Normals           // Texture Coords
 		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
@@ -79,6 +79,28 @@ void Mesh::initCubeBuffer() {
 
 	// set draw size to 36 again
 	_drawsize = 36;
+}
+
+void Mesh::loadQuad(){
+	float vertices[] = {
+		-1.0f,  1.0f,  0.0f, 1.0f,
+		-1.0f, -1.0f,  0.0f, 0.0f,
+		 1.0f, -1.0f,  1.0f, 0.0f,
+
+		-1.0f,  1.0f,  0.0f, 1.0f,
+		 1.0f, -1.0f,  1.0f, 0.0f,
+		 1.0f,  1.0f,  1.0f, 1.0f
+	};
+
+	glGenVertexArrays(1, &_VAO);
+	glGenBuffers(1, &_VBO);
+	glBindVertexArray(_VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, _VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
 }
 
 // load object

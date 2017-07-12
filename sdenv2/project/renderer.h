@@ -21,6 +21,8 @@
 #include "mesh.h"
 // include scene
 #include "camera.h";
+// include framebuffer
+#include "framebuffer.h"
 
 class Renderer
 {
@@ -54,6 +56,7 @@ private:
 	// shaders
 	Shader* normalShader;
 	Shader* framebufferShader;
+	Shader* shadowDebugShader;
 
 	// scene manager
 	SceneManager* scenemanager;

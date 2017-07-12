@@ -148,6 +148,8 @@ add_executable(SDENV2_Project
 	sdenv2/project/scenemanager.h
 	sdenv2/project/light.cpp
 	sdenv2/project/light.h
+	sdenv2/project/framebuffer.cpp
+	sdenv2/project/framebuffer.h
 )
 
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT SDENV2_Project)

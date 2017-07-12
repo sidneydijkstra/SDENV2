@@ -25,10 +25,15 @@ public:
 	glm::vec3 scale = glm::vec3(1, 1, 1);		// mesh scale 
 	glm::vec3 rotation = glm::vec3(0, 0, 0);	// mesh rotation
 
-	// init 3D cube buffer
-	void initCubeBuffer();
+	// mesh buffer varables
 	GLuint _VAO, _VBO;
 	int _drawsize = 36;
+
+	// load 3d cube
+	void loadCube();
+
+	// load 2d quad
+	void loadQuad();
 
 	// load 3d object
 	void loadObject(const char * location);

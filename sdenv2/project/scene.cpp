@@ -26,7 +26,7 @@ Scene::Scene(Input* _input, Camera* _camera) {
 	cube = new Mesh();
 	cube->position = glm::vec3(1.5f,3,0);
 	cube->scale = glm::vec3(2, 2, 2);
-	cube->loadMeshTexture("assets/broodje.jpg");
+	cube->loadMeshTexture("assets/wood.jpg");
 
 
 	this->addChild(ground);
