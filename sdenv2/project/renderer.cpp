@@ -61,26 +61,18 @@ void Renderer::run() {
 	// init scene manager
 	scenemanager = new SceneManager(_window);
 
-	FrameBuffer* framebuffer = new FrameBuffer();
-	framebuffer->createFrameBuffer();
-	framebuffer->createNormalTexture(_windowWidth, _windowHeight);
-
-	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-		std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
-	}
+	FrameBuffer* depthMapBuffer = new FrameBuffer();
+	depthMapBuffer->createFrameBuffer();
+	depthMapBuffer->createNormalTexture(_windowWidth, _windowHeight);
 
 	Mesh* quad = new Mesh();
 	quad->loadQuad();
 
 	// game loop
 	while (!glfwWindowShouldClose(_window)) {
-		// bind frame buffer
-		framebuffer->bind();
-
-		// clear color buffer
+		depthMapBuffer->bind();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glClearColor(2.1f, 0.7f, 0.1f, 1.0f);
-		glEnable(GL_DEPTH_TEST);
+		glClearColor(1,1,1,1);
 
 		// pull events
 		glfwPollEvents();
@@ -101,18 +93,14 @@ void Renderer::run() {
 			render3DCube(childeren[i], normalShader, scene);
 		} 
 
-		// unbind frame buffer
-		framebuffer->unbind();
-		glDisable(GL_DEPTH_TEST);
-
-		// clear color buffer
-		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		depthMapBuffer->unbind();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClearColor(2.1f, 0.7f, 0.1f, 1.0f);
 
 		// draw quad on screen
 		framebufferShader->use();
 		glBindVertexArray(quad->_VAO);
-		glBindTexture(GL_TEXTURE_2D, framebuffer->getFrameBufferNormalTexture());
+		glBindTexture(GL_TEXTURE_2D, depthMapBuffer->getFrameBufferNormalTexture());
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 
 		// debug

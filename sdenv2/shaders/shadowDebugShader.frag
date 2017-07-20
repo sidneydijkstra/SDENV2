@@ -2,11 +2,11 @@
 out vec4 FragColor;
 
 in vec2 TexCoords;
-
-uniform sampler2D depthMap;
+uniform sampler2D depthSampler;
 
 void main()
 {
-    float depthValue = texture(depthMap, TexCoords).r;
-    FragColor = vec4(vec3(depthValue), 1.0);
-}  
+    FragColor = texture(depthSampler, TexCoords);
+    float average = (FragColor.r + FragColor.g + FragColor.b) / 3.0;
+    FragColor = vec4(average, average, average, 1.0);
+}
