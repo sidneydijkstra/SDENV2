@@ -56,23 +56,27 @@ void Renderer::run() {
 	// init shaders
 	normalShader = new Shader("shaders/normal.vert","", "shaders/normal.frag");
 	framebufferShader = new Shader("shaders/framebuffer.vert", "", "shaders/framebuffer.frag");
-	shadowDebugShader = new Shader("shaders/shadowDebugShader.vert", "", "shaders/shadowDebugShader.frag");
+	shadowDebugShader = new Shader("shaders/partical.vert", "", "shaders/partical.frag");
 
 	// init scene manager
 	scenemanager = new SceneManager(_window);
 
-	FrameBuffer* depthMapBuffer = new FrameBuffer();
-	depthMapBuffer->createFrameBuffer();
-	depthMapBuffer->createNormalTexture(_windowWidth, _windowHeight);
+	FrameBuffer* framebufer = new FrameBuffer();
+	framebufer->createFrameBuffer();
+	framebufer->createNormalTexture(_windowWidth, _windowHeight);
 
 	Mesh* quad = new Mesh();
 	quad->loadQuad();
 
+	ParticalSystem* parsys = new ParticalSystem();
+	parsys->position = glm::vec3(0,10,0);
+
 	// game loop
 	while (!glfwWindowShouldClose(_window)) {
-		depthMapBuffer->bind();
+
+		framebufer->bind();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glClearColor(1,1,1,1);
+		glClearColor(1, 0.1, 2, 1);
 
 		// pull events
 		glfwPollEvents();
@@ -93,14 +97,17 @@ void Renderer::run() {
 			render3DCube(childeren[i], normalShader, scene);
 		} 
 
-		depthMapBuffer->unbind();
+		parsys->update(_deltaTime);
+		renderParticals(parsys, shadowDebugShader, scene);
+
+		framebufer->unbind();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glClearColor(2.1f, 0.7f, 0.1f, 1.0f);
+		glClearColor(1, 0.1, 2, 1);
 
 		// draw quad on screen
 		framebufferShader->use();
 		glBindVertexArray(quad->_VAO);
-		glBindTexture(GL_TEXTURE_2D, depthMapBuffer->getFrameBufferNormalTexture());
+		glBindTexture(GL_TEXTURE_2D, framebufer->getFrameBufferNormalTexture());
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 
 		// debug
@@ -123,7 +130,9 @@ void Renderer::run() {
 
 	}
 	//delete framebuffer;
+	delete framebufer;
 	delete quad;
+	delete parsys;
 }
 
 
@@ -169,6 +178,51 @@ void Renderer::render3DCube(Mesh* mesh, Shader* shader, Scene* scene) {
 	// draw cube
 	glDrawArrays(GL_TRIANGLES, 0, mesh->_drawsize);
 	glBindVertexArray(0);
+}
+
+void Renderer::renderParticals(ParticalSystem * particalsystem, Shader * shader, Scene * scene){
+	// get all partical mesh's
+	std::vector<Mesh*> particals = particalsystem->getAllParticalsMesh();
+
+	
+	// draw all the mesh's
+	int size = particals.size();
+	for (size_t i = 0; i < size; i++){
+		// get mesh
+		Mesh* mesh = particals[i];
+
+		// bind VAO
+		glBindVertexArray(mesh->_VAO);
+
+		// activate textures
+		//glActiveTexture(GL_TEXTURE0);
+		//glBindTexture(GL_TEXTURE_2D, mesh->_normalTexture);
+
+		// get model matrix
+		glm::mat4 model;
+		model = glm::scale(model, mesh->scale);								// scale
+		model = glm::translate(model, mesh->position);						// position
+		model = glm::rotate(model, mesh->rotation.x, glm::vec3(1, 0, 0));	// rotation x
+		model = glm::rotate(model, mesh->rotation.y, glm::vec3(0, 1, 0));	// rotation y
+		model = glm::rotate(model, mesh->rotation.z, glm::vec3(0, 0, 1));	// rotation z
+
+																			// get view
+		glm::mat4 view = glm::lookAt(scene->getCamera()->position, scene->getCamera()->position + scene->getCamera()->front, scene->getCamera()->up);
+		//glm::mat4 view = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+
+		// get projectioins
+		glm::mat4 projection = glm::perspective(glm::radians(45.0f), (GLfloat)_windowWidth / (GLfloat)_windowHeight, 0.001f, 100.0f);
+
+		// set uniforms
+		shader->setMat4("model", model);
+		shader->setMat4("view", view);
+		shader->setMat4("projection", projection);
+
+		// draw partical
+		glDrawArrays(GL_TRIANGLES, 0, mesh->_drawsize);
+		glBindVertexArray(0);
+	}
+
 }
 
 // calculate deltatime

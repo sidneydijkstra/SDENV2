@@ -24,6 +24,9 @@
 // include framebuffer
 #include "framebuffer.h"
 
+// debug
+#include "particalsystem.h"
+
 class Renderer
 {
 public:
@@ -35,6 +38,9 @@ public:
 
 	// renderer functions to render objects
 	void render3DCube(Mesh* mesh, Shader* shader, Scene* scene);
+
+	// renderer function to render a partical system
+	void renderParticals(ParticalSystem* particalsystem, Shader* shader, Scene* scene);
 private:
 	// the window
 	GLFWwindow* _window;
