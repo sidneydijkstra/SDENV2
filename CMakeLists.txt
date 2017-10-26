@@ -92,31 +92,12 @@ add_library(soil STATIC
 
 ############
 
-### manymouse ###
-
-set(MANYMOUSE_SOURCE
-	external/manymouse/linux_evdev.c
-	external/manymouse/macosx_hidmanager.c
-	external/manymouse/macosx_hidutilities.c
-	external/manymouse/manymouse.c
-	external/manymouse/manymouse.h
-	external/manymouse/windows_wminput.c
-	external/manymouse/x11_xinput2.c
-)
-
-add_library(manymouse  STATIC
-	${MANYMOUSE_SOURCE}
-)
-
-############
-
 include_directories(
 	external/glew-2.0.0/include
 	external/glfw-3.2.1/include
 	external/glm
 	external/soil/src
 	external/fltk-1.3.4-1
-	external/manymouse
 	${CMAKE_BINARY_DIR}/external/fltk-1.3.4-1
 )
 
@@ -128,8 +109,10 @@ set(ALL_LIBS
 	GLEW_200
 )
 
-add_executable(SDENV2_Project
-	sdenv2/project/main.cpp
+# engine #
+
+add_library(SDENV2 STATIC
+  sdenv2/project/main.cpp
 	sdenv2/project/renderer.cpp
 	sdenv2/project/renderer.h
 	sdenv2/project/shader.cpp
@@ -156,9 +139,21 @@ add_executable(SDENV2_Project
 	sdenv2/project/partical.h
 )
 
-set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT SDENV2_Project)
+target_link_libraries(SDENV2
+	${ALL_LIBS}
+)
 
-target_link_libraries(SDENV2_Project
+# start project #
+
+add_executable(SDENV2_start
+  start/main.cpp
+  start/myscene.cpp
+  start/myscene.h
+)
+
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT SDENV2_start)
+
+target_link_libraries(SDENV2_start
 	soil
 	glfw
   GLEW_200
@@ -166,11 +161,11 @@ target_link_libraries(SDENV2_Project
 	fltk_forms
 	fltk_gl
 	fltk_images
-	manymouse
+  SDENV2
 )
 
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-	target_link_libraries(SDENV2_Project
+	target_link_libraries(SDENV2_start
 		-lGL
 	)
 ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
@@ -189,9 +184,6 @@ elseif (${CMAKE_GENERATOR} MATCHES "Xcode" )
 
 endif (NOT ${CMAKE_GENERATOR} MATCHES "Xcode" )
 
-if (MSVC)
-	include(cmake/vsorganizing.cmake)
-endif()
 
 
 # Copy assets to the build directory

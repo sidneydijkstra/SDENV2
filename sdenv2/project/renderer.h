@@ -23,6 +23,8 @@
 #include "camera.h";
 // include framebuffer
 #include "framebuffer.h"
+// include input
+#include "input.h"
 
 // debug
 #include "particalsystem.h"
@@ -34,13 +36,16 @@ public:
 	~Renderer();
 
 	// main loop function
-	void run();
+	bool run();
 
 	// renderer functions to render objects
 	void render3DCube(Mesh* mesh, Shader* shader, Scene* scene);
 
 	// renderer function to render a partical system
 	void renderParticals(ParticalSystem* particalsystem, Shader* shader, Scene* scene);
+
+	// scene manager
+	SceneManager* scenemanager;
 private:
 	// the window
 	GLFWwindow* _window;
@@ -48,6 +53,8 @@ private:
 	int _windowWidth = 1000, _windowHeight = 800;
 	// create the window
 	void createWindow();
+	// init renderer
+	void init();
 
 	// renderer deltatime
 	void calculateDeltatime();
@@ -64,8 +71,6 @@ private:
 	Shader* framebufferShader;
 	Shader* shadowDebugShader;
 
-	// scene manager
-	SceneManager* scenemanager;
 };
 
 #endif /* end renderer */

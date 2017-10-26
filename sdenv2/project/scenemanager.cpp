@@ -5,11 +5,8 @@ Scene* newScene;
 
 // scene manager constructor
 SceneManager::SceneManager(GLFWwindow* _window){
-	// create input and camera
-	_input = new Input(_window);
-	_camera = new Camera();
 
-	newScene = new Scene(_input, _camera);
+	newScene = new Scene();
 	setCurrentScene(newScene);
 
 	// sceneManager create message
@@ -22,17 +19,13 @@ void SceneManager::update(float deltatime){
 	getCurrentScene()->update(deltatime);
 
 	/// this is a debug option for moving the camera
-	_camera->move(deltatime, _input);
+	getCurrentScene()->getCamera()->move(deltatime);
 }
 
 // scene manager deconstructor
 SceneManager::~SceneManager(){
 	delete newScene;
-
-	// delete input
-	delete _input;
 	// delete camera
-	delete _camera;
 }
 
 

@@ -22,11 +22,11 @@
 class Scene
 {
 public:
-	Scene(Input* _input, Camera* _camera);
-	~Scene();
+	Scene();
+	virtual ~Scene();
 
 	// scene update function
-	void update(float deltatime);
+	virtual void update(float deltatime);
 
 	// scene get input
 	Input* getInput() { return input; };
@@ -35,7 +35,7 @@ public:
 
 	// scene childeren functions
 	void addChild(Mesh* mesh) { _childeren.push_back(mesh); };
-	void addRemoveChild(Mesh* mesh) { for (int i; i < _childeren.size(); i++) { if (_childeren[i] == mesh) { _childeren.erase(_childeren.begin() + i); delete mesh; break; }; }; };
+	void removeChild(Mesh* mesh) { for (int i; i < _childeren.size(); i++) { if (_childeren[i] == mesh) { _childeren.erase(_childeren.begin() + i); delete mesh; break; }; }; };
 	int getChildCount() { return _childeren.size(); };
 	std::vector<Mesh*> getChilderen() { return _childeren; };
 

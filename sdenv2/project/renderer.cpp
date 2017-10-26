@@ -6,7 +6,10 @@ Renderer::Renderer(){
 	glfwInit();
 
 	// create window
-	createWindow();
+	this->createWindow();
+
+	// init renderer
+	this->init();
 }
 
 
@@ -33,6 +36,7 @@ void Renderer::createWindow() {
 
 	// tell openGl the size of the render window
 	glfwGetFramebufferSize(_window, &_windowWidth, &_windowHeight);
+	//glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
 	// set view port
 	glViewport(0, 0, _windowWidth, _windowHeight);
@@ -43,96 +47,68 @@ void Renderer::createWindow() {
 
 
 // renderer debug variables
-#include "input.h"
-Input* input;
 bool renderTriangle = true;
 
-// main game loop
-void Renderer::run() {
-
-	// debug
-	input = new Input(_window);
+void Renderer::init() {
 
 	// init shaders
-	normalShader = new Shader("shaders/normal.vert","", "shaders/normal.frag");
+	normalShader = new Shader("shaders/normal.vert", "", "shaders/normal.frag");
 	framebufferShader = new Shader("shaders/framebuffer.vert", "", "shaders/framebuffer.frag");
 	shadowDebugShader = new Shader("shaders/partical.vert", "", "shaders/partical.frag");
 
+	// init window
+	Input::init(_window);
+
 	// init scene manager
 	scenemanager = new SceneManager(_window);
+}
 
-	FrameBuffer* framebufer = new FrameBuffer();
-	framebufer->createFrameBuffer();
-	framebufer->createNormalTexture(_windowWidth, _windowHeight);
 
-	Mesh* quad = new Mesh();
-	quad->loadQuad();
+// main game loop
+bool Renderer::run() {
+	// clear screen and set background
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearColor(1, 1, 1, 1);
 
-	ParticalSystem* parsys = new ParticalSystem();
-	parsys->position = glm::vec3(0,10,0);
+	// update input
+	Input::update();
 
-	// game loop
-	while (!glfwWindowShouldClose(_window)) {
+	// calculate deltattime and fps
+	calculateDeltatime();
+	calculateFPS();
 
-		framebufer->bind();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glClearColor(1, 0.1, 2, 1);
+	// update scene manager and scene manager updates current scene
+	scenemanager->update(_deltaTime);
 
-		// pull events
-		glfwPollEvents();
-
-		// calculate deltattime and fps
-		calculateDeltatime();
-		calculateFPS();
-
-		// update scene manager and scene manager updates current scene
-		scenemanager->update(_deltaTime);
-
-		// render all currentscene mesh's on screen
-		normalShader->use();
-		int childcount = scenemanager->getCurrentScene()->getChildCount();
-		std::vector<Mesh*> childeren = scenemanager->getCurrentScene()->getChilderen();
-		Scene* scene = scenemanager->getCurrentScene();
-		for (int i = 0; i < childcount; i++) {
-			render3DCube(childeren[i], normalShader, scene);
-		} 
-
-		parsys->update(_deltaTime);
-		renderParticals(parsys, shadowDebugShader, scene);
-
-		framebufer->unbind();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glClearColor(1, 0.1, 2, 1);
-
-		// draw quad on screen
-		framebufferShader->use();
-		glBindVertexArray(quad->_VAO);
-		glBindTexture(GL_TEXTURE_2D, framebufer->getFrameBufferNormalTexture());
-		glDrawArrays(GL_TRIANGLES, 0, 6);
-
-		// debug
-		// recompile shader
-		if (input->getKeyDown(GLFW_KEY_G)) {
-			normalShader = new Shader("shaders/normal.vert", "", "shaders/normal.frag");
-			framebufferShader = new Shader("shaders/framebuffer.vert", "", "shaders/framebuffer.frag");
-		}
-
-		// set render style
-		if (input->getKeyDown(GLFW_KEY_N)) {
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		}
-		if (input->getKeyDown(GLFW_KEY_M)) {
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		}
-
-		// Swap the screen buffers
-		glfwSwapBuffers(_window);
-
+	// render all currentscene mesh's on screen
+	normalShader->use();
+	int childcount = scenemanager->getCurrentScene()->getChildCount();
+	std::vector<Mesh*> childeren = scenemanager->getCurrentScene()->getChilderen();
+	Scene* scene = scenemanager->getCurrentScene();
+	for (int i = 0; i < childcount; i++) {
+		render3DCube(childeren[i], normalShader, scene);
 	}
-	//delete framebuffer;
-	delete framebufer;
-	delete quad;
-	delete parsys;
+
+	// debug
+	// recompile shader
+	if (Input::getKeyDown(GLFW_KEY_G)) {
+		normalShader = new Shader("shaders/normal.vert", "", "shaders/normal.frag");
+		framebufferShader = new Shader("shaders/framebuffer.vert", "", "shaders/framebuffer.frag");
+	}
+
+	// set render style
+	if (Input::getKeyDown(GLFW_KEY_N)) {
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+	if (Input::getKeyDown(GLFW_KEY_M)) {
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
+
+	// Swap the screen buffers
+	glfwSwapBuffers(_window);
+
+	// return to while
+	return !glfwWindowShouldClose(_window);
 }
 
 
@@ -158,6 +134,7 @@ void Renderer::render3DCube(Mesh* mesh, Shader* shader, Scene* scene) {
 
 	// get projectioins
 	glm::mat4 projection = glm::perspective(glm::radians(45.0f), (GLfloat)_windowWidth / (GLfloat)_windowHeight, 0.001f, 100.0f);
+	//glm::mat4 projection = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, 0.1f, 100.0f);
 
 	// set uniforms
 	shader->setMat4("model", model);
@@ -168,12 +145,14 @@ void Renderer::render3DCube(Mesh* mesh, Shader* shader, Scene* scene) {
 	shader->setVec3("fragObjectColor", glm::vec3(1,1,1));
 	
 	// set lighting uniforms
-	shader->setVec3("fragLightColor", scene->getLight()->lightColor);
-	shader->setVec3("fragLightPosition", scene->getLight()->position);
-	shader->setVec3("fragViewPosition", scene->getCamera()->position);
+	if(scene->getLight() != NULL){
+		shader->setVec3("fragLightColor", scene->getLight()->lightColor);
+		shader->setVec3("fragLightPosition", scene->getLight()->position);
+		shader->setVec3("fragViewPosition", scene->getCamera()->position);
 
-	shader->setFloat("fragAmbientStrength", scene->getLight()->ambientStrength);
-	shader->setFloat("fragSpecularStrength", scene->getLight()->specularStrength);
+		shader->setFloat("fragAmbientStrength", scene->getLight()->ambientStrength);
+		shader->setFloat("fragSpecularStrength", scene->getLight()->specularStrength);
+	}
 	
 	// draw cube
 	glDrawArrays(GL_TRIANGLES, 0, mesh->_drawsize);
@@ -255,4 +234,6 @@ Renderer::~Renderer() {
 	delete shadowDebugShader;
 	// delete scene manager
 	delete scenemanager;
+
+	Input::delInput();
 }

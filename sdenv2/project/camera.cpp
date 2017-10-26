@@ -6,27 +6,30 @@ Camera::Camera() {
 	this->lastY = 600 / 2.0;
 }
 
-void Camera::cameraPositionMovement(float deltaTime, Input* input) {
+void Camera::cameraPositionMovement(float deltaTime) {
 	// Camera controls
 	GLfloat cameraSpeed = 5.0f * deltaTime;
-	if (input->getKey(GLFW_KEY_W))
+	if (Input::getKey(GLFW_KEY_W))
 		this->position += cameraSpeed * this->front;
-	if (input->getKey(GLFW_KEY_S))
+	if (Input::getKey(GLFW_KEY_S))
 		this->position -= cameraSpeed * this->front;
-	if (input->getKey(GLFW_KEY_A))
+	if (Input::getKey(GLFW_KEY_A))
 		this->position -= glm::normalize(glm::cross(this->front, this->up)) * cameraSpeed;
-	if (input->getKey(GLFW_KEY_D))
+	if (Input::getKey(GLFW_KEY_D))
 		this->position += glm::normalize(glm::cross(this->front, this->up)) * cameraSpeed;
-	if (input->getKey(GLFW_KEY_SPACE))
+	if (Input::getKey(GLFW_KEY_SPACE))
 		this->position += cameraSpeed * this->up;
-	if (input->getKey(GLFW_KEY_LEFT_SHIFT))
+	if (Input::getKey(GLFW_KEY_LEFT_SHIFT))
 		this->position -= cameraSpeed * this->up;
 }
 
 bool firstMouse = true;
-void Camera::cameraMouseMovement(float deltaTime, Input* input) {
-	float xpos = input->getMouseX();
-	float ypos = input->getMouseY();
+void Camera::cameraMouseMovement(float deltaTime) {
+	float xpos = Input::getMouseX();
+	float ypos = Input::getMouseY();
+
+	//std::cout << "xpos: " << xpos << " ypos: " << ypos << std::endl;
+
 	if (firstMouse) {
 		this->lastX = xpos;
 		this->lastY = ypos;
@@ -56,4 +59,6 @@ void Camera::cameraMouseMovement(float deltaTime, Input* input) {
 	front.y = sin(glm::radians(this->pitch));
 	front.z = sin(glm::radians(this->yaw)) * cos(glm::radians(this->pitch));
 	this->front = glm::normalize(front);
+
+	std::cout << "yaw: " << this->yaw << " pitch: " << this->pitch << std::endl;
 }

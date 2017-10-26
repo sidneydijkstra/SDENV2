@@ -13,7 +13,6 @@
 #include "scene.h"
 
 #include "camera.h"
-#include "input.h"
 #include "mesh.h"
 
 class SceneManager
@@ -33,8 +32,6 @@ private:
 	// temp current scene variable
 	Scene* _currentScene;
 
-	// scene manager input
-	Input* _input;
 	// scene manager camera
 	Camera* _camera;
 };

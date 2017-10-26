@@ -1,71 +1,74 @@
 #include "input.h"
 
-// event handelers
-void _handleKey(GLFWwindow* window, int key, int scancode, int action, int mode);
-void _handleMouse(GLFWwindow* window, double xpos, double ypos);
-void _handleScroll(GLFWwindow* window, double xoffset, double yoffset);
-
-// key
-bool _keys[GLFW_KEY_LAST];
-bool _keysDown[GLFW_KEY_LAST];
-
-// mouse
-int _mouseX;
-int _mouseY;
+Input* Input::instance = NULL;
 
 // input constructor
-Input::Input(GLFWwindow* _glfwWindow){
-	// set window
-	_window = _glfwWindow;
-
-	// Set the required callback functions
-	glfwSetKeyCallback(_window, _handleKey);
-	glfwSetCursorPosCallback(_window, _handleMouse);
-	glfwSetScrollCallback(_window, _handleScroll);
-
+Input::Input(){
 	// set all key bools to false
 	for (int i = 0; i < GLFW_KEY_LAST; i++) {
 		_keys[i] = false;
 		_keysDown[i] = false;
 	}
+}
 
-	// input create message
-	//std::cout << "created new input" << std::endl;
+Input* Input::getInstance(){
+	if (instance == NULL)
+	{
+		std::cout << "instance of input made!" << std::endl;
+		instance = new Input();
+	}
+
+	return instance;
+}
+
+void Input::init(GLFWwindow * window){
+	Input::getInstance()->window = window;
+
+	// Set the required callback functions
+	glfwSetKeyCallback(window, _handleKey);
+	glfwSetCursorPosCallback(window, _handleMouse);
+	glfwSetScrollCallback(window, _handleScroll);
+}
+
+// input update
+void Input::update(){
+	// pull events
+	glfwPollEvents();
 }
 
 // get mouse x
 float Input::getMouseX() {
-	return _mouseX;
+	return Input::getInstance()->_mouseX;
 }
 
 // get mouse y
 float Input::getMouseY() {
-	return _mouseY;
+	return Input::getInstance()->_mouseY;
 }
 
 // get key press
 bool Input::getKey(int _keycode) {
-	return _keys[_keycode];
+	return Input::getInstance()->_keys[_keycode];
 }
 
 bool Input::getKeyDown(int _keycode) {
-	if (_keys[_keycode] && !_keysDown[_keycode]) {
-		_keysDown[_keycode] = true;
+	if (Input::getInstance()->_keys[_keycode] && !Input::getInstance()->_keysDown[_keycode]) {
+		Input::getInstance()->_keysDown[_keycode] = true;
 		return true;
-	}else if (!_keys[_keycode] && _keysDown[_keycode]) {
-		_keysDown[_keycode] = false;
+	}else if (!Input::getInstance()->_keys[_keycode] && Input::getInstance()->_keysDown[_keycode]) {
+		Input::getInstance()->_keysDown[_keycode] = false;
 	}
 	return false;
 }
 
 // key handeler
-void _handleKey(GLFWwindow * window, int key, int scancode, int action, int mode){
+void Input::_handleKey(GLFWwindow * window, int key, int scancode, int action, int mode){
 	if (key >= 0 && key <= GLFW_KEY_LAST) {
 		if (action == GLFW_PRESS) {
-			_keys[key] = true;
+			Input::getInstance()->_keys[key] = true;
 		}
 		else if (action == GLFW_RELEASE) {
-			_keys[key] = false;
+			Input::getInstance()->_keys[key] = false;
 		}
 	}
 
@@ -76,13 +79,14 @@ void _handleKey(GLFWwindow * window, int key, int scancode, int action, int mode
 }
 
 // mouse handeler
-void _handleMouse(GLFWwindow * window, double xpos, double ypos){
-	_mouseX = xpos;
-	_mouseY = ypos;
+void Input::_handleMouse(GLFWwindow * window, double xpos, double ypos){
+	Input::getInstance()->_mouseX = (float)xpos;
+	Input::getInstance()->_mouseY = (float)ypos;
 }
 
 // scroll handeler
-void _handleScroll(GLFWwindow * window, double xoffset, double yoffset){
+void Input::_handleScroll(GLFWwindow * window, double xoffset, double yoffset){
+	// code here
 }
 
 // input deconstructor

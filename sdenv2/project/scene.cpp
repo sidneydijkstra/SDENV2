@@ -1,16 +1,17 @@
 #include "scene.h"
 
 // TEMP meshes
-Mesh* ground;
-Mesh* cube;
-Mesh* lightObject;
+//Mesh* ground;
+//Mesh* cube;
+//Mesh* lightObject;
 
 // scene constructor
-Scene::Scene(Input* _input, Camera* _camera) {
+Scene::Scene() {
 	// set scene input and camera
-	input = _input;
-	camera = _camera;
+	input = Input::getInstance();
+	camera = new Camera();
 
+	/*
 	// add light
 	addLight();
 	light->position = glm::vec3(4,8,0);
@@ -28,10 +29,10 @@ Scene::Scene(Input* _input, Camera* _camera) {
 	cube->scale = glm::vec3(2, 2, 2);
 	cube->loadMeshTexture("assets/wood.jpg");
 
-
 	this->addChild(ground);
 	this->addChild(cube);
 	this->addChild(lightObject);
+	*/
 
 	// scene create message
 	std::cout << "created new scene" << std::endl;
@@ -45,8 +46,10 @@ void Scene::update(float deltatime){
 // scene deconstructor
 Scene::~Scene(){
 	// remove childeren
-	for each (Mesh* mesh in _childeren){
-		delete mesh;
+	for (int i = 0; i < _childeren.size(); i++){
+		delete _childeren[i];
 	}
+	// remove camera
+	delete camera;
 }
 

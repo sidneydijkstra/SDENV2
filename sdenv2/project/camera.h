@@ -21,7 +21,7 @@ public:
 	Camera();
 
 
-	void move(float deltaTime, Input* input) { cameraMouseMovement(deltaTime, input); cameraPositionMovement(deltaTime, input); };
+	void move(float deltaTime) { cameraMouseMovement(deltaTime); cameraPositionMovement(deltaTime); };
 	// Camera
 	glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 front = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -35,8 +35,8 @@ public:
 	GLfloat lastY;
 private:
 	// camera move
-	void cameraPositionMovement(float deltaTime, Input* input);
-	void cameraMouseMovement(float deltaTime, Input * input);
+	void cameraPositionMovement(float deltaTime);
+	void cameraMouseMovement(float deltaTime);
 };
 
 #endif
