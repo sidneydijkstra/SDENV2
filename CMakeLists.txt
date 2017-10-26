@@ -149,6 +149,8 @@ add_executable(SDENV2_start
   start/main.cpp
   start/myscene.cpp
   start/myscene.h
+  start/myentity.cpp
+  start/myentity.h
 )
 
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT SDENV2_start)
