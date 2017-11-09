@@ -20,7 +20,6 @@ class Camera
 public:
 	Camera();
 
-
 	void move(float deltaTime) { cameraMouseMovement(deltaTime); cameraPositionMovement(deltaTime); };
 	// Camera
 	glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);

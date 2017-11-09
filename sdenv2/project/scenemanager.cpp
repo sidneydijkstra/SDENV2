@@ -1,13 +1,7 @@
 #include "scenemanager.h"
 
-// TEMP scenes
-Scene* newScene;
-
 // scene manager constructor
 SceneManager::SceneManager(GLFWwindow* _window){
-
-	newScene = new Scene();
-	setCurrentScene(newScene);
 
 	// sceneManager create message
 	std::cout << "created new sceneManager" << std::endl;
@@ -24,8 +18,6 @@ void SceneManager::update(float deltatime){
 
 // scene manager deconstructor
 SceneManager::~SceneManager(){
-	delete newScene;
-	// delete camera
 }
 
 

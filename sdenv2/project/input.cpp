@@ -9,6 +9,9 @@ Input::Input(){
 		_keys[i] = false;
 		_keysDown[i] = false;
 	}
+
+	_mouseX = 0;
+	_mouseY = 0;
 }
 
 Input* Input::getInstance(){

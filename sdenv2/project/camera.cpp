@@ -2,8 +2,13 @@
 #include "camera.h"
 
 Camera::Camera() {
-	this->lastX = 800 / 2.0;
-	this->lastY = 600 / 2.0;
+	this->lastX = 1000 / 2.0;
+	this->lastY = 800 / 2.0;
+
+	this->yaw = 0.0f;
+	this->pitch = 0.0f;
+
+	std::cout << "made a camera" << std::endl;
 }
 
 void Camera::cameraPositionMovement(float deltaTime) {
@@ -60,5 +65,5 @@ void Camera::cameraMouseMovement(float deltaTime) {
 	front.z = sin(glm::radians(this->yaw)) * cos(glm::radians(this->pitch));
 	this->front = glm::normalize(front);
 
-	std::cout << "yaw: " << this->yaw << " pitch: " << this->pitch << std::endl;
+	//std::cout << "yaw: " << this->yaw << " pitch: " << this->pitch << std::endl;
 }

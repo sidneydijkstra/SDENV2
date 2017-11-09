@@ -25,6 +25,8 @@ public:
 	glm::vec3 scale = glm::vec3(1, 1, 1);		// mesh scale 
 	glm::vec3 rotation = glm::vec3(0, 0, 0);	// mesh rotation
 
+	glm::vec3 color = glm::vec3(0, 0, 0);		// mesh color
+
 	// mesh buffer varables
 	GLuint _VAO, _VBO;
 	int _drawsize = 36;
@@ -42,7 +44,7 @@ public:
 	void loadMeshTexture(const char* location);
 
 	// mesh textures
-	GLuint _normalTexture = NULL;
+	GLuint _normalTexture;
 private:
 	Texture* _textureLoader;
 };

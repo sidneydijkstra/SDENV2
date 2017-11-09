@@ -20,7 +20,7 @@
 // include mesh
 #include "mesh.h"
 // include scene
-#include "camera.h";
+#include "camera.h"
 // include framebuffer
 #include "framebuffer.h"
 // include input

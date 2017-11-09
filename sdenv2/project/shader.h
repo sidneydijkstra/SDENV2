@@ -28,6 +28,7 @@ public:
 	void setVec3(const char* name, glm::vec3 value);
 	void setFloat(const char* name, float value);
 	void setInt(const char * name, float value);
+	void setBool(const char * name, bool value);
 private:
 	// load shader file
 	std::string loadShaderFile(const GLchar* path);

@@ -2,7 +2,13 @@
 
 // mesh constructor
 Mesh::Mesh(){
+	// get texute loader
 	_textureLoader = new Texture();
+
+	// set texture to null
+	this->_normalTexture = NULL;
+
+	// autoload cube mesh
 	loadCube();
 }
 

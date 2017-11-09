@@ -63,7 +63,6 @@ void Renderer::init() {
 	scenemanager = new SceneManager(_window);
 }
 
-
 // main game loop
 bool Renderer::run() {
 	// clear screen and set background
@@ -117,8 +116,14 @@ void Renderer::render3DCube(Mesh* mesh, Shader* shader, Scene* scene) {
 	glBindVertexArray(mesh->_VAO);
 
 	// activate textures
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, mesh->_normalTexture);
+	if (mesh->_normalTexture != NULL) {
+		shader->setBool("doTexture", true);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, mesh->_normalTexture);
+	}else {
+		shader->setBool("doTexture", false);
+	}
 	
 	// get model matrix
 	glm::mat4 model;
@@ -130,11 +135,12 @@ void Renderer::render3DCube(Mesh* mesh, Shader* shader, Scene* scene) {
 
 	// get view
 	glm::mat4 view = glm::lookAt(scene->getCamera()->position, scene->getCamera()->position + scene->getCamera()->front, scene->getCamera()->up);
-	//glm::mat4 view = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+	//glm::mat4 view = glm::translate(model, scene->getCamera()->position);
 
 	// get projectioins
 	glm::mat4 projection = glm::perspective(glm::radians(45.0f), (GLfloat)_windowWidth / (GLfloat)_windowHeight, 0.001f, 100.0f);
 	//glm::mat4 projection = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, 0.1f, 100.0f);
+	//glm::mat4 projection = glm::ortho(0.0f, (float)_windowHeight, 0.0f, (float)_windowWidth);
 
 	// set uniforms
 	shader->setMat4("model", model);
@@ -142,16 +148,20 @@ void Renderer::render3DCube(Mesh* mesh, Shader* shader, Scene* scene) {
 	shader->setMat4("projection", projection);
 
 	// set object color uniform
-	shader->setVec3("fragObjectColor", glm::vec3(1,1,1));
+	shader->setVec3("fragObjectColor", mesh->color);
 	
 	// set lighting uniforms
 	if(scene->getLight() != NULL){
-		shader->setVec3("fragLightColor", scene->getLight()->lightColor);
-		shader->setVec3("fragLightPosition", scene->getLight()->position);
-		shader->setVec3("fragViewPosition", scene->getCamera()->position);
+		shader->setBool("doLighting", true);
 
-		shader->setFloat("fragAmbientStrength", scene->getLight()->ambientStrength);
-		shader->setFloat("fragSpecularStrength", scene->getLight()->specularStrength);
+		shader->setVec3("light.color", scene->getLight()->lightColor);
+		shader->setVec3("light.position", scene->getLight()->position);
+		shader->setVec3("light.viewPosition", scene->getCamera()->position);
+
+		shader->setFloat("light.ambientStrength", scene->getLight()->ambientStrength);
+		shader->setFloat("light.specularStrength", scene->getLight()->specularStrength);
+	}else {
+		shader->setBool("doLighting", false);
 	}
 	
 	// draw cube
