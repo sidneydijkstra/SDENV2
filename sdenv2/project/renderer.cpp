@@ -43,6 +43,7 @@ void Renderer::createWindow() {
 
 	// set openGL options
 	glEnable(GL_DEPTH_TEST);
+
 }
 
 
@@ -50,7 +51,6 @@ void Renderer::createWindow() {
 bool renderTriangle = true;
 
 void Renderer::init() {
-
 	// init shaders
 	normalShader = new Shader("shaders/normal.vert", "", "shaders/normal.frag");
 	framebufferShader = new Shader("shaders/framebuffer.vert", "", "shaders/framebuffer.frag");
@@ -61,6 +61,19 @@ void Renderer::init() {
 
 	// init scene manager
 	scenemanager = new SceneManager(_window);
+
+	// init freetype
+	FT_Library ft;
+	if (FT_Init_FreeType(&ft))
+		std::cout << "ERROR::FREETYPE: Could not init FreeType Library" << std::endl;
+	else
+		std::cout << "FREETYPE: init FreeType Library" << std::endl;
+
+	FT_Face face;
+	if (FT_New_Face(ft, "fonts/arial.ttf", 0, &face))
+		std::cout << "ERROR::FREETYPE: Failed to load font" << std::endl;
+	else
+		std::cout << "FREETYPE: Loaded freetype" << std::endl;
 }
 
 // main game loop
