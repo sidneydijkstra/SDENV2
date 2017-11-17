@@ -71,108 +71,6 @@ target_link_libraries(GLEW_200
 
 ############
 
-### FREETYPE ###
-
-include_directories(external/freetype2/include)
-
-set(FREETYPE_SOURCE
-  external/freetype2/include/freetype/config/ftconfig.h
-  external/freetype2/include/freetype/config/ftheader.h
-  external/freetype2/include/freetype/config/ftmodule.h
-  external/freetype2/include/freetype/config/ftoption.h
-  external/freetype2/include/freetype/config/ftstdlib.h
-  external/freetype2/include/freetype/freetype.h
-  external/freetype2/include/freetype/ftadvanc.h
-  external/freetype2/include/freetype/ftautoh.h
-  external/freetype2/include/freetype/ftbbox.h
-  external/freetype2/include/freetype/ftbdf.h
-  external/freetype2/include/freetype/ftbitmap.h
-  external/freetype2/include/freetype/ftbzip2.h
-  external/freetype2/include/freetype/ftcache.h
-  external/freetype2/include/freetype/ftcffdrv.h
-  external/freetype2/include/freetype/ftchapters.h
-  external/freetype2/include/freetype/ftcid.h
-  external/freetype2/include/freetype/fterrdef.h
-  external/freetype2/include/freetype/fterrors.h
-  external/freetype2/include/freetype/ftfntfmt.h
-  external/freetype2/include/freetype/ftgasp.h
-  external/freetype2/include/freetype/ftglyph.h
-  external/freetype2/include/freetype/ftgxval.h
-  external/freetype2/include/freetype/ftgzip.h
-  external/freetype2/include/freetype/ftimage.h
-  external/freetype2/include/freetype/ftincrem.h
-  external/freetype2/include/freetype/ftlcdfil.h
-  external/freetype2/include/freetype/ftlist.h
-  external/freetype2/include/freetype/ftlzw.h
-  external/freetype2/include/freetype/ftmac.h
-  external/freetype2/include/freetype/ftmm.h
-  external/freetype2/include/freetype/ftmodapi.h
-  external/freetype2/include/freetype/ftmoderr.h
-  external/freetype2/include/freetype/ftotval.h
-  external/freetype2/include/freetype/ftoutln.h
-  external/freetype2/include/freetype/ftpfr.h
-  external/freetype2/include/freetype/ftrender.h
-  external/freetype2/include/freetype/ftsizes.h
-  external/freetype2/include/freetype/ftsnames.h
-  external/freetype2/include/freetype/ftstroke.h
-  external/freetype2/include/freetype/ftsynth.h
-  external/freetype2/include/freetype/ftsystem.h
-  external/freetype2/include/freetype/fttrigon.h
-  external/freetype2/include/freetype/ftttdrv.h
-  external/freetype2/include/freetype/fttypes.h
-  external/freetype2/include/freetype/ftwinfnt.h
-  external/freetype2/include/freetype/internal/autohint.h
-  external/freetype2/include/freetype/internal/ftcalc.h
-  external/freetype2/include/freetype/internal/ftdebug.h
-  external/freetype2/include/freetype/internal/ftdriver.h
-  external/freetype2/include/freetype/internal/ftgloadr.h
-  external/freetype2/include/freetype/internal/fthash.h
-  external/freetype2/include/freetype/internal/ftmemory.h
-  external/freetype2/include/freetype/internal/ftobjs.h
-  external/freetype2/include/freetype/internal/ftpic.h
-  external/freetype2/include/freetype/internal/ftrfork.h
-  external/freetype2/include/freetype/internal/ftserv.h
-  external/freetype2/include/freetype/internal/ftstream.h
-  external/freetype2/include/freetype/internal/fttrace.h
-  external/freetype2/include/freetype/internal/ftvalid.h
-  external/freetype2/include/freetype/internal/internal.h
-  external/freetype2/include/freetype/internal/psaux.h
-  external/freetype2/include/freetype/internal/pshints.h
-  external/freetype2/include/freetype/internal/services/svbdf.h
-  external/freetype2/include/freetype/internal/services/svcid.h
-  external/freetype2/include/freetype/internal/services/svfntfmt.h
-  external/freetype2/include/freetype/internal/services/svgldict.h
-  external/freetype2/include/freetype/internal/services/svgxval.h
-  external/freetype2/include/freetype/internal/services/svkern.h
-  external/freetype2/include/freetype/internal/services/svmm.h
-  external/freetype2/include/freetype/internal/services/svotval.h
-  external/freetype2/include/freetype/internal/services/svpfr.h
-  external/freetype2/include/freetype/internal/services/svpostnm.h
-  external/freetype2/include/freetype/internal/services/svprop.h
-  external/freetype2/include/freetype/internal/services/svpscmap.h
-  external/freetype2/include/freetype/internal/services/svpsinfo.h
-  external/freetype2/include/freetype/internal/services/svsfnt.h
-  external/freetype2/include/freetype/internal/services/svttcmap.h
-  external/freetype2/include/freetype/internal/services/svtteng.h
-  external/freetype2/include/freetype/internal/services/svttglyf.h
-  external/freetype2/include/freetype/internal/services/svwinfnt.h
-  external/freetype2/include/freetype/internal/sfnt.h
-  external/freetype2/include/freetype/internal/t1types.h
-  external/freetype2/include/freetype/internal/tttypes.h
-  external/freetype2/include/freetype/t1tables.h
-  external/freetype2/include/freetype/ttnameid.h
-  external/freetype2/include/freetype/tttables.h
-  external/freetype2/include/freetype/tttags.h
-  external/freetype2/include/freetype/ttunpat.h
-  external/freetype2/include/ft2build.h
-)
-
-add_library(freetype STATIC
-  ${FREETYPE_SOURCE}
-)
-
-############
-
 ### SOIL ###
 
 set(SOIL_SOURCE
@@ -193,7 +91,6 @@ add_library(soil STATIC
 )
 
 ############
-
 include_directories(
 	external/glew-2.0.0/include
 	external/glfw-3.2.1/include
@@ -209,7 +106,6 @@ set(ALL_LIBS
 	soil
 	glfw
 	GLEW_200
-  freetype
 )
 
 # engine #
@@ -256,40 +152,18 @@ add_executable(SDENV2_start
   start/myentity.h
 )
 
-set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT SDENV2_start)
-
 target_link_libraries(SDENV2_start
-	soil
-	glfw
-  GLEW_200
-	fltk
-	fltk_forms
-	fltk_gl
-	fltk_images
-  freetype
+  glfw
   SDENV2
 )
+
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT SDENV2_start)
 
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 	target_link_libraries(SDENV2_start
 		-lGL
 	)
 ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-
-# Xcode and Visual working directories
-#set_target_properties(project PROPERTIES XCODE_ATTRIBUTE_CONFIGURATION_BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/project/“)
-#create_target_launcher(project WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/project/“)
-
-
-if (NOT ${CMAKE_GENERATOR} MATCHES "Xcode" )
-#add_custom_command(
-#   TARGET project POST_BUILD
-#   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/project${CMAKE_EXECUTABLE_SUFFIX}" "${CMAKE_CURRENT_SOURCE_DIR}/project/“
-#)
-elseif (${CMAKE_GENERATOR} MATCHES "Xcode" )
-
-endif (NOT ${CMAKE_GENERATOR} MATCHES "Xcode" )
-
 
 
 # Copy assets to the build directory
