@@ -54,7 +54,9 @@ set(OPENGL_LIBRARY
 )
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
+############
 ### GLEW ###
+############
 
 set(GLEW_SOURCE
 	external/glew-2.0.0/src/glew.c
@@ -69,9 +71,21 @@ target_link_libraries(GLEW_200
 	${OPENGL_LIBRARY}
 )
 
-############
+#################
+### FREETYPE2 ###
+#################
 
+set (FREETYPE2_INCLUDE_DIR
+  ${CMAKE_CURRENT_SOURCE_DIR}/external/freetype-2.8.1
+)
+
+add_subdirectory(
+  external/freetype-2.8.1
+)
+
+############
 ### SOIL ###
+############
 
 set(SOIL_SOURCE
 	external/soil/src/image_DXT.c
@@ -90,7 +104,10 @@ add_library(soil STATIC
 	${SOIL_SOURCE}
 )
 
-############
+###################
+### INCLUDE DIR ###
+###################
+
 include_directories(
 	external/glew-2.0.0/include
 	external/glfw-3.2.1/include
@@ -98,6 +115,10 @@ include_directories(
 	external/soil/src
 	external/fltk-1.3.4-1
 	${CMAKE_BINARY_DIR}/external/fltk-1.3.4-1
+
+  # freetype
+  ${CMAKE_SOURCE_DIR}/external/freetype-2.8.1/include
+  ${CMAKE_SOURCE_DIR}/external/freetype-2.8.1/src
 )
 
 
@@ -106,9 +127,12 @@ set(ALL_LIBS
 	soil
 	glfw
 	GLEW_200
+  freetype
 )
 
-# engine #
+##############
+### ENGINE ###
+##############
 
 add_library(SDENV2 STATIC
   sdenv2/project/main.cpp
@@ -136,13 +160,28 @@ add_library(SDENV2 STATIC
 	sdenv2/project/particalsystem.h
 	sdenv2/project/partical.cpp
 	sdenv2/project/partical.h
+	sdenv2/project/text.cpp
+	sdenv2/project/text.h
+	sdenv2/project/fontloader.cpp
+	sdenv2/project/fontloader.h
 )
 
 target_link_libraries(SDENV2
 	${ALL_LIBS}
 )
 
-# start project #
+file(
+	COPY sdenv2/assets
+	DESTINATION ${CMAKE_BINARY_DIR}
+)
+file(
+	COPY sdenv2/shaders
+	DESTINATION ${CMAKE_BINARY_DIR}
+)
+
+#####################
+### START PROJECT ###
+#####################
 
 add_executable(SDENV2_start
   start/main.cpp
@@ -164,14 +203,3 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 		-lGL
 	)
 ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-
-
-# Copy assets to the build directory
-file(
-	COPY sdenv2/assets
-	DESTINATION ${CMAKE_BINARY_DIR}
-)
-file(
-	COPY sdenv2/shaders
-	DESTINATION ${CMAKE_BINARY_DIR}
-)

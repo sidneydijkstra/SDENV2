@@ -1,5 +1,6 @@
 #include "renderer.h"
 
+
 // renderer constructor
 Renderer::Renderer(){
 	// instantiate glfw
@@ -10,6 +11,7 @@ Renderer::Renderer(){
 
 	// init renderer
 	this->init();
+
 }
 
 
@@ -49,18 +51,34 @@ void Renderer::createWindow() {
 
 // renderer debug variables
 bool renderTriangle = true;
+Text* txt;
 
 void Renderer::init() {
 	// init shaders
 	normalShader = new Shader("shaders/normal.vert", "", "shaders/normal.frag");
 	framebufferShader = new Shader("shaders/framebuffer.vert", "", "shaders/framebuffer.frag");
-	shadowDebugShader = new Shader("shaders/partical.vert", "", "shaders/partical.frag");
 
-	// init window
+	// create text shader and set projection
+	textShader = new Shader("shaders/text.vert", "", "shaders/text.frag");
+	textShader->use();
+	glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(_windowWidth), 0.0f, static_cast<GLfloat>(_windowHeight));
+	textShader->setMat4("projection", projection);
+	
+	// init input
 	Input::init(_window);
 
 	// init scene manager
 	scenemanager = new SceneManager(_window);
+
+	// init fontloader
+	fontloader = new FontLoader();
+	_fps = 0;
+	_textfps = new Text("assets/arial.ttf", 0.35, glm::vec3(0, 0, 0));
+	_textfps->position.y = _windowHeight - 20;
+
+	// set openGL options for rendering text
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 // main game loop
@@ -79,20 +97,34 @@ bool Renderer::run() {
 	// update scene manager and scene manager updates current scene
 	scenemanager->update(_deltaTime);
 
+	// get current scene
+	Scene* scene = scenemanager->getCurrentScene();
+
+	// ********************* normal render *********************
 	// render all currentscene mesh's on screen
 	normalShader->use();
-	int childcount = scenemanager->getCurrentScene()->getChildCount();
-	std::vector<Mesh*> childeren = scenemanager->getCurrentScene()->getChilderen();
-	Scene* scene = scenemanager->getCurrentScene();
+	int childcount = scene->getChildCount();
+	std::vector<Mesh*> childeren = scene->getChilderen();
 	for (int i = 0; i < childcount; i++) {
 		render3DCube(childeren[i], normalShader, scene);
 	}
+
+	// render all text in scene
+	textShader->use();
+	int textcount = scene->getTextCount();
+	std::vector<Text*> texts = scene->getTexts();
+	for (int i = 0; i < textcount; i++) {
+		renderText(textShader, texts[i]);
+	}
+	// display fps
+	renderText(textShader, _textfps);
 
 	// debug
 	// recompile shader
 	if (Input::getKeyDown(GLFW_KEY_G)) {
 		normalShader = new Shader("shaders/normal.vert", "", "shaders/normal.frag");
 		framebufferShader = new Shader("shaders/framebuffer.vert", "", "shaders/framebuffer.frag");
+		textShader = new Shader("shaders/text.vert", "", "shaders/text.frag");
 	}
 
 	// set render style
@@ -214,6 +246,68 @@ void Renderer::renderParticals(ParticalSystem * particalsystem, Shader * shader,
 
 }
 
+void Renderer::renderText(Shader* shader, Text* text){
+	// set text color
+	shader->setVec3("textColor", text->color);
+	
+	// set texture and VAO
+	glActiveTexture(GL_TEXTURE0);
+	glBindVertexArray(text->_VAO);
+
+	// get message scale and position
+	std::string str = text->message;
+	float scale = text->scale;
+	float x = text->position.x;
+	float y = text->position.y;
+
+	// Iterate through all characters
+	std::string::const_iterator c;
+	int i = 0;
+	for (c = str.begin(); c != str.end(); c++){
+		// if lerp color set new color
+		i++;
+		if (text->doColorLerp()) {
+			shader->setVec3("textColor", text->getColorLerp(i));
+		}
+
+		// get charackter
+		Character ch = fontloader->getFont(text->getFont())[*c];
+
+		// set pos
+		GLfloat xpos = x + ch.bearing.x * scale;
+		GLfloat ypos = y - (ch.size.y - ch.bearing.y) * scale;
+
+		// set width and height
+		GLfloat w = ch.size.x * scale;
+		GLfloat h = ch.size.y * scale;
+
+		// Update VBO for each character
+		GLfloat vertices[6][4] = {
+			{ xpos,     ypos + h,   0.0, 0.0 },
+			{ xpos,     ypos,       0.0, 1.0 },
+			{ xpos + w, ypos,       1.0, 1.0 },
+
+			{ xpos,     ypos + h,   0.0, 0.0 },
+			{ xpos + w, ypos,       1.0, 1.0 },
+			{ xpos + w, ypos + h,   1.0, 0.0 }
+		};
+
+		// Render glyph texture over quad
+		glBindTexture(GL_TEXTURE_2D, ch.textureID);
+
+		// Update content of VBO memory
+		glBindBuffer(GL_ARRAY_BUFFER, text->_VBO);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); // Be sure to use glBufferSubData and not glBufferData
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		// Render quad
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		// Now advance cursors for next glyph (note that advance is number of 1/64 pixels)
+		x += (ch.advance >> 6) * scale; // Bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
+	}
+	glBindVertexArray(0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
 // calculate deltatime
 void Renderer::calculateDeltatime() {
 	GLfloat _currentFrame = glfwGetTime();
@@ -226,9 +320,8 @@ void Renderer::calculateFPS() {
 	_currentTime = glfwGetTime();
 	_fps++;
 	if (_currentTime - _lastTime >= 1) {
-		// print fps
-		std::cout << "fps: " << _fps << std::endl;
 
+		_textfps->message = "FPS: " + std::to_string(_fps);
 		_lastTime = glfwGetTime();
 		_fps = 0;
 	}
@@ -238,12 +331,19 @@ void Renderer::calculateFPS() {
 Renderer::~Renderer() {
 	// delete the window
 	delete _window;
+
 	// delete shader
 	delete normalShader;
 	delete framebufferShader;
-	delete shadowDebugShader;
-	// delete scene manager
-	delete scenemanager;
+	delete textShader;
 
+	// delete scene manager and fontloader
+	delete scenemanager;
+	delete fontloader;
+
+	// delete input
 	Input::delInput();
+
+	// delete fps text
+	delete _textfps;
 }

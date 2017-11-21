@@ -3,13 +3,22 @@
 #define RENDERER_H
 
 #include <iostream>
+#include <map>
 
+// include glew
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+
+// include glm
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
+
+// include freetype
+#include <ft2build.h>
+#include FT_FREETYPE_H  
 
 // include shader
 #include "shader.h"
@@ -25,6 +34,10 @@
 #include "framebuffer.h"
 // include input
 #include "input.h"
+// include fontoader
+#include "fontloader.h"
+// include text
+#include "text.h"
 
 // debug
 #include "particalsystem.h"
@@ -43,6 +56,9 @@ public:
 
 	// renderer function to render a partical system
 	void renderParticals(ParticalSystem* particalsystem, Shader* shader, Scene* scene);
+
+	// renderer function to render text
+	void renderText(Shader* shader, Text* text);
 
 	// scene manager
 	SceneManager* scenemanager;
@@ -65,12 +81,15 @@ private:
 	GLfloat _currentTime;
 	GLfloat _lastTime;
 	GLfloat _fps;
+	Text* _textfps;
 
 	// shaders
 	Shader* normalShader;
 	Shader* framebufferShader;
-	Shader* shadowDebugShader;
+	Shader* textShader;
 
+	// font loader
+	FontLoader* fontloader;
 };
 
 #endif /* end renderer */

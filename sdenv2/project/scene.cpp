@@ -49,6 +49,10 @@ Scene::~Scene(){
 	for (int i = 0; i < _childeren.size(); i++){
 		delete _childeren[i];
 	}
+	// remove text
+	for (int i = 0; i < _texts.size(); i++) {
+		delete _texts[i];
+	}
 	// remove camera
 	delete camera;
 }

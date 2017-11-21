@@ -18,6 +18,7 @@
 #include "camera.h"
 #include "input.h"
 #include "mesh.h"
+#include "text.h"
 
 class Scene
 {
@@ -39,6 +40,12 @@ public:
 	int getChildCount() { return _childeren.size(); };
 	std::vector<Mesh*> getChilderen() { return _childeren; };
 
+	// scene text functions
+	void addText(Text* text) { _texts.push_back(text); };
+	void removeText(Text* text) { for (int i; i < _texts.size(); i++) { if (_texts[i] == text) { _texts.erase(_texts.begin() + i); delete text; break; }; }; };
+	int getTextCount() { return _texts.size(); };
+	std::vector<Text*> getTexts() { return _texts; };
+
 	// scene light functions
 	void addLight() { light = new Light(); };
 	Light* getLight() { return light; };
@@ -52,6 +59,9 @@ private:
 
 	// childeren
 	std::vector<Mesh*> _childeren;
+
+	// childeren
+	std::vector<Text*> _texts;
 };
 
 #endif /* end scene */

@@ -9,7 +9,7 @@ Mesh::Mesh(){
 	this->_normalTexture = NULL;
 
 	// autoload cube mesh
-	loadCube();
+	//loadCube();
 }
 
 // load mesh texture

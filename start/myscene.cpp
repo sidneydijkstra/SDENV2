@@ -6,6 +6,7 @@ Mesh* entity3;
 Mesh* entity4;
 Mesh* entity5;
 Mesh* entity6;
+Text* text;
 
 MyScene::MyScene(){
 	entity1 = new MyEntity();
@@ -44,6 +45,11 @@ MyScene::MyScene(){
 
 	entity4->scale = glm::vec3(3,3,1);
 
+	text = new Text("assets/arial.ttf", 1, glm::vec3(0,1,0));
+	text->message = "SIDNEY!";
+	text->setColorLerp(glm::vec3(1, 0, 0), glm::vec3(0.5, 1, 0));
+	text->position.y = 100;
+	this->addText(text);
 }	
 
 MyScene::~MyScene(){
