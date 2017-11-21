@@ -46,7 +46,7 @@ public:
 	// mesh textures
 	GLuint _normalTexture;
 private:
-	Texture* _textureLoader;
+	Texture _textureLoader;
 };
 
 #endif /* end mesh */

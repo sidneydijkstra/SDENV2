@@ -3,7 +3,7 @@
 // mesh constructor
 Mesh::Mesh(){
 	// get texute loader
-	_textureLoader = new Texture();
+	_textureLoader = Texture();
 
 	// set texture to null
 	this->_normalTexture = NULL;
@@ -14,7 +14,7 @@ Mesh::Mesh(){
 
 // load mesh texture
 void Mesh::loadMeshTexture(const char* location) {
-	_normalTexture = _textureLoader->loadNormalTexture(location);
+	_normalTexture = _textureLoader.loadNormalTexture(location);
 }
 
 // create the cube buffer
@@ -216,6 +216,4 @@ void Mesh::loadObject(const char* location) {
 
 // mesh deconstructor
 Mesh::~Mesh() {
-	// delete textureLoader
-	delete _textureLoader;
 }

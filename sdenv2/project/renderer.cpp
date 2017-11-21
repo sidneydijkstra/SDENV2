@@ -52,6 +52,8 @@ void Renderer::createWindow() {
 // renderer debug variables
 bool renderTriangle = true;
 Text* txt;
+Mesh quad;
+FrameBuffer buffer;
 
 void Renderer::init() {
 	// init shaders
@@ -79,13 +81,27 @@ void Renderer::init() {
 	// set openGL options for rendering text
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	// add frame buffer
+	buffer = FrameBuffer();
+	buffer.createFrameBuffer();
+	buffer.createNormalTexture(_windowWidth, _windowHeight / 2);
+
+	// create quad
+	quad = Mesh();
+	quad.loadQuad();
+	quad.scale.y = 0.5f;
 }
 
 // main game loop
 bool Renderer::run() {
+	// bind buffer
+	buffer.bind();
+	glEnable(GL_DEPTH_TEST);
+
 	// clear screen and set background
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(1, 1, 1, 1);
+	glClearColor(0,0,0, 1);
 
 	// update input
 	Input::update();
@@ -101,6 +117,7 @@ bool Renderer::run() {
 	Scene* scene = scenemanager->getCurrentScene();
 
 	// ********************* normal render *********************
+	/*
 	// render all currentscene mesh's on screen
 	normalShader->use();
 	int childcount = scene->getChildCount();
@@ -108,6 +125,39 @@ bool Renderer::run() {
 	for (int i = 0; i < childcount; i++) {
 		render3DCube(childeren[i], normalShader, scene);
 	}
+	*/
+
+	// ********************* render with frame buffer *********************
+
+	// render all currentscene mesh's on screen
+	normalShader->use();
+	int childcount = scene->getChildCount();
+	std::vector<Mesh*> childeren = scene->getChilderen();
+	for (int i = 0; i < childcount; i++) {
+		render3DCube(childeren[i], normalShader, scene);
+	}
+
+	// unbind buffer
+	buffer.unbind();
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glDisable(GL_DEPTH_TEST);
+	glClearColor(1, 1, 1, 1);
+
+	// set shader, frame buffer options and bind texture
+	framebufferShader->use();
+	glBindVertexArray(quad._VAO);
+	glBindTexture(GL_TEXTURE_2D, buffer.getFrameBufferNormalTexture());
+
+	// create top view
+	framebufferShader->setFloat("rotation", 1);
+	framebufferShader->setFloat("position", 0.5f);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+
+	// create bottom viewg
+	framebufferShader->setFloat("rotation", -1);
+	framebufferShader->setFloat("position", -0.5f);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+
 
 	// render all text in scene
 	textShader->use();
@@ -118,6 +168,7 @@ bool Renderer::run() {
 	}
 	// display fps
 	renderText(textShader, _textfps);
+
 
 	// debug
 	// recompile shader

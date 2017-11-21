@@ -19,6 +19,7 @@ MyScene::MyScene(){
 	this->addChild(entity3);
 
 	entity4 = new MyEntity(); // 2d view direction
+	entity4->loadMeshTexture("assets/matthijs.png");
 	this->addChild(entity4);
 
 	entity5 = new MyEntity();
@@ -29,21 +30,16 @@ MyScene::MyScene(){
 
 	this->addLight();
     this->getLight()->position = glm::vec3(0,3,0);
-	this->getLight()->lightColor = glm::vec3(2,0,1);
 	entity6->position = glm::vec3(0, 3, 0);
 	entity6->scale = glm::vec3(0.2f, 0.2f, 0.2f);
 
 	entity1->position = glm::vec3(4, 0, 0);
 	entity2->position = glm::vec3(-4, 0, 0);
 	entity3->position = glm::vec3(0, 0, 4);
-	entity4->position = glm::vec3(0, 0, -4);
+	entity4->position = glm::vec3(0, 0, -8);
 	entity5->position = glm::vec3(0, 4, 0);
 
-	for (int i = 0; i < this->getChildCount(); i++){
-		this->getChilderen()[i]->color = glm::vec3(i * 0.2f, i * 0.4f, i * 0.15f);
-	}
-
-	entity4->scale = glm::vec3(3,3,1);
+	entity4->color = glm::vec3(0,0,0);
 
 	text = new Text("assets/arial.ttf", 1, glm::vec3(0,1,0));
 	text->message = "SIDNEY!";
