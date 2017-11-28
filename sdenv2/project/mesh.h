@@ -13,6 +13,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "texture.h"
+#include "color.h"
 
 class Mesh
 {
@@ -21,11 +22,12 @@ public:
 	~Mesh();
 
 	// mesh variabels
-	glm::vec3 position = glm::vec3(0,0,0);		// mesh position
-	glm::vec3 scale = glm::vec3(1, 1, 1);		// mesh scale 
-	glm::vec3 rotation = glm::vec3(0, 0, 0);	// mesh rotation
+	glm::vec3 position;
+	glm::vec3 scale;
+	glm::vec3 rotation;
 
-	glm::vec3 color = glm::vec3(0, 0, 0);		// mesh color
+	// mesh color
+	Color color;
 
 	// mesh buffer varables
 	GLuint _VAO, _VBO;

@@ -8,6 +8,10 @@ Mesh::Mesh(){
 	// set texture to null
 	this->_normalTexture = NULL;
 
+	position = glm::vec3(0, 0, 0); // mesh position
+	scale = glm::vec3(1, 1, 1); // mesh scale 
+	rotation = glm::vec3(0, 0, 0); // mesh rotation
+
 	// autoload cube mesh
 	//loadCube();
 }

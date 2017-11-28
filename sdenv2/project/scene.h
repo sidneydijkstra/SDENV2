@@ -19,6 +19,7 @@
 #include "input.h"
 #include "mesh.h"
 #include "text.h"
+#include "color.h"
 
 class Scene
 {

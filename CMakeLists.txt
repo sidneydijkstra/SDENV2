@@ -164,6 +164,8 @@ add_library(SDENV2 STATIC
 	sdenv2/project/text.h
 	sdenv2/project/fontloader.cpp
 	sdenv2/project/fontloader.h
+	sdenv2/project/color.cpp
+	sdenv2/project/color.h
 )
 
 target_link_libraries(SDENV2

@@ -231,7 +231,7 @@ void Renderer::render3DCube(Mesh* mesh, Shader* shader, Scene* scene) {
 	shader->setMat4("projection", projection);
 
 	// set object color uniform
-	shader->setVec3("fragObjectColor", mesh->color);
+	shader->setVec3("fragObjectColor", mesh->color.getColor());
 	
 	// set lighting uniforms
 	if(scene->getLight() != NULL){

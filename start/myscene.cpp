@@ -8,8 +8,14 @@ Mesh* entity5;
 Mesh* entity6;
 Text* text;
 
+Color col;
+
 MyScene::MyScene(){
+	col = Color();
+	col.setColor(0,0,0);
+
 	entity1 = new MyEntity();
+	entity1->color = col;
 	this->addChild(entity1);
 
 	entity2 = new MyEntity();
@@ -39,17 +45,18 @@ MyScene::MyScene(){
 	entity4->position = glm::vec3(0, 0, -8);
 	entity5->position = glm::vec3(0, 4, 0);
 
-	entity4->color = glm::vec3(0,0,0);
-
 	text = new Text("assets/arial.ttf", 1, glm::vec3(0,1,0));
-	text->message = "SIDNEY!";
-	text->setColorLerp(glm::vec3(1, 0, 0), glm::vec3(0.5, 1, 0));
+	text->message = "QWERTYUIOPASDFGHJKLZXCVBNM!";
+	text->setColorLerp(glm::vec3(1, 0, 0), glm::vec3(0, 0, 1));
 	text->position.y = 100;
 	this->addText(text);
+
+
 }	
 
 MyScene::~MyScene(){
 }
 
 void MyScene::update(float deltatime){
+	entity1->color = entity1->color.lerpColor(entity1->color, Color(255, 0, 255), 5 * deltatime);
 }
