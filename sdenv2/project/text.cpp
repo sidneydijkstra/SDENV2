@@ -29,7 +29,6 @@ void Text::setColorLerp(glm::vec3 s, glm::vec3 e){
 
 	for (int i = 1; i <= l; i++){
 		glm::vec3 c = glm::vec3(s.x - r * i, s.y - g * i, s.z - b * i);
-		std::cout << c.x << "/" << c.y << "/" << c.z << std::endl;
 		_lerpColors.push_back(c);
 	}
 	_lerpColors.push_back(e);

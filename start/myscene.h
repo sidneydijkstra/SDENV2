@@ -5,6 +5,7 @@
 
 #include "../sdenv2/project/scene.h"
 #include "../sdenv2/project/mesh.h"
+#include "../sdenv2/project/sdenv2config.h"
 #include "myentity.h"
 
 class MyScene: public Scene
@@ -16,6 +17,7 @@ public:
 	virtual void update(float deltatime);
 
 private:
+	std::vector<MyEntity*> entitys;
 };
 
 #endif /* end MYSCENE_H */

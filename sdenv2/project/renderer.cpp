@@ -17,6 +17,10 @@ Renderer::Renderer(){
 
 // create the window
 void Renderer::createWindow() {
+	// set window width and height
+	_windowHeight = SHEIGHT;
+	_windowWidth = SWIDTH;
+
 	// create a window object
 	_window = glfwCreateWindow(_windowWidth, _windowHeight, "SDENV2", nullptr, nullptr);
 
@@ -57,7 +61,8 @@ FrameBuffer buffer;
 
 void Renderer::init() {
 	// init shaders
-	normalShader = new Shader("shaders/normal.vert", "", "shaders/normal.frag");
+	normal3DShader = new Shader("shaders/normal3D.vert", "", "shaders/normal3D.frag");
+	normal2DShader = new Shader("shaders/normal2D.vert", "", "shaders/normal2D.frag");
 	framebufferShader = new Shader("shaders/framebuffer.vert", "", "shaders/framebuffer.frag");
 
 	// create text shader and set projection
@@ -75,12 +80,13 @@ void Renderer::init() {
 	// init fontloader
 	fontloader = new FontLoader();
 	_fps = 0;
-	_textfps = new Text("assets/arial.ttf", 0.35, glm::vec3(0, 0, 0));
+	_textfps = new Text("assets/arial.ttf", 0.35, glm::vec3(1, 0, 0));
 	_textfps->position.y = _windowHeight - 20;
 
 	// set openGL options for rendering text
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glDisable(GL_DEPTH_TEST);
 
 	// add frame buffer
 	buffer = FrameBuffer();
@@ -96,12 +102,13 @@ void Renderer::init() {
 // main game loop
 bool Renderer::run() {
 	// bind buffer
-	buffer.bind();
-	glEnable(GL_DEPTH_TEST);
+	//buffer.bind();
+	//glEnable(GL_DEPTH_TEST);
+
 
 	// clear screen and set background
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(0,0,0, 1);
+	glClearColor(1,1,1, 1);
 
 	// update input
 	Input::update();
@@ -117,18 +124,18 @@ bool Renderer::run() {
 	Scene* scene = scenemanager->getCurrentScene();
 
 	// ********************* normal render *********************
-	/*
+	
 	// render all currentscene mesh's on screen
-	normalShader->use();
+	normal2DShader->use();
 	int childcount = scene->getChildCount();
 	std::vector<Mesh*> childeren = scene->getChilderen();
 	for (int i = 0; i < childcount; i++) {
-		render3DCube(childeren[i], normalShader, scene);
+		render2D(childeren[i], normal2DShader, scene);
 	}
-	*/
 
 	// ********************* render with frame buffer *********************
 
+	/*
 	// render all currentscene mesh's on screen
 	normalShader->use();
 	int childcount = scene->getChildCount();
@@ -158,7 +165,7 @@ bool Renderer::run() {
 	framebufferShader->setFloat("position", -0.5f);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 
-
+	*/
 	// render all text in scene
 	textShader->use();
 	int textcount = scene->getTextCount();
@@ -173,7 +180,8 @@ bool Renderer::run() {
 	// debug
 	// recompile shader
 	if (Input::getKeyDown(GLFW_KEY_G)) {
-		normalShader = new Shader("shaders/normal.vert", "", "shaders/normal.frag");
+		normal3DShader = new Shader("shaders/normal3D.vert", "", "shaders/normal3D.frag");
+		normal2DShader = new Shader("shaders/normal2D.vert", "", "shaders/normal2D.frag");
 		framebufferShader = new Shader("shaders/framebuffer.vert", "", "shaders/framebuffer.frag");
 		textShader = new Shader("shaders/text.vert", "", "shaders/text.frag");
 	}
@@ -194,7 +202,7 @@ bool Renderer::run() {
 }
 
 
-void Renderer::render3DCube(Mesh* mesh, Shader* shader, Scene* scene) {
+void Renderer::render3D(Mesh* mesh, Shader* shader, Scene* scene) {
 	// bind VAO
 	glBindVertexArray(mesh->_VAO);
 
@@ -207,23 +215,20 @@ void Renderer::render3DCube(Mesh* mesh, Shader* shader, Scene* scene) {
 	}else {
 		shader->setBool("doTexture", false);
 	}
-	
+
 	// get model matrix
 	glm::mat4 model;
-	model = glm::scale(model, mesh->scale);								// scale
 	model = glm::translate(model, mesh->position);						// position
+	model = glm::scale(model, mesh->scale);								// scale
 	model = glm::rotate(model, mesh->rotation.x, glm::vec3(1, 0, 0));	// rotation x
 	model = glm::rotate(model, mesh->rotation.y, glm::vec3(0, 1, 0));	// rotation y
 	model = glm::rotate(model, mesh->rotation.z, glm::vec3(0, 0, 1));	// rotation z
 
 	// get view
-	glm::mat4 view = glm::lookAt(scene->getCamera()->position, scene->getCamera()->position + scene->getCamera()->front, scene->getCamera()->up);
-	//glm::mat4 view = glm::translate(model, scene->getCamera()->position);
+	glm::mat4 view = glm::lookAt(scene->getCamera()->position, scene->getCamera()->position + scene->getCamera()->front, scene->getCamera()->up); // render 3D
 
 	// get projectioins
-	glm::mat4 projection = glm::perspective(glm::radians(45.0f), (GLfloat)_windowWidth / (GLfloat)_windowHeight, 0.001f, 100.0f);
-	//glm::mat4 projection = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, 0.1f, 100.0f);
-	//glm::mat4 projection = glm::ortho(0.0f, (float)_windowHeight, 0.0f, (float)_windowWidth);
+	glm::mat4 projection = glm::perspective(glm::radians(45.0f), (GLfloat)_windowWidth / (GLfloat)_windowHeight, 0.001f, 100.0f); // render 3D
 
 	// set uniforms
 	shader->setMat4("model", model);
@@ -252,6 +257,36 @@ void Renderer::render3DCube(Mesh* mesh, Shader* shader, Scene* scene) {
 	glBindVertexArray(0);
 }
 
+void Renderer::render2D(Mesh* mesh, Shader* shader, Scene* scene) {
+	// bind VAO
+	glBindVertexArray(mesh->_VAO);
+
+	// get model matrix
+	glm::mat4 model;
+	model = glm::translate(model, mesh->position);						// position
+	model = glm::scale(model, mesh->scale);								// scale
+	model = glm::rotate(model, mesh->rotation.x, glm::vec3(1, 0, 0));	// rotation x
+	model = glm::rotate(model, mesh->rotation.y, glm::vec3(0, 1, 0));	// rotation y
+	model = glm::rotate(model, mesh->rotation.z, glm::vec3(0, 0, 1));	// rotation z
+	
+	//glm::mat4 view = glm::translate(model, glm::vec3(scene->getCamera()->position.z, scene->getCamera()->position.x, 0)); // render 2D ( with camera movement)
+	glm::mat4 view = glm::translate(model, glm::vec3(1,1,0));  // render 2D ( without camera movement )
+	
+	glm::mat4 projection = glm::ortho(0.0f, (float)_windowWidth, 0.0f, (float)_windowHeight, 0.0f, 1.0f); // render 2D
+
+	// set uniforms
+	shader->setMat4("model", model);
+	shader->setMat4("view", view);
+	shader->setMat4("projection", projection);
+
+	// set object color uniform
+	shader->setVec3("fragObjectColor", mesh->color.getColor());
+
+	// draw cube
+	glDrawArrays(GL_TRIANGLES, 0, mesh->_drawsize);
+	glBindVertexArray(0);
+}
+
 void Renderer::renderParticals(ParticalSystem * particalsystem, Shader * shader, Scene * scene){
 	// get all partical mesh's
 	std::vector<Mesh*> particals = particalsystem->getAllParticalsMesh();
@@ -272,8 +307,8 @@ void Renderer::renderParticals(ParticalSystem * particalsystem, Shader * shader,
 
 		// get model matrix
 		glm::mat4 model;
-		model = glm::scale(model, mesh->scale);								// scale
 		model = glm::translate(model, mesh->position);						// position
+		model = glm::scale(model, mesh->scale);								// scale
 		model = glm::rotate(model, mesh->rotation.x, glm::vec3(1, 0, 0));	// rotation x
 		model = glm::rotate(model, mesh->rotation.y, glm::vec3(0, 1, 0));	// rotation y
 		model = glm::rotate(model, mesh->rotation.z, glm::vec3(0, 0, 1));	// rotation z
@@ -384,7 +419,8 @@ Renderer::~Renderer() {
 	delete _window;
 
 	// delete shader
-	delete normalShader;
+	delete normal3DShader;
+	delete normal2DShader;
 	delete framebufferShader;
 	delete textShader;
 

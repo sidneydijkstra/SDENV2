@@ -20,6 +20,9 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H  
 
+// include config
+#include "sdenv2config.h"
+
 // include shader
 #include "shader.h"
 // include sceneManager
@@ -52,7 +55,9 @@ public:
 	bool run();
 
 	// renderer functions to render objects
-	void render3DCube(Mesh* mesh, Shader* shader, Scene* scene);
+	void render3D(Mesh* mesh, Shader* shader, Scene* scene);
+
+	void render2D(Mesh* mesh, Shader* shader, Scene* scene);
 
 	// renderer function to render a partical system
 	void renderParticals(ParticalSystem* particalsystem, Shader* shader, Scene* scene);
@@ -66,7 +71,7 @@ private:
 	// the window
 	GLFWwindow* _window;
 	// window size
-	int _windowWidth = 1000, _windowHeight = 800;
+	int _windowWidth, _windowHeight;
 	// create the window
 	void createWindow();
 	// init renderer
@@ -84,7 +89,8 @@ private:
 	Text* _textfps;
 
 	// shaders
-	Shader* normalShader;
+	Shader* normal3DShader;
+	Shader* normal2DShader;
 	Shader* framebufferShader;
 	Shader* textShader;
 
