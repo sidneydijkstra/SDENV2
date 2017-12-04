@@ -1,5 +1,5 @@
 
-#include "../sdenv2/project/renderer.h"
+#include <renderer.h>
 #include "myscene.h"
 
 #include <iostream>

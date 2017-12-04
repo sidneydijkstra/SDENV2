@@ -2,8 +2,8 @@
 #ifndef MYENTITY_H
 #define MYENTITY_H
 
-#include "../sdenv2/project/mesh.h"
-#include "../sdenv2/project/sdenv2config.h"
+#include <mesh.h>
+#include <sdenv2config.h>
 
 class MyEntity : public Mesh
 {

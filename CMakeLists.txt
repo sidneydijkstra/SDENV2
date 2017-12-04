@@ -1,4 +1,7 @@
 ﻿# CMake entry point
+option(BUILD_START "build the start directory" ON)
+option(BUILD_DEMO "build the demo directory" ON)
+
 cmake_minimum_required(VERSION 3.0)
 project (sdenv2)
 
@@ -135,7 +138,6 @@ set(ALL_LIBS
 ##############
 
 add_library(SDENV2 STATIC
-  sdenv2/project/main.cpp
 	sdenv2/project/renderer.cpp
 	sdenv2/project/renderer.h
 	sdenv2/project/shader.cpp
@@ -182,27 +184,68 @@ file(
 	DESTINATION ${CMAKE_BINARY_DIR}
 )
 
+include_directories(
+	sdenv2/project
+)
+
 #####################
 ### START PROJECT ###
 #####################
+IF(BUILD_START)
 
-add_executable(SDENV2_start
-  start/main.cpp
-  start/myscene.cpp
-  start/myscene.h
-  start/myentity.cpp
-  start/myentity.h
-)
+  add_executable(SDENV2_start
+    start/main.cpp
+    start/myscene.cpp
+    start/myscene.h
+    start/myentity.cpp
+    start/myentity.h
+  )
 
-target_link_libraries(SDENV2_start
-  glfw
-  SDENV2
-)
+  target_link_libraries(SDENV2_start
+    glfw
+    SDENV2
+  )
 
-set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT SDENV2_start)
+  set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT SDENV2_start)
 
-IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-	target_link_libraries(SDENV2_start
-		-lGL
-	)
-ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+
+  IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+  	target_link_libraries(SDENV2_start
+  		-lGL
+  	)
+  ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+
+ENDIF(BUILD_START)
+
+####################
+### DEMO PROJECT ###
+####################
+
+IF(BUILD_DEMO)
+
+  ####################
+  ### MAZE PROJECT ###
+  ####################
+  add_executable(SDENV2_maze
+    demos/maze/main.cpp
+    demos/maze/maze.cpp
+    demos/maze/maze.h
+    demos/maze/cell.cpp
+    demos/maze/cell.h
+  )
+
+  target_link_libraries(SDENV2_maze
+    glfw
+    SDENV2
+  )
+
+  set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT SDENV2_maze)
+
+
+  IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+  	target_link_libraries(SDENV2_start
+  		-lGL
+  	)
+  ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+
+ENDIF(BUILD_DEMO)
