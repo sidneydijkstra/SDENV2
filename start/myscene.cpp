@@ -1,4 +1,5 @@
 #include "myscene.h"
+#include "sprite.h"
 
 Text* text;
 
@@ -11,17 +12,19 @@ MyScene::MyScene(){
 	this->addText(text);
 
 	entitys = std::vector<MyEntity*>();
-	for (int i = 0; i < 10000; i++){
+	for (int i = 0; i < 20; i++){
 		entitys.push_back(new MyEntity());
+		entitys[i]->sprite->loadTexture("assets/broodje.jpg", i, i);
 		this->addChild(entitys[i]);
 	}
 }	
-
-MyScene::~MyScene(){
-}
 
 void MyScene::update(float deltatime) {
 	for (int i = 0; i < entitys.size(); i++) {
 		entitys[i]->update(deltatime);
 	}
 }
+
+MyScene::~MyScene(){
+}
+

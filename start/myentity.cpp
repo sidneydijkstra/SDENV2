@@ -3,7 +3,7 @@
 MyEntity::MyEntity(){
 	this->loadQuad();
 	this->color.setColor(200, 200, 10);
-	this->scale = glm::vec3(50,50,1);
+	this->scale = glm::vec3(100,100,1);
 
 	this->vel = glm::vec3(std::rand() * 0.001, std::rand() * 0.001, 0);
 	this->position = glm::vec3(400,400,0);

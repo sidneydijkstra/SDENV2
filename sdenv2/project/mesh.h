@@ -12,7 +12,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "texture.h"
+#include "sprite.h"
 #include "color.h"
 
 class Mesh
@@ -31,24 +31,21 @@ public:
 
 	// mesh buffer varables
 	GLuint _VAO, _VBO;
-	int _drawsize = 36;
+	int _drawsize;
 
 	// load 3d cube
 	void loadCube();
 
-	// load 2d quad
-	void loadQuad();
-
 	// load 3d object
 	void loadObject(const char * location);
 
-	// load mesh textures
-	void loadMeshTexture(const char* location);
+	// load 2d quad
+	void loadQuad();
 
-	// mesh textures
-	GLuint _normalTexture;
+	// sprite
+	Sprite* sprite;
+
 private:
-	Texture _textureLoader;
 };
 
 #endif /* end mesh */

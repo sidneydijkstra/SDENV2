@@ -207,11 +207,11 @@ void Renderer::render3D(Mesh* mesh, Shader* shader, Scene* scene) {
 	glBindVertexArray(mesh->_VAO);
 
 	// activate textures
-	if (mesh->_normalTexture != NULL) {
+	if (mesh->sprite->getTexture() != NULL) {
 		shader->setBool("doTexture", true);
 
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, mesh->_normalTexture);
+		glBindTexture(GL_TEXTURE_2D, mesh->sprite->getTexture());
 	}else {
 		shader->setBool("doTexture", false);
 	}
@@ -261,6 +261,16 @@ void Renderer::render2D(Mesh* mesh, Shader* shader, Scene* scene) {
 	// bind VAO
 	glBindVertexArray(mesh->_VAO);
 
+	// activate textures
+	if (mesh->sprite->getTexture() != NULL) {
+		shader->setBool("doTexture", true);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, mesh->sprite->getTexture());
+	}else {
+		shader->setBool("doTexture", false);
+	}
+
 	// get model matrix
 	glm::mat4 model;
 	model = glm::translate(model, mesh->position);						// position
@@ -269,14 +279,10 @@ void Renderer::render2D(Mesh* mesh, Shader* shader, Scene* scene) {
 	model = glm::rotate(model, mesh->rotation.y, glm::vec3(0, 1, 0));	// rotation y
 	model = glm::rotate(model, mesh->rotation.z, glm::vec3(0, 0, 1));	// rotation z
 	
-	//glm::mat4 view = glm::translate(model, glm::vec3(scene->getCamera()->position.z, scene->getCamera()->position.x, 0)); // render 2D ( with camera movement)
-	glm::mat4 view = glm::translate(model, glm::vec3(1,1,0));  // render 2D ( without camera movement )
-	
 	glm::mat4 projection = glm::ortho(0.0f, (float)_windowWidth, 0.0f, (float)_windowHeight, 0.0f, 1.0f); // render 2D
 
 	// set uniforms
 	shader->setMat4("model", model);
-	shader->setMat4("view", view);
 	shader->setMat4("projection", projection);
 
 	// set object color uniform

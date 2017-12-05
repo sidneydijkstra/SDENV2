@@ -41,6 +41,8 @@
 #include "fontloader.h"
 // include text
 #include "text.h"
+// include shader
+#include "sprite.h"
 
 // debug
 #include "particalsystem.h"

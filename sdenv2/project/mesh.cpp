@@ -2,11 +2,11 @@
 
 // mesh constructor
 Mesh::Mesh(){
-	// get texute loader
-	_textureLoader = Texture();
+	// get sprite
+	sprite = new Sprite();
 
-	// set texture to null
-	this->_normalTexture = NULL;
+	// define draw size
+	_drawsize = 0;
 
 	position = glm::vec3(0, 0, 0); // mesh position
 	scale = glm::vec3(1, 1, 1); // mesh scale 
@@ -15,11 +15,6 @@ Mesh::Mesh(){
 	color = Color(0,0,0);
 	// autoload cube mesh
 	//loadCube();
-}
-
-// load mesh texture
-void Mesh::loadMeshTexture(const char* location) {
-	_normalTexture = _textureLoader.loadNormalTexture(location);
 }
 
 // create the cube buffer
@@ -92,7 +87,7 @@ void Mesh::loadCube() {
 	_drawsize = 36;
 }
 
-void Mesh::loadQuad(){
+void Mesh::loadQuad() {
 	float vertices[] = {
 		-1.0f,  1.0f,  0.0f, 1.0f,
 		-1.0f, -1.0f,  0.0f, 0.0f,
@@ -112,6 +107,9 @@ void Mesh::loadQuad(){
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+
+	// set draw size to 36 again
+	_drawsize = 6;
 }
 
 // load object
