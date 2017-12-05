@@ -12,6 +12,7 @@ Mesh::Mesh(){
 	scale = glm::vec3(1, 1, 1); // mesh scale 
 	rotation = glm::vec3(0, 0, 0); // mesh rotation
 
+	color = Color(0,0,0);
 	// autoload cube mesh
 	//loadCube();
 }
