@@ -168,6 +168,8 @@ add_library(SDENV2 STATIC
 	sdenv2/project/color.h
 	sdenv2/project/sprite.cpp
 	sdenv2/project/sprite.h
+	sdenv2/project/spriteanimator.cpp
+	sdenv2/project/spriteanimator.h
 	sdenv2/project/sdenv2config.h
 )
 

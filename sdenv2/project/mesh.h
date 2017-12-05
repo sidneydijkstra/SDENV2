@@ -13,6 +13,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "sprite.h"
+#include "spriteanimator.h"
 #include "color.h"
 
 class Mesh
@@ -42,10 +43,17 @@ public:
 	// load 2d quad
 	void loadQuad();
 
-	// sprite
-	Sprite* sprite;
+	// get sprite
+	Sprite* sprite() { return _sprite; };
+
+	// add sprite animator
+	void addSpriteAnimator() { _spriteanimator = new SpriteAnimator(_sprite); };
+	// get sprite animator
+	SpriteAnimator* spriteAnimator() { return _spriteanimator; };
 
 private:
+	Sprite* _sprite;
+	SpriteAnimator* _spriteanimator;
 };
 
 #endif /* end mesh */

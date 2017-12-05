@@ -12,9 +12,8 @@ MyScene::MyScene(){
 	this->addText(text);
 
 	entitys = std::vector<MyEntity*>();
-	for (int i = 0; i < 20; i++){
+	for (int i = 0; i < 10; i++){
 		entitys.push_back(new MyEntity());
-		entitys[i]->sprite->loadTexture("assets/broodje.jpg", i, i);
 		this->addChild(entitys[i]);
 	}
 }	

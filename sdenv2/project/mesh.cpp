@@ -3,7 +3,10 @@
 // mesh constructor
 Mesh::Mesh(){
 	// get sprite
-	sprite = new Sprite();
+	_sprite = new Sprite();
+
+	// set sprite animator
+	_spriteanimator = NULL;
 
 	// define draw size
 	_drawsize = 0;
@@ -13,8 +16,6 @@ Mesh::Mesh(){
 	rotation = glm::vec3(0, 0, 0); // mesh rotation
 
 	color = Color(0,0,0);
-	// autoload cube mesh
-	//loadCube();
 }
 
 // create the cube buffer

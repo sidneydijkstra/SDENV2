@@ -7,12 +7,23 @@ MyEntity::MyEntity(){
 
 	this->vel = glm::vec3(std::rand() * 0.001, std::rand() * 0.001, 0);
 	this->position = glm::vec3(400,400,0);
+
+	// load animator
+	this->addSpriteAnimator();
+	std::vector<const char*> sp;
+	sp.push_back("assets/animations/one.png");
+	sp.push_back("assets/animations/two.png");
+	sp.push_back("assets/animations/three.png");
+	sp.push_back("assets/animations/fore.png");
+	this->spriteAnimator()->setAnimations(sp, 0.2f, 0, 0);
 }
 
 MyEntity::~MyEntity(){
 }
 
 void MyEntity::update(float deltatime){
+	this->spriteAnimator()->update();
+
 	position += vel * 20.0f * deltatime;
 
 	if (position.x >= SWIDTH || position.x <= 0) {
