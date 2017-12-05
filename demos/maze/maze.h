@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef MYSCENE_H
-#define MYSCENE_H
+#ifndef MAZE_H
+#define MAZE_H
 
 #include <scene.h>
 #include <mesh.h>
@@ -19,4 +19,4 @@ public:
 private:
 };
 
-#endif /* end MYSCENE_H */
+#endif /* end MAZE_H */

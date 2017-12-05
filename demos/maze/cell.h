@@ -1,6 +1,6 @@
 
-#ifndef MYENTITY_H
-#define MYENTITY_H
+#ifndef CELL_H
+#define CELL_H
 
 #include <mesh.h>
 #include <sdenv2config.h>
@@ -18,4 +18,4 @@ public:
 private:
 };
 
-#endif /* end MYENTITY_H */
+#endif /* end CELL_H */
