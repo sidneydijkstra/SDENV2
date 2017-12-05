@@ -144,8 +144,6 @@ add_library(SDENV2 STATIC
 	sdenv2/project/shader.h
 	sdenv2/project/mesh.cpp
 	sdenv2/project/mesh.h
-	sdenv2/project/texture.cpp
-	sdenv2/project/texture.h
 	sdenv2/project/input.cpp
 	sdenv2/project/input.h
 	sdenv2/project/camera.cpp
