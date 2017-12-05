@@ -23,7 +23,8 @@ void Color::setColor(glm::vec3 _c){
 }
 
 glm::vec3 Color::getColor(){
-	return glm::vec3(r / 255,g / 255,b / 255);
+	float i = 1.0f / 255.0f;
+	return glm::vec3(i * r, i * g, i * b);
 }
 
 Color Color::lerpColor(Color c1, Color c2, float amount){
