@@ -11,4 +11,5 @@ Maze::~Maze(){
 }
 
 void Maze::update(float deltatime) {
+	c->update(deltatime);
 }

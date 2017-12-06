@@ -210,8 +210,14 @@ void Renderer::render3D(Mesh* mesh, Shader* shader, Scene* scene) {
 	if (mesh->sprite()->getTexture() != NULL) {
 		shader->setBool("doTexture", true);
 
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, mesh->sprite()->getTexture());
+		if (mesh->spriteAnimator() != NULL) {
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, mesh->spriteAnimator()->getCurrentAnimation());
+		}else{
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, mesh->sprite()->getTexture());
+		}
+		
 	}else {
 		shader->setBool("doTexture", false);
 	}
