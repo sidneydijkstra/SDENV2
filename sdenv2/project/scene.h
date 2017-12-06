@@ -20,6 +20,7 @@
 #include "mesh.h"
 #include "text.h"
 #include "color.h"
+#include "framebuffer.h"
 
 class Scene
 {

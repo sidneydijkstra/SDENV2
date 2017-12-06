@@ -16,7 +16,7 @@ Shader::Shader(const GLchar* vertexPath, const GLchar* geometryPath, const GLcha
 	std::string geometrySourcePointer = loadShaderFile(geometryPath);
 	if (geometrySourcePointer.compare("") != 0) {
 		const char* geometrySourch = geometrySourcePointer.c_str();
-		GLuint geometryShader = createShader(GL_VERTEX_SHADER, geometrySourch, "geometry shader");
+		GLuint geometryShader = createShader(GL_GEOMETRY_SHADER, geometrySourch, "geometry shader");
 		glAttachShader(this->program, geometryShader);
 	}
 

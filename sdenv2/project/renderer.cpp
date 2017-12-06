@@ -57,7 +57,7 @@ void Renderer::createWindow() {
 bool renderTriangle = true;
 Text* txt;
 Mesh quad;
-FrameBuffer buffer;
+FrameBuffer* buffer;
 
 void Renderer::init() {
 	// init shaders
@@ -68,7 +68,7 @@ void Renderer::init() {
 	// create text shader and set projection
 	textShader = new Shader("shaders/text.vert", "", "shaders/text.frag");
 	textShader->use();
-	glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(_windowWidth), 0.0f, static_cast<GLfloat>(_windowHeight));
+	glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(SWIDTH), 0.0f, static_cast<GLfloat>(SHEIGHT));
 	textShader->setMat4("projection", projection);
 	
 	// init input
@@ -81,7 +81,7 @@ void Renderer::init() {
 	fontloader = new FontLoader();
 	_fps = 0;
 	_textfps = new Text("assets/arial.ttf", 0.35, glm::vec3(1, 0, 0));
-	_textfps->position.y = _windowHeight - 20;
+	_textfps->position.y = SHEIGHT - 20;
 
 	// set openGL options for rendering text
 	glEnable(GL_BLEND);
@@ -89,9 +89,9 @@ void Renderer::init() {
 	glDisable(GL_DEPTH_TEST);
 
 	// add frame buffer
-	buffer = FrameBuffer();
-	buffer.createFrameBuffer();
-	buffer.createNormalTexture(_windowWidth, _windowHeight / 2);
+	buffer = new FrameBuffer();
+	buffer->createFrameBuffer();
+	buffer->createNormalTexture(SWIDTH, SHEIGHT);
 
 	// create quad
 	quad = Mesh();
@@ -102,8 +102,8 @@ void Renderer::init() {
 // main game loop
 bool Renderer::run() {
 	// bind buffer
-	//buffer.bind();
-	//glEnable(GL_DEPTH_TEST);
+	buffer->bind();
+	glEnable(GL_DEPTH_TEST);
 
 
 	// clear screen and set background
@@ -143,29 +143,42 @@ bool Renderer::run() {
 	for (int i = 0; i < childcount; i++) {
 		render3DCube(childeren[i], normalShader, scene);
 	}
+	*/
 
 	// unbind buffer
-	buffer.unbind();
+	buffer->unbind();
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glDisable(GL_DEPTH_TEST);
-	glClearColor(1, 1, 1, 1);
+	glm::vec3 c = buffer->background.getColor();
+	glClearColor(c.x, c.y, c.z, 1);
 
 	// set shader, frame buffer options and bind texture
-	framebufferShader->use();
+	buffer->shader()->use();
 	glBindVertexArray(quad._VAO);
-	glBindTexture(GL_TEXTURE_2D, buffer.getFrameBufferNormalTexture());
+	glBindTexture(GL_TEXTURE_2D, buffer->getFrameBufferNormalTexture());
 
-	// create top view
-	framebufferShader->setFloat("rotation", 1);
-	framebufferShader->setFloat("position", 0.5f);
+	// get model
+	glm::mat4 model;
+	model = glm::translate(model, buffer->position);
+	model = glm::scale(model, buffer->size);
+	model = glm::rotate(model, buffer->rotation.x, glm::vec3(1, 0, 0));
+	model = glm::rotate(model, buffer->rotation.y, glm::vec3(0, 1, 0));
+	model = glm::rotate(model, buffer->rotation.z, glm::vec3(0, 0, 1));
+
+	buffer->rotation.z += 10 * _deltaTime;
+
+	// get projectioins
+	glm::mat4 projection = glm::ortho(0.0f, (float)SWIDTH, 0.0f, (float)SHEIGHT, 0.0f, 1.0f); // render 2D
+
+	// set shader uniforms
+	buffer->shader()->setMat4("model", model);
+	buffer->shader()->setMat4("projection", projection);
+
+	// draw framebuffer on quad
 	glDrawArrays(GL_TRIANGLES, 0, 6);
-
-	// create bottom viewg
-	framebufferShader->setFloat("rotation", -1);
-	framebufferShader->setFloat("position", -0.5f);
-	glDrawArrays(GL_TRIANGLES, 0, 6);
-
-	*/
+	glBindVertexArray(0);
+	
 	// render all text in scene
 	textShader->use();
 	int textcount = scene->getTextCount();
@@ -451,4 +464,7 @@ Renderer::~Renderer() {
 
 	// delete fps text
 	delete _textfps;
+
+	// TEMP DELETE
+	delete buffer;
 }

@@ -8,11 +8,21 @@ FrameBuffer::FrameBuffer(){
 	//glBindRenderbuffer(GL_RENDERBUFFER, _rbo);
 	//glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, _width, _height); // use a single renderbuffer object for both a depth AND stencil buffer.
 	//glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, _rbo); // now actually attach it
+
+	// set shader
+	_vertShader = "shaders/framebuffer.vert";
+	_fragShader = "shaders/framebuffer.frag";
+	_shader = new Shader(_vertShader, "", _fragShader);;
+
+	// set position size and backgroundcolor
+	position = glm::vec3(SWIDTH / 2, SHEIGHT / 2, 0);
+	rotation = glm::vec3(0,0,0);
+	size = glm::vec3(100, 100, 0);
 }
 
 // framebuffer deconstructor
 FrameBuffer::~FrameBuffer(){
-	
+	delete _shader;
 }
 
 void FrameBuffer::createFrameBuffer(){
