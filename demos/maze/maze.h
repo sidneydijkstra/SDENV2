@@ -17,6 +17,8 @@ public:
 	virtual void update(float deltatime);
 
 private:
+	int worldsize;
+	std::vector<std::vector<Cell*>> grid;
 };
 
 #endif /* end MAZE_H */

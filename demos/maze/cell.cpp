@@ -1,30 +1,26 @@
 #include "cell.h"
 
-Cell::Cell(int x, int y){
+Cell::Cell(int x, int y, float size){
 	this->gridX = x;
 	this->gridY = y;
 
 	// set object and color
-	this->loadObject("assets/dragon.obj");
-	this->scale = glm::vec3(1, 1, 1);
-	this->color.setColor(200, 200, 200);
+	this->loadQuad();
+	this->scale = glm::vec3(size/2 - 2, size/2 - 2, 0);
 
-	std::cout << color.r << std::endl;
+	int _x = size / 2;
+	int _y = size / 2;
 
-	this->addSpriteAnimator();
-	std::vector<const char*> sp;
-	sp.push_back("assets/animations/one.png");
-	sp.push_back("assets/animations/two.png");
-	sp.push_back("assets/animations/three.png");
-	sp.push_back("assets/animations/fore.png");
-	this->spriteAnimator()->setAnimations(sp, 0.2f, 0, 0);
+	_x += x * size;
+	_y += y * size;
+
+	this->position = glm::vec3(_x, _y, 0);
 }
 
 Cell::~Cell(){
 }
 
 void Cell::update(float deltatime){
-	this->spriteAnimator()->update();
 }
 
 

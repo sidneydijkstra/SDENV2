@@ -1,5 +1,5 @@
 
-#include <renderer.h>
+#include <core.h>
 #include <sdenv2config.h>
 #include "myscene.h"
 
@@ -8,14 +8,14 @@
 // main function
 int main() {
 	// create the renderer and call its constructor
-	Renderer* renderer = new Renderer();
+	Core* core = new Core();
 
 	// create myscene and set it as current scene
 	Scene* myscene = new MyScene();
-	renderer->scenemanager->setCurrentScene(myscene);
+	core->scenemanager->setCurrentScene(myscene);
 
 	// call the run function
-	while (renderer->run()) {
+	while (core->run()) {
 		// do something
 	}
 
@@ -23,7 +23,7 @@ int main() {
 	delete myscene;
 
 	// delete the renderer
-	delete renderer;
+	delete core;
 
 	// rerurn 0
 	return 0;

@@ -53,8 +53,8 @@ public:
 	Renderer();
 	~Renderer();
 
-	// main loop function
-	bool run();
+	// renderer functions to render scene
+	void renderScene(Scene* scene, Shader* shader2D, Shader* shader3D);
 
 	// renderer functions to render 3D objects
 	void render3D(Mesh* mesh, Shader* shader, Scene* scene);
@@ -70,38 +70,12 @@ public:
 
 	// renderer function to render text
 	void renderText(Shader* shader, Text* text);
-
-	// scene manager
-	SceneManager* scenemanager;
 private:
-	// the window
-	GLFWwindow* _window;
-	// window size
-	int _windowWidth, _windowHeight;
-	// create the window
-	void createWindow();
-	// init renderer
-	void init();
-
-	// renderer deltatime
-	void calculateDeltatime();
-	GLfloat _deltaTime = 0.0f;
-	GLfloat _lastFrame = 0.0f;
-	// renderer fps
-	void calculateFPS();
-	GLfloat _currentTime;
-	GLfloat _lastTime;
-	GLfloat _fps;
-	Text* _textfps;
-
-	// shaders
-	Shader* normal3DShader;
-	Shader* normal2DShader;
-	Shader* framebufferShader;
-	Shader* textShader;
-
 	// font loader
 	FontLoader* fontloader;
+
+	// framebuffer quad
+	Mesh* framebufferQuad;
 };
 
 #endif /* end renderer */

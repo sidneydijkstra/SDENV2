@@ -1,15 +1,15 @@
 
-#ifndef CELL_H
-#define CELL_H
+#ifndef WALL_H
+#define WALL_H
 
 #include <mesh.h>
 #include <sdenv2config.h>
 
-class Cell : public Mesh
+class Wall : public Mesh
 {
 public:
-	Cell(int x, int y, float size);
-	~Cell();
+	Wall(int x, int y, float size);
+	~Wall();
 
 	void update(float deltatime);
 
@@ -18,4 +18,4 @@ public:
 private:
 };
 
-#endif /* end CELL_H */
+#endif /* end WALL_H */

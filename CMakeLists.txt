@@ -138,6 +138,8 @@ set(ALL_LIBS
 ##############
 
 add_library(SDENV2 STATIC
+	sdenv2/project/core.cpp
+	sdenv2/project/core.h
 	sdenv2/project/renderer.cpp
 	sdenv2/project/renderer.h
 	sdenv2/project/shader.cpp
@@ -234,6 +236,8 @@ IF(BUILD_DEMO)
     demos/maze/maze.h
     demos/maze/cell.cpp
     demos/maze/cell.h
+    demos/maze/wall.cpp
+    demos/maze/wall.h
   )
 
   target_link_libraries(SDENV2_maze
