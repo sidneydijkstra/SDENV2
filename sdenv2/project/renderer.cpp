@@ -171,11 +171,9 @@ bool Renderer::run() {
 		glClearColor(1, 1, 1, 1);
 
 		// render all currentscene mesh's on screen
-		int mode2D = SCENE2D;
-		int mode3D = SCENE3D;
 		int childcount = scene->getChildCount();
 		std::vector<Mesh*> childeren = scene->getChilderen();
-		if (scene->getSceneMode() == mode2D) { // if scene 2d
+		if (scene->getSceneMode() == SCENE2D) { // if scene 2d
 			normal2DShader->use();
 			for (int i = 0; i < childcount; i++) {
 				render2D(childeren[i], normal2DShader, scene);
