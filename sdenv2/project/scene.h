@@ -48,6 +48,12 @@ public:
 	int getTextCount() { return _texts.size(); };
 	std::vector<Text*> getTexts() { return _texts; };
 
+	// scene framebuffer functions
+	void addFramebuffer(FrameBuffer* fb) { _framebuffers.push_back(fb); };
+	void removeFramebuffer(FrameBuffer* fb) { for (int i; i < _framebuffers.size(); i++) { if (_framebuffers[i] == fb) { _framebuffers.erase(_framebuffers.begin() + i); delete fb; break; }; }; };
+	int getFramebufferCount() { return _framebuffers.size(); };
+	std::vector<FrameBuffer*> getFramebuffers() { return _framebuffers; };
+
 	// scene light functions
 	void addLight() { light = new Light(); };
 	Light* getLight() { return light; };
@@ -62,8 +68,11 @@ private:
 	// childeren
 	std::vector<Mesh*> _childeren;
 
-	// childeren
+	// texts
 	std::vector<Text*> _texts;
+
+	// framebuffers
+	std::vector<FrameBuffer*> _framebuffers;
 };
 
-#endif /* end scene */
+#endif /* end SCENE_H */

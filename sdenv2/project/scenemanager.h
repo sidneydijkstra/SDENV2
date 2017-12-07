@@ -31,9 +31,6 @@ public:
 private:
 	// temp current scene variable
 	Scene* _currentScene;
-
-	// scene manager camera
-	Camera* _camera;
 };
 
 #endif /* end scenemanager */

@@ -101,14 +101,8 @@ void Renderer::init() {
 
 // main game loop
 bool Renderer::run() {
-	// bind buffer
-	buffer->bind();
-	glEnable(GL_DEPTH_TEST);
 
-
-	// clear screen and set background
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(1,1,1, 1);
+	// ########################## TEMP ##########################
 
 	// update input
 	Input::update();
@@ -123,8 +117,43 @@ bool Renderer::run() {
 	// get current scene
 	Scene* scene = scenemanager->getCurrentScene();
 
-	// ********************* normal render *********************
-	
+	if (scene->getFramebufferCount() > 0) { // render scene with frame buffer
+		
+		std::vector<FrameBuffer*> fBuffers = scene->getFramebuffers();
+		for (int i = 0; i < fBuffers.size(); i++){
+			// clear screen and set background
+			glm::vec3 c = fBuffers[i]->background.getColor();
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			glClearColor(c.x, c.y, c.z, 1);
+
+			// bind frame buffer
+			fBuffers[i]->bind();
+			glEnable(GL_DEPTH_TEST);
+
+			// clear screen and set background
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			glClearColor(c.x, c.y, c.z, 1);
+
+			// render all currentscene mesh's on screen
+			normal2DShader->use();
+			int childcount = scene->getChildCount();
+			std::vector<Mesh*> childeren = scene->getChilderen();
+			for (int i = 0; i < childcount; i++) {
+				render2D(childeren[i], normal2DShader, scene);
+			}
+
+			// unbind buffer
+			fBuffers[i]->unbind();
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		}
+
+	}
+
+	// clear screen and set background
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearColor(1, 1, 1, 1);
+
+	/*
 	// render all currentscene mesh's on screen
 	normal2DShader->use();
 	int childcount = scene->getChildCount();
@@ -132,52 +161,13 @@ bool Renderer::run() {
 	for (int i = 0; i < childcount; i++) {
 		render2D(childeren[i], normal2DShader, scene);
 	}
-
-	// ********************* render with frame buffer *********************
-
-	/*
-	// render all currentscene mesh's on screen
-	normalShader->use();
-	int childcount = scene->getChildCount();
-	std::vector<Mesh*> childeren = scene->getChilderen();
-	for (int i = 0; i < childcount; i++) {
-		render3DCube(childeren[i], normalShader, scene);
-	}
 	*/
 
-	// unbind buffer
-	buffer->unbind();
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glDisable(GL_DEPTH_TEST);
-	glm::vec3 c = buffer->background.getColor();
-	glClearColor(c.x, c.y, c.z, 1);
-
-	// set shader, frame buffer options and bind texture
-	buffer->shader()->use();
-	glBindVertexArray(quad._VAO);
-	glBindTexture(GL_TEXTURE_2D, buffer->getFrameBufferNormalTexture());
-
-	// get model
-	glm::mat4 model;
-	model = glm::translate(model, buffer->position);
-	model = glm::scale(model, buffer->size);
-	model = glm::rotate(model, buffer->rotation.x, glm::vec3(1, 0, 0));
-	model = glm::rotate(model, buffer->rotation.y, glm::vec3(0, 1, 0));
-	model = glm::rotate(model, buffer->rotation.z, glm::vec3(0, 0, 1));
-
-	buffer->rotation.z += 10 * _deltaTime;
-
-	// get projectioins
-	glm::mat4 projection = glm::ortho(0.0f, (float)SWIDTH, 0.0f, (float)SHEIGHT, 0.0f, 1.0f); // render 2D
-
-	// set shader uniforms
-	buffer->shader()->setMat4("model", model);
-	buffer->shader()->setMat4("projection", projection);
-
-	// draw framebuffer on quad
-	glDrawArrays(GL_TRIANGLES, 0, 6);
-	glBindVertexArray(0);
+	std::vector<FrameBuffer*> fBuffers = scene->getFramebuffers();
+	for (int i = 0; i < fBuffers.size(); i++){
+		// render framebuffer
+		this->renderFramebuffer(fBuffers[i], framebufferShader);
+	}
 	
 	// render all text in scene
 	textShader->use();
@@ -315,6 +305,32 @@ void Renderer::render2D(Mesh* mesh, Shader* shader, Scene* scene) {
 
 	// draw cube
 	glDrawArrays(GL_TRIANGLES, 0, mesh->_drawsize);
+	glBindVertexArray(0);
+}
+
+void Renderer::renderFramebuffer(FrameBuffer * framebuffer, Shader * shader){
+	// set shader, frame buffer options and bind texture
+	shader->use();
+	glBindVertexArray(quad._VAO);
+	glBindTexture(GL_TEXTURE_2D, framebuffer->getFrameBufferNormalTexture());
+
+	// get model
+	glm::mat4 model;
+	model = glm::translate(model, framebuffer->position);
+	model = glm::scale(model, framebuffer->size);
+	model = glm::rotate(model, framebuffer->rotation.x, glm::vec3(1, 0, 0));
+	model = glm::rotate(model, framebuffer->rotation.y, glm::vec3(0, 1, 0));
+	model = glm::rotate(model, framebuffer->rotation.z, glm::vec3(0, 0, 1));
+
+	// get projectioins
+	glm::mat4 projection = glm::ortho(0.0f, (float)SWIDTH, 0.0f, (float)SHEIGHT, 0.0f, 1.0f); // render 2D
+
+	// set shader uniforms
+	framebuffer->shader()->setMat4("model", model);
+	framebuffer->shader()->setMat4("projection", projection);
+
+	// draw framebuffer on quad
+	glDrawArrays(GL_TRIANGLES, 0, 6);
 	glBindVertexArray(0);
 }
 

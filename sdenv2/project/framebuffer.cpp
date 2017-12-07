@@ -9,6 +9,9 @@ FrameBuffer::FrameBuffer(){
 	//glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, _width, _height); // use a single renderbuffer object for both a depth AND stencil buffer.
 	//glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, _rbo); // now actually attach it
 
+	this->createFrameBuffer();
+	this->createNormalTexture(SWIDTH, SHEIGHT);
+
 	// set shader
 	_vertShader = "shaders/framebuffer.vert";
 	_fragShader = "shaders/framebuffer.frag";

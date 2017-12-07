@@ -56,10 +56,14 @@ public:
 	// main loop function
 	bool run();
 
-	// renderer functions to render objects
+	// renderer functions to render 3D objects
 	void render3D(Mesh* mesh, Shader* shader, Scene* scene);
 
+	// renderer functions to render 2D objects
 	void render2D(Mesh* mesh, Shader* shader, Scene* scene);
+
+	// renderer function to render framebuffer
+	void renderFramebuffer(FrameBuffer* framebuffer, Shader* shader);
 
 	// renderer function to render a partical system
 	void renderParticals(ParticalSystem* particalsystem, Shader* shader, Scene* scene);
