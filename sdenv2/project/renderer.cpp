@@ -155,51 +155,6 @@ void Renderer::renderFramebuffer(FrameBuffer * framebuffer, Shader * shader){
 	glBindVertexArray(0);
 }
 
-void Renderer::renderParticals(ParticalSystem * particalsystem, Shader * shader, Scene * scene){
-	// get all partical mesh's
-	std::vector<Mesh*> particals = particalsystem->getAllParticalsMesh();
-
-
-	// draw all the mesh's
-	int size = particals.size();
-	for (size_t i = 0; i < size; i++){
-		// get mesh
-		Mesh* mesh = particals[i];
-
-		// bind VAO
-		glBindVertexArray(mesh->_VAO);
-
-		// activate textures
-		//glActiveTexture(GL_TEXTURE0);
-		//glBindTexture(GL_TEXTURE_2D, mesh->_normalTexture);
-
-		// get model matrix
-		glm::mat4 model;
-		model = glm::translate(model, mesh->position);						// position
-		model = glm::scale(model, mesh->scale);								// scale
-		model = glm::rotate(model, mesh->rotation.x, glm::vec3(1, 0, 0));	// rotation x
-		model = glm::rotate(model, mesh->rotation.y, glm::vec3(0, 1, 0));	// rotation y
-		model = glm::rotate(model, mesh->rotation.z, glm::vec3(0, 0, 1));	// rotation z
-
-																			// get view
-		glm::mat4 view = glm::lookAt(scene->getCamera()->position, scene->getCamera()->position + scene->getCamera()->front, scene->getCamera()->up);
-		//glm::mat4 view = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-
-		// get projectioins
-		glm::mat4 projection = glm::perspective(glm::radians(45.0f), (GLfloat)SWIDTH / (GLfloat)SHEIGHT, 0.001f, 100.0f);
-
-		// set uniforms
-		shader->setMat4("model", model);
-		shader->setMat4("view", view);
-		shader->setMat4("projection", projection);
-
-		// draw partical
-		glDrawArrays(GL_TRIANGLES, 0, mesh->_drawsize);
-		glBindVertexArray(0);
-	}
-
-}
-
 void Renderer::renderText(Shader* shader, Text* text){
 	// set text color
 	shader->setVec3("textColor", text->color);

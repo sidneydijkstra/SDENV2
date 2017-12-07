@@ -25,14 +25,12 @@
 
 // include shader
 #include "shader.h"
-// include sceneManager
-#include "scenemanager.h"
 // include scene
 #include "scene.h"
 // include mesh
 #include "mesh.h"
-// include scene
-#include "camera.h"
+// include color
+#include "color.h"
 // include framebuffer
 #include "framebuffer.h"
 // include input
@@ -43,9 +41,6 @@
 #include "text.h"
 // include shader
 #include "sprite.h"
-
-// debug
-#include "particalsystem.h"
 
 class Renderer
 {
@@ -64,9 +59,6 @@ public:
 
 	// renderer function to render framebuffer
 	void renderFramebuffer(FrameBuffer* framebuffer, Shader* shader);
-
-	// renderer function to render a partical system
-	void renderParticals(ParticalSystem* particalsystem, Shader* shader, Scene* scene);
 
 	// renderer function to render text
 	void renderText(Shader* shader, Text* text);

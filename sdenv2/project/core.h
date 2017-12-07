@@ -20,6 +20,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "renderer.h"
+#include "scenemanager.h"
 #include "sdenv2config.h"
 
 class Core

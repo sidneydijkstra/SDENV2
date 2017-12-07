@@ -191,18 +191,16 @@ Core::~Core() {
 	// delete the window
 	delete _window;
 
+	// delete scene manager, input and renderer
+	delete scenemanager;
+	delete renderer;
+	Input::delInput();
+
 	// delete shader
 	delete normal3DShader;
 	delete normal2DShader;
 	delete framebufferShader;
 	delete textShader;
-
-	// delete scene manager and renderer
-	delete scenemanager;
-	delete renderer;
-
-	// delete input
-	Input::delInput();
 
 	// delete fps text
 	delete _textfps;

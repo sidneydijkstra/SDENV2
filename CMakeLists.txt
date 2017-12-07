@@ -158,10 +158,6 @@ add_library(SDENV2 STATIC
 	sdenv2/project/light.h
 	sdenv2/project/framebuffer.cpp
 	sdenv2/project/framebuffer.h
-	sdenv2/project/particalsystem.cpp
-	sdenv2/project/particalsystem.h
-	sdenv2/project/partical.cpp
-	sdenv2/project/partical.h
 	sdenv2/project/text.cpp
 	sdenv2/project/text.h
 	sdenv2/project/fontloader.cpp
