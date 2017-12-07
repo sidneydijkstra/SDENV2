@@ -147,7 +147,7 @@ bool Renderer::run() {
 			}else { // if scene 3d
 				normal3DShader->use();
 				for (int i = 0; i < childcount; i++) {
-					render3D(childeren[i], normal2DShader, scene);
+					render3D(childeren[i], normal3DShader, scene);
 				}
 			}
 
@@ -181,7 +181,7 @@ bool Renderer::run() {
 		}else { // if scene 3d
 			normal3DShader->use();
 			for (int i = 0; i < childcount; i++) {
-				render3D(childeren[i], normal2DShader, scene);
+				render3D(childeren[i], normal3DShader, scene);
 			}
 		}
 	}

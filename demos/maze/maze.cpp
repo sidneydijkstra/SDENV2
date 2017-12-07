@@ -3,6 +3,7 @@
 Cell* c;
 
 Maze::Maze(){
+	this->setSceneMode(SCENE3D);
 	c = new Cell(2,2);
 	this->addChild(c);
 }	
