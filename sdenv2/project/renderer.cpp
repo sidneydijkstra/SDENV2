@@ -27,67 +27,70 @@ void Renderer::renderScene(Scene * scene, Shader* shader2D, Shader* shader3D) {
 }
 
 void Renderer::render3D(Entity* entity, Shader* shader, Scene* scene, glm::vec3 parentPosition) {
-	// bind VAO
-	glBindVertexArray(entity->mesh()->_VAO);
-
-	// activate textures
-	if (entity->sprite()->getTexture() != NULL) {
-		shader->setBool("doTexture", true);
-
-		if (entity->spriteAnimator() != NULL) {
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, entity->spriteAnimator()->getCurrentAnimation());
-		}else{
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, entity->sprite()->getTexture());
-		}
-
-	}else {
-		shader->setBool("doTexture", false);
-	}
-
-	// get entity pos
+	// get new pos of entity
 	glm::vec3 pos = entity->position + parentPosition;
 
-	// get model matrix
-	glm::mat4 model;
-	model = glm::translate(model, pos);					// position
-	model = glm::scale(model, entity->scale);							// scale
-	model = glm::rotate(model, entity->rotation.x, glm::vec3(1, 0, 0));	// rotation x
-	model = glm::rotate(model, entity->rotation.y, glm::vec3(0, 1, 0));	// rotation y
-	model = glm::rotate(model, entity->rotation.z, glm::vec3(0, 0, 1));	// rotation z
+	// only render entity if entity is active
+	if(entity->active){
+		// bind VAO
+		glBindVertexArray(entity->mesh()->_VAO);
 
-	// get view
-	glm::mat4 view = glm::lookAt(scene->getCamera()->position, scene->getCamera()->position + scene->getCamera()->front, scene->getCamera()->up); // render 3D
+		// activate textures
+		if (entity->sprite()->getTexture() != NULL) {
+			shader->setBool("doTexture", true);
 
-	// get projectioins
-	glm::mat4 projection = glm::perspective(glm::radians(45.0f), (GLfloat)SWIDTH / (GLfloat)SHEIGHT, 0.001f, 100.0f); // render 3D
+			if (entity->spriteAnimator() != NULL) {
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, entity->spriteAnimator()->getCurrentAnimation());
+			}else{
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, entity->sprite()->getTexture());
+			}
 
-	// set uniforms
-	shader->setMat4("model", model);
-	shader->setMat4("view", view);
-	shader->setMat4("projection", projection);
+		}else {
+			shader->setBool("doTexture", false);
+		}
 
-	// set object color uniform
-	shader->setVec3("fragObjectColor", entity->color.getColor());
+		// get model matrix
+		glm::mat4 model;
+		model = glm::translate(model, pos);					// position
+		model = glm::scale(model, entity->scale);							// scale
+		model = glm::rotate(model, entity->rotation.x, glm::vec3(1, 0, 0));	// rotation x
+		model = glm::rotate(model, entity->rotation.y, glm::vec3(0, 1, 0));	// rotation y
+		model = glm::rotate(model, entity->rotation.z, glm::vec3(0, 0, 1));	// rotation z
 
-	// set lighting uniforms
-	if(scene->getLight() != NULL){
-		shader->setBool("doLighting", true);
+		// get view
+		glm::mat4 view = glm::lookAt(scene->getCamera()->position, scene->getCamera()->position + scene->getCamera()->front, scene->getCamera()->up); // render 3D
 
-		shader->setVec3("light.color", scene->getLight()->lightColor);
-		shader->setVec3("light.position", scene->getLight()->position);
-		shader->setVec3("light.viewPosition", scene->getCamera()->position);
+		// get projectioins
+		glm::mat4 projection = glm::perspective(glm::radians(45.0f), (GLfloat)SWIDTH / (GLfloat)SHEIGHT, 0.001f, 100.0f); // render 3D
 
-		shader->setFloat("light.ambientStrength", scene->getLight()->ambientStrength);
-		shader->setFloat("light.specularStrength", scene->getLight()->specularStrength);
-	}else {
-		shader->setBool("doLighting", false);
+		// set uniforms
+		shader->setMat4("model", model);
+		shader->setMat4("view", view);
+		shader->setMat4("projection", projection);
+
+		// set object color uniform
+		shader->setVec3("fragObjectColor", entity->color.getColor());
+
+		// set lighting uniforms
+		if(scene->getLight() != NULL){
+			shader->setBool("doLighting", true);
+
+			shader->setVec3("light.color", scene->getLight()->lightColor);
+			shader->setVec3("light.position", scene->getLight()->position);
+			shader->setVec3("light.viewPosition", scene->getCamera()->position);
+
+			shader->setFloat("light.ambientStrength", scene->getLight()->ambientStrength);
+			shader->setFloat("light.specularStrength", scene->getLight()->specularStrength);
+		}else {
+			shader->setBool("doLighting", false);
+		}
+
+		// draw cube
+		glDrawArrays(GL_TRIANGLES, 0, entity->mesh()->_drawsize);
+		glBindVertexArray(0);
 	}
-
-	// draw cube
-	glDrawArrays(GL_TRIANGLES, 0, entity->mesh()->_drawsize);
-	glBindVertexArray(0);
 
 	// render all childeren of entity
 	if (entity->getChildCount() > 0) {
@@ -100,49 +103,52 @@ void Renderer::render3D(Entity* entity, Shader* shader, Scene* scene, glm::vec3 
 }
 
 void Renderer::render2D(Entity* entity, Shader* shader, Scene* scene, glm::vec3 parentPosition) {
-	// bind VAO
-	glBindVertexArray(entity->mesh()->_VAO);
-
-	// activate textures
-	if (entity->sprite()->getTexture() != NULL) {
-		shader->setBool("doTexture", true);
-
-		if (entity->spriteAnimator() != NULL) {
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, entity->spriteAnimator()->getCurrentAnimation());
-		}else{
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, entity->sprite()->getTexture());
-		}
-
-	}else {
-		shader->setBool("doTexture", false);
-	}
-
-	// get entity pos
+	// get new pos of entity
 	glm::vec3 pos = entity->position + parentPosition;
 
-	// get model matrix
-	glm::mat4 model;
-	model = glm::translate(model, pos);										// position
-	model = glm::scale(model, entity->scale);								// scale
-	model = glm::rotate(model, entity->rotation.x, glm::vec3(1, 0, 0));	// rotation x
-	model = glm::rotate(model, entity->rotation.y, glm::vec3(0, 1, 0));	// rotation y
-	model = glm::rotate(model, entity->rotation.z, glm::vec3(0, 0, 1));	// rotation z
+	// only render entity if entity is active
+	if(entity->active){
+		// bind VAO
+		glBindVertexArray(entity->mesh()->_VAO);
+
+		// activate textures
+		if (entity->sprite()->getTexture() != NULL) {
+			shader->setBool("doTexture", true);
+
+			if (entity->spriteAnimator() != NULL) {
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, entity->spriteAnimator()->getCurrentAnimation());
+			}else{
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, entity->sprite()->getTexture());
+			}
+
+		}else {
+			shader->setBool("doTexture", false);
+		}
+
+		// get model matrix
+		glm::mat4 model;
+		model = glm::translate(model, pos);										// position
+		model = glm::scale(model, entity->scale);								// scale
+		model = glm::rotate(model, entity->rotation.x, glm::vec3(1, 0, 0));	// rotation x
+		model = glm::rotate(model, entity->rotation.y, glm::vec3(0, 1, 0));	// rotation y
+		model = glm::rotate(model, entity->rotation.z, glm::vec3(0, 0, 1));	// rotation z
 	
 
-	glm::mat4 projection = glm::ortho(0.0f, (float)SWIDTH, 0.0f, (float)SHEIGHT, 0.0f, 1.0f); // render 2D
+		glm::mat4 projection = glm::ortho(0.0f, (float)SWIDTH, 0.0f, (float)SHEIGHT, 0.0f, 1.0f); // render 2D
 
-	// set uniforms
-	shader->setMat4("model", model);
-	shader->setMat4("projection", projection);
+		// set uniforms
+		shader->setMat4("model", model);
+		shader->setMat4("projection", projection);
 
-	// set object color uniform
-	shader->setVec3("fragObjectColor", entity->color.getColor());
+		// set object color uniform
+		shader->setVec3("fragObjectColor", entity->color.getColor());
 
-	// draw cube
-	glDrawArrays(GL_TRIANGLES, 0, entity->mesh()->_drawsize);
-	glBindVertexArray(0);
+		// draw cube
+		glDrawArrays(GL_TRIANGLES, 0, entity->mesh()->_drawsize);
+		glBindVertexArray(0);
+	}
 
 	// render all childeren of entity
 	if (entity->getChildCount() > 0) {

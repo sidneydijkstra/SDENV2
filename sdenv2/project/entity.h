@@ -27,6 +27,9 @@ public:
 	glm::vec3 scale;
 	glm::vec3 rotation;
 
+	// is entity active
+	bool active;
+
 	// entity color
 	Color color;
 

@@ -11,6 +11,8 @@ Entity::Entity(){
 	color = Color();
 
 	_spriteanimator = NULL;
+
+	active = true;
 }
 
 void Entity::removeSpriteAnimator() {
