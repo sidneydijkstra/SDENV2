@@ -1,5 +1,6 @@
 
 #include <renderer.h>
+#include <sdenv2config.h>
 #include "myscene.h"
 
 #include <iostream>

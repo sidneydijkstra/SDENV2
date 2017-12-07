@@ -1,5 +1,4 @@
 #include "myscene.h"
-#include "sprite.h"
 
 Text* text;
 FrameBuffer* fb;

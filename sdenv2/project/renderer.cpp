@@ -135,11 +135,20 @@ bool Renderer::run() {
 			glClearColor(c.x, c.y, c.z, 1);
 
 			// render all currentscene mesh's on screen
-			normal2DShader->use();
+			int mode2D = SCENE2D;
+			int mode3D = SCENE3D;
 			int childcount = scene->getChildCount();
 			std::vector<Mesh*> childeren = scene->getChilderen();
-			for (int i = 0; i < childcount; i++) {
-				render2D(childeren[i], normal2DShader, scene);
+			if (scene->getSceneMode() == mode2D) { // if scene 2d
+				normal2DShader->use();
+				for (int i = 0; i < childcount; i++) {
+					render2D(childeren[i], normal2DShader, scene);
+				}
+			}else { // if scene 3d
+				normal3DShader->use();
+				for (int i = 0; i < childcount; i++) {
+					render3D(childeren[i], normal2DShader, scene);
+				}
 			}
 
 			// unbind buffer
@@ -147,26 +156,36 @@ bool Renderer::run() {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		}
 
-	}
+		// clear screen and set background
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClearColor(1, 1, 1, 1);
 
-	// clear screen and set background
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(1, 1, 1, 1);
+		// render framebuffers
+		for (int i = 0; i < fBuffers.size(); i++) {
+			this->renderFramebuffer(fBuffers[i], framebufferShader);
+		}
 
-	/*
-	// render all currentscene mesh's on screen
-	normal2DShader->use();
-	int childcount = scene->getChildCount();
-	std::vector<Mesh*> childeren = scene->getChilderen();
-	for (int i = 0; i < childcount; i++) {
-		render2D(childeren[i], normal2DShader, scene);
-	}
-	*/
+	}else {
+		// clear screen and set background
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClearColor(1, 1, 1, 1);
 
-	std::vector<FrameBuffer*> fBuffers = scene->getFramebuffers();
-	for (int i = 0; i < fBuffers.size(); i++){
-		// render framebuffer
-		this->renderFramebuffer(fBuffers[i], framebufferShader);
+		// render all currentscene mesh's on screen
+		int mode2D = SCENE2D;
+		int mode3D = SCENE3D;
+		int childcount = scene->getChildCount();
+		std::vector<Mesh*> childeren = scene->getChilderen();
+		if (scene->getSceneMode() == mode2D) { // if scene 2d
+			normal2DShader->use();
+			for (int i = 0; i < childcount; i++) {
+				render2D(childeren[i], normal2DShader, scene);
+			}
+		}else { // if scene 3d
+			normal3DShader->use();
+			for (int i = 0; i < childcount; i++) {
+				render3D(childeren[i], normal2DShader, scene);
+			}
+		}
 	}
 	
 	// render all text in scene
@@ -176,9 +195,9 @@ bool Renderer::run() {
 	for (int i = 0; i < textcount; i++) {
 		renderText(textShader, texts[i]);
 	}
+
 	// display fps
 	renderText(textShader, _textfps);
-
 
 	// debug
 	// recompile shader

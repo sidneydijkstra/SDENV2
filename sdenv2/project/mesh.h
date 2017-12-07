@@ -15,6 +15,7 @@
 #include "sprite.h"
 #include "spriteanimator.h"
 #include "color.h"
+#include "sdenv2config.h"
 
 class Mesh
 {

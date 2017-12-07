@@ -6,6 +6,9 @@ Scene::Scene() {
 	input = Input::getInstance();
 	camera = new Camera();
 
+	// set scene mode
+	_scenemode = SCENE2D;
+
 	// scene create message
 	std::cout << "created new scene" << std::endl;
 }

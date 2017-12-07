@@ -36,6 +36,10 @@ public:
 	// scene get camera
 	Camera* getCamera() { return camera; };
 
+	// set and get scene mode
+	void setSceneMode(int m) { _scenemode = m; };
+	int getSceneMode() { return _scenemode; };
+
 	// scene childeren functions
 	void addChild(Mesh* mesh) { _childeren.push_back(mesh); };
 	void removeChild(Mesh* mesh) { for (int i; i < _childeren.size(); i++) { if (_childeren[i] == mesh) { _childeren.erase(_childeren.begin() + i); delete mesh; break; }; }; };
@@ -57,6 +61,7 @@ public:
 	// scene light functions
 	void addLight() { light = new Light(); };
 	Light* getLight() { return light; };
+
 private:
 	// scene input
 	Input* input;
@@ -64,6 +69,9 @@ private:
 	Camera* camera;
 	// scene light
 	Light* light = NULL;
+
+	// the mode of the scene 2D = 0 3D = 1
+	int _scenemode;
 
 	// childeren
 	std::vector<Mesh*> _childeren;

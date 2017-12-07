@@ -6,7 +6,6 @@
 
 #include <scene.h>
 #include <mesh.h>
-#include <sdenv2config.h>
 #include "myentity.h"
 
 class MyScene: public Scene

@@ -3,7 +3,6 @@
 #define MYENTITY_H
 
 #include <mesh.h>
-#include <sdenv2config.h>
 
 class MyEntity : public Mesh
 {
