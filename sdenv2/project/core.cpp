@@ -81,9 +81,6 @@ void Core::init() {
 }
 
 bool Core::run(){
-
-	// ########################## TEMP ##########################
-
 	// update input
 	Input::update();
 

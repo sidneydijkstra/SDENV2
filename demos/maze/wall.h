@@ -2,13 +2,13 @@
 #ifndef WALL_H
 #define WALL_H
 
-#include <mesh.h>
+#include <entity.h>
 #include <sdenv2config.h>
 
-class Wall : public Mesh
+class Wall : public Entity
 {
 public:
-	Wall(int x, int y, float size);
+	Wall();
 	~Wall();
 
 	void update(float deltatime);

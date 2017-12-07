@@ -31,6 +31,8 @@
 #include "mesh.h"
 // include color
 #include "color.h"
+// include entity
+#include "entity.h"
 // include framebuffer
 #include "framebuffer.h"
 // include input
@@ -52,10 +54,10 @@ public:
 	void renderScene(Scene* scene, Shader* shader2D, Shader* shader3D);
 
 	// renderer functions to render 3D objects
-	void render3D(Mesh* mesh, Shader* shader, Scene* scene);
+	void render3D(Entity* mesh, Shader* shader, Scene* scene, glm::vec3 parentPosition);
 
 	// renderer functions to render 2D objects
-	void render2D(Mesh* mesh, Shader* shader, Scene* scene);
+	void render2D(Entity* mesh, Shader* shader, Scene* scene, glm::vec3 parentPosition);
 
 	// renderer function to render framebuffer
 	void renderFramebuffer(FrameBuffer* framebuffer, Shader* shader);

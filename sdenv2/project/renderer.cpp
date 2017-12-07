@@ -11,48 +11,51 @@ Renderer::Renderer(){
 
 void Renderer::renderScene(Scene * scene, Shader* shader2D, Shader* shader3D) {
 	int childcount = scene->getChildCount();
-	std::vector<Mesh*> childeren = scene->getChilderen();
+	std::vector<Entity*> childeren = scene->getChilderen();
 	if (scene->getSceneMode() == SCENE2D) { // if scene 2d
 		shader2D->use();
 		for (int i = 0; i < childcount; i++) {
-			this->render2D(childeren[i], shader2D, scene);
+			this->render2D(childeren[i], shader2D, scene, glm::vec3(0.0f));
 		}
 	}
 	else { // if scene 3d
 		shader3D->use();
 		for (int i = 0; i < childcount; i++) {
-			this->render3D(childeren[i], shader3D, scene);
+			this->render3D(childeren[i], shader3D, scene, glm::vec3(0.0f));
 		}
 	}
 }
 
-void Renderer::render3D(Mesh* mesh, Shader* shader, Scene* scene) {
+void Renderer::render3D(Entity* entity, Shader* shader, Scene* scene, glm::vec3 parentPosition) {
 	// bind VAO
-	glBindVertexArray(mesh->_VAO);
+	glBindVertexArray(entity->mesh()->_VAO);
 
 	// activate textures
-	if (mesh->sprite()->getTexture() != NULL) {
+	if (entity->sprite()->getTexture() != NULL) {
 		shader->setBool("doTexture", true);
 
-		if (mesh->spriteAnimator() != NULL) {
+		if (entity->spriteAnimator() != NULL) {
 			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, mesh->spriteAnimator()->getCurrentAnimation());
+			glBindTexture(GL_TEXTURE_2D, entity->spriteAnimator()->getCurrentAnimation());
 		}else{
 			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, mesh->sprite()->getTexture());
+			glBindTexture(GL_TEXTURE_2D, entity->sprite()->getTexture());
 		}
 
 	}else {
 		shader->setBool("doTexture", false);
 	}
 
+	// get entity pos
+	glm::vec3 pos = entity->position + parentPosition;
+
 	// get model matrix
 	glm::mat4 model;
-	model = glm::translate(model, mesh->position);						// position
-	model = glm::scale(model, mesh->scale);								// scale
-	model = glm::rotate(model, mesh->rotation.x, glm::vec3(1, 0, 0));	// rotation x
-	model = glm::rotate(model, mesh->rotation.y, glm::vec3(0, 1, 0));	// rotation y
-	model = glm::rotate(model, mesh->rotation.z, glm::vec3(0, 0, 1));	// rotation z
+	model = glm::translate(model, pos);					// position
+	model = glm::scale(model, entity->scale);							// scale
+	model = glm::rotate(model, entity->rotation.x, glm::vec3(1, 0, 0));	// rotation x
+	model = glm::rotate(model, entity->rotation.y, glm::vec3(0, 1, 0));	// rotation y
+	model = glm::rotate(model, entity->rotation.z, glm::vec3(0, 0, 1));	// rotation z
 
 	// get view
 	glm::mat4 view = glm::lookAt(scene->getCamera()->position, scene->getCamera()->position + scene->getCamera()->front, scene->getCamera()->up); // render 3D
@@ -66,7 +69,7 @@ void Renderer::render3D(Mesh* mesh, Shader* shader, Scene* scene) {
 	shader->setMat4("projection", projection);
 
 	// set object color uniform
-	shader->setVec3("fragObjectColor", mesh->color.getColor());
+	shader->setVec3("fragObjectColor", entity->color.getColor());
 
 	// set lighting uniforms
 	if(scene->getLight() != NULL){
@@ -83,37 +86,50 @@ void Renderer::render3D(Mesh* mesh, Shader* shader, Scene* scene) {
 	}
 
 	// draw cube
-	glDrawArrays(GL_TRIANGLES, 0, mesh->_drawsize);
+	glDrawArrays(GL_TRIANGLES, 0, entity->mesh()->_drawsize);
 	glBindVertexArray(0);
+
+	// render all childeren of entity
+	if (entity->getChildCount() > 0) {
+		std::vector<Entity*> childeren = entity->getChilderen();
+		std::cout << childeren.size() << std::endl;
+		for (int i = 0; i < childeren.size(); i++){
+			this->render3D(childeren[i], shader, scene, pos);
+		}
+	}
 }
 
-void Renderer::render2D(Mesh* mesh, Shader* shader, Scene* scene) {
+void Renderer::render2D(Entity* entity, Shader* shader, Scene* scene, glm::vec3 parentPosition) {
 	// bind VAO
-	glBindVertexArray(mesh->_VAO);
+	glBindVertexArray(entity->mesh()->_VAO);
 
 	// activate textures
-	if (mesh->sprite()->getTexture() != NULL) {
+	if (entity->sprite()->getTexture() != NULL) {
 		shader->setBool("doTexture", true);
 
-		if (mesh->spriteAnimator() != NULL) {
+		if (entity->spriteAnimator() != NULL) {
 			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, mesh->spriteAnimator()->getCurrentAnimation());
+			glBindTexture(GL_TEXTURE_2D, entity->spriteAnimator()->getCurrentAnimation());
 		}else{
 			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, mesh->sprite()->getTexture());
+			glBindTexture(GL_TEXTURE_2D, entity->sprite()->getTexture());
 		}
 
 	}else {
 		shader->setBool("doTexture", false);
 	}
 
+	// get entity pos
+	glm::vec3 pos = entity->position + parentPosition;
+
 	// get model matrix
 	glm::mat4 model;
-	model = glm::translate(model, mesh->position);						// position
-	model = glm::scale(model, mesh->scale);								// scale
-	model = glm::rotate(model, mesh->rotation.x, glm::vec3(1, 0, 0));	// rotation x
-	model = glm::rotate(model, mesh->rotation.y, glm::vec3(0, 1, 0));	// rotation y
-	model = glm::rotate(model, mesh->rotation.z, glm::vec3(0, 0, 1));	// rotation z
+	model = glm::translate(model, pos);										// position
+	model = glm::scale(model, entity->scale);								// scale
+	model = glm::rotate(model, entity->rotation.x, glm::vec3(1, 0, 0));	// rotation x
+	model = glm::rotate(model, entity->rotation.y, glm::vec3(0, 1, 0));	// rotation y
+	model = glm::rotate(model, entity->rotation.z, glm::vec3(0, 0, 1));	// rotation z
+	
 
 	glm::mat4 projection = glm::ortho(0.0f, (float)SWIDTH, 0.0f, (float)SHEIGHT, 0.0f, 1.0f); // render 2D
 
@@ -122,11 +138,19 @@ void Renderer::render2D(Mesh* mesh, Shader* shader, Scene* scene) {
 	shader->setMat4("projection", projection);
 
 	// set object color uniform
-	shader->setVec3("fragObjectColor", mesh->color.getColor());
+	shader->setVec3("fragObjectColor", entity->color.getColor());
 
 	// draw cube
-	glDrawArrays(GL_TRIANGLES, 0, mesh->_drawsize);
+	glDrawArrays(GL_TRIANGLES, 0, entity->mesh()->_drawsize);
 	glBindVertexArray(0);
+
+	// render all childeren of entity
+	if (entity->getChildCount() > 0) {
+		std::vector<Entity*> c = entity->getChilderen();
+		for (int i = 0; i < c.size(); i++) {
+			this->render2D(c[i], shader, scene, pos);
+		}
+	}
 }
 
 void Renderer::renderFramebuffer(FrameBuffer * framebuffer, Shader * shader){

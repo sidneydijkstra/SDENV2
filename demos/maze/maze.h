@@ -4,7 +4,7 @@
 #define MAZE_H
 
 #include <scene.h>
-#include <mesh.h>
+#include <entity.h>
 #include <sdenv2config.h>
 #include "cell.h"
 

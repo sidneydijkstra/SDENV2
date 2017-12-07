@@ -2,9 +2,9 @@
 #ifndef MYENTITY_H
 #define MYENTITY_H
 
-#include <mesh.h>
+#include <entity.h>
 
-class MyEntity : public Mesh
+class MyEntity : public Entity
 {
 public:
 	MyEntity();

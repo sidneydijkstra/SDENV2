@@ -1,7 +1,9 @@
 #include "myentity.h"
 
+Entity* m;
+
 MyEntity::MyEntity(){
-	this->loadQuad();
+	this->mesh()->loadQuad();
 	this->color.setColor(200, 200, 10);
 	this->scale = glm::vec3(100,100,1);
 
@@ -16,6 +18,12 @@ MyEntity::MyEntity(){
 	sp.push_back("assets/animations/three.png");
 	sp.push_back("assets/animations/fore.png");
 	this->spriteAnimator()->setAnimations(sp, 0.2f, 0, 0);
+
+	m = new Entity();
+	m->scale = glm::vec3(100,100,0);
+	m->color = Color(100, 100, 0);
+	m->mesh()->loadQuad();
+	this->addChild(m);
 }
 
 MyEntity::~MyEntity(){

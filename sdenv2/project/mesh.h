@@ -23,14 +23,6 @@ public:
 	Mesh();
 	~Mesh();
 
-	// mesh variabels
-	glm::vec3 position;
-	glm::vec3 scale;
-	glm::vec3 rotation;
-
-	// mesh color
-	Color color;
-
 	// mesh buffer varables
 	GLuint _VAO, _VBO;
 	int _drawsize;
@@ -43,18 +35,7 @@ public:
 
 	// load 2d quad
 	void loadQuad();
-
-	// get sprite
-	Sprite* sprite() { return _sprite; };
-
-	// add sprite animator
-	void addSpriteAnimator() { _spriteanimator = new SpriteAnimator(_sprite); };
-	// get sprite animator
-	SpriteAnimator* spriteAnimator() { return _spriteanimator; };
-
 private:
-	Sprite* _sprite;
-	SpriteAnimator* _spriteanimator;
 };
 
 #endif /* end mesh */

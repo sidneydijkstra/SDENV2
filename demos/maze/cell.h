@@ -2,11 +2,12 @@
 #ifndef CELL_H
 #define CELL_H
 
-#include <mesh.h>
+#include <entity.h>
 #include <sdenv2config.h>
 
-class Cell : public Mesh
-{
+#include "wall.h"
+
+class Cell : public Entity{
 public:
 	Cell(int x, int y, float size);
 	~Cell();
@@ -16,6 +17,10 @@ public:
 	int gridX, gridY;
 
 private:
+	Wall* wallLeft;
+	Wall* wallRight;
+	Wall* wallTop;
+	Wall* wallBottom;
 };
 
 #endif /* end CELL_H */

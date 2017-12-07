@@ -17,7 +17,7 @@
 #include "light.h"
 #include "camera.h"
 #include "input.h"
-#include "mesh.h"
+#include "entity.h"
 #include "text.h"
 #include "color.h"
 #include "framebuffer.h"
@@ -41,10 +41,10 @@ public:
 	int getSceneMode() { return _scenemode; };
 
 	// scene childeren functions
-	void addChild(Mesh* mesh) { _childeren.push_back(mesh); };
-	void removeChild(Mesh* mesh) { for (int i; i < _childeren.size(); i++) { if (_childeren[i] == mesh) { _childeren.erase(_childeren.begin() + i); delete mesh; break; }; }; };
+	void addChild(Entity* entity) { _childeren.push_back(entity); };
+	void removeChild(Entity* entity) { for (int i; i < _childeren.size(); i++) { if (_childeren[i] == entity) { _childeren.erase(_childeren.begin() + i); delete entity; break; }; }; };
 	int getChildCount() { return _childeren.size(); };
-	std::vector<Mesh*> getChilderen() { return _childeren; };
+	std::vector<Entity*> getChilderen() { return _childeren; };
 
 	// scene text functions
 	void addText(Text* text) { _texts.push_back(text); };
@@ -74,7 +74,7 @@ private:
 	int _scenemode;
 
 	// childeren
-	std::vector<Mesh*> _childeren;
+	std::vector<Entity*> _childeren;
 
 	// texts
 	std::vector<Text*> _texts;
