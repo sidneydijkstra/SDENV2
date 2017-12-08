@@ -16,11 +16,22 @@ public:
 
 	int gridX, gridY;
 
-private:
+	bool visited;
+
+	void disable() { color = Color(100,100,100); };
+	void enable() { color = Color(255, 255, 255); };
+	void inside() { color = Color(0, 150, 0); };
+	void path() { color = Color(200, 0, 0); };
+
+	void closeWall(Cell* c);
+
+	Cell* parent;
+
 	Wall* wallLeft;
 	Wall* wallRight;
 	Wall* wallTop;
 	Wall* wallBottom;
+private:
 };
 
 #endif /* end CELL_H */

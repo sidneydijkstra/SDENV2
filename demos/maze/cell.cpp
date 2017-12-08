@@ -4,6 +4,11 @@ Cell::Cell(int x, int y, float size){
 	this->gridX = x;
 	this->gridY = y;
 
+	this->disable();
+	this->visited = false;
+
+	this->parent = NULL;
+
 	// set object and color
 	this->mesh()->loadQuad();
 	this->scale = glm::vec3(size/2 - 2, size/2 - 2, 0);
@@ -18,7 +23,6 @@ Cell::Cell(int x, int y, float size){
 
 	// create left wall
 	wallLeft = new Wall();
-	wallLeft->color = Color(100, 0, 255);
 	wallLeft->scale = glm::vec3(2,size/2,0);
 	wallLeft->position = glm::vec3(-(size/2),0,0);
 	wallLeft->mesh()->loadQuad();
@@ -26,7 +30,6 @@ Cell::Cell(int x, int y, float size){
 
 	// create right wall
 	wallRight = new Wall();
-	wallRight->color = Color(100, 0, 255);
 	wallRight->scale = glm::vec3(2, size / 2, 0);
 	wallRight->position = glm::vec3((size / 2), 0, 0);
 	wallRight->mesh()->loadQuad();
@@ -34,7 +37,6 @@ Cell::Cell(int x, int y, float size){
 
 	// create top wall
 	wallTop = new Wall();
-	wallTop->color = Color(100, 0, 255);
 	wallTop->scale = glm::vec3(size / 2, 2, 0);
 	wallTop->position = glm::vec3(0, (size / 2), 0);
 	wallTop->mesh()->loadQuad();
@@ -42,7 +44,6 @@ Cell::Cell(int x, int y, float size){
 
 	// create top wall
 	wallBottom = new Wall();
-	wallBottom->color = Color(100, 0, 255);
 	wallBottom->scale = glm::vec3(size / 2, 2, 0);
 	wallBottom->position = glm::vec3(0, -(size / 2), 0);
 	wallBottom->mesh()->loadQuad();
@@ -53,6 +54,32 @@ Cell::~Cell(){
 }
 
 void Cell::update(float deltatime){
+}
+
+void Cell::closeWall(Cell* c){
+	int mx = this->gridX;
+	int my = this->gridY;
+
+	int hx = c->gridX;
+	int hy = c->gridY;
+
+	if (hx == mx - 1) { // left
+		this->wallLeft->active = false;
+		c->wallRight->active = false;
+	}
+	if (hx == mx + 1) { // right
+		this->wallRight->active = false;
+		c->wallLeft->active = false;
+	}
+	if (hy == my - 1) { // bottom
+		this->wallBottom->active = false;
+		c->wallTop->active = false;
+	}
+	if (hy == my + 1) { // top
+		this->wallTop->active = false;
+		c->wallBottom->active = false;
+	}
+
 }
 
 

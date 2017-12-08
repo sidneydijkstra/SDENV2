@@ -23,7 +23,6 @@ MyEntity::MyEntity(){
 	m->scale = glm::vec3(100,100,0);
 	m->color = Color(100, 100, 0);
 	m->mesh()->loadQuad();
-	this->addChild(m);
 }
 
 MyEntity::~MyEntity(){
