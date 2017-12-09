@@ -28,7 +28,7 @@ Maze::Maze(){
 	currentcell = grid[0][0];
 	currentcell->inside();
 	genStack.push(currentcell);
-}	
+}
 
 void Maze::update(float deltatime) {
 	if (!isSolved){
