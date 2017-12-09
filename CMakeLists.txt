@@ -153,7 +153,7 @@ set(ALL_LIBS
 	glfw
 	GLEW_200
   freetype
-  ${OPENAL}
+  # ${OPENAL}
 )
 
 ##############
