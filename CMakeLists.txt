@@ -270,7 +270,30 @@ IF(BUILD_DEMO)
 
 
   IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-  	target_link_libraries(SDENV2_start
+  	target_link_libraries(SDENV2_maze
+  		-lGL
+  	)
+  ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+
+  #####################
+  ### SMART ROCKETS ###
+  #####################
+  add_executable(SDENV2_smart_rockets
+    demos/smart_rockets/main.cpp
+    demos/smart_rockets/world.cpp
+    demos/smart_rockets/world.h
+  )
+
+  target_link_libraries(SDENV2_smart_rockets
+    glfw
+    SDENV2
+  )
+
+  set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT SDENV2_smart_rockets)
+
+
+  IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+  	target_link_libraries(SDENV2_smart_rockets
   		-lGL
   	)
   ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
