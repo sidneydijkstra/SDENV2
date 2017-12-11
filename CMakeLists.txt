@@ -224,6 +224,8 @@ IF(BUILD_START)
     start/myscene.h
     start/myentity.cpp
     start/myentity.h
+    start/player.cpp
+    start/player.h
   )
 
   target_link_libraries(SDENV2_start
