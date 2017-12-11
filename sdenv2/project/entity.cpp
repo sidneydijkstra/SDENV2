@@ -3,6 +3,7 @@
 Entity::Entity(){
 	_mesh = new Mesh();
 	_sprite = new Sprite();
+	_input = Input::getInstance();
 
 	position = glm::vec3(0, 0, 0);
 	scale = glm::vec3(0, 0, 0);

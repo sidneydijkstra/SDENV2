@@ -3,8 +3,8 @@
 // scene constructor
 Scene::Scene() {
 	// set scene input and camera
-	input = Input::getInstance();
-	camera = new Camera();
+	_input = Input::getInstance();
+	_camera = new Camera();
 
 	// set scene mode
 	_scenemode = SCENE2D;
@@ -31,11 +31,13 @@ Scene::~Scene(){
 	for (int i = 0; i < _framebuffers.size(); i++) {
 		delete _framebuffers[i];
 	}
+
 	// clear arrays
 	_childeren.clear();
 	_texts.clear();
 	_framebuffers.clear();
+
 	// remove camera
-	delete camera;
+	delete _camera;
 }
 

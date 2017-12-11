@@ -13,7 +13,7 @@ void SceneManager::update(float deltatime){
 	getCurrentScene()->update(deltatime);
 
 	/// this is a debug option for moving the camera
-	getCurrentScene()->getCamera()->move(deltatime);
+	getCurrentScene()->camera()->move(deltatime);
 }
 
 // scene manager deconstructor

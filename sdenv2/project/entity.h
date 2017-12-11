@@ -14,6 +14,7 @@
 #include "sprite.h"
 #include "spriteanimator.h"
 #include "color.h"
+#include "input.h"
 #include "sdenv2config.h"
 
 class Entity
@@ -39,6 +40,9 @@ public:
 	// get sprite
 	Sprite* sprite() { return _sprite; };
 
+	// get input
+	Input* input() { return _input; };
+
 	// add sprite animator
 	void addSpriteAnimator() { _spriteanimator = new SpriteAnimator(_sprite); };
 	// remove sprite animator
@@ -55,6 +59,8 @@ private:
 	Mesh* _mesh;
 	Sprite* _sprite;
 	SpriteAnimator* _spriteanimator;
+
+	Input* _input;
 
 	std::vector<Entity*> _childeren;
 };

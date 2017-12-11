@@ -60,7 +60,7 @@ void Renderer::render3D(Entity* entity, Shader* shader, Scene* scene, glm::vec3 
 		model = glm::rotate(model, entity->rotation.z, glm::vec3(0, 0, 1));	// rotation z
 
 		// get view
-		glm::mat4 view = glm::lookAt(scene->getCamera()->position, scene->getCamera()->position + scene->getCamera()->front, scene->getCamera()->up); // render 3D
+		glm::mat4 view = glm::lookAt(scene->camera()->position, scene->camera()->position + scene->camera()->front, scene->camera()->up); // render 3D
 
 		// get projectioins
 		glm::mat4 projection = glm::perspective(glm::radians(45.0f), (GLfloat)SWIDTH / (GLfloat)SHEIGHT, 0.001f, 100.0f); // render 3D
@@ -79,7 +79,7 @@ void Renderer::render3D(Entity* entity, Shader* shader, Scene* scene, glm::vec3 
 
 			shader->setVec3("light.color", scene->getLight()->lightColor);
 			shader->setVec3("light.position", scene->getLight()->position);
-			shader->setVec3("light.viewPosition", scene->getCamera()->position);
+			shader->setVec3("light.viewPosition", scene->camera()->position);
 
 			shader->setFloat("light.ambientStrength", scene->getLight()->ambientStrength);
 			shader->setFloat("light.specularStrength", scene->getLight()->specularStrength);

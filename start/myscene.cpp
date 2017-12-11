@@ -32,12 +32,18 @@ MyScene::MyScene(){
 	fb->rotation.z = 1.570796327f * 2;
 	fb->background = Color(0, 0, 0);
 	this->addFramebuffer(fb);
+
+	// create player
+	player = new Player();
+	this->addChild(player);
 }	
 
 void MyScene::update(float deltatime) {
 	for (int i = 0; i < entitys.size(); i++) {
 		entitys[i]->update(deltatime);
 	}
+
+	player->update(deltatime);
 }
 
 MyScene::~MyScene(){

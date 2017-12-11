@@ -32,9 +32,9 @@ public:
 	virtual void update(float deltatime);
 
 	// scene get input
-	Input* getInput() { return input; };
+	Input* input() { return _input; };
 	// scene get camera
-	Camera* getCamera() { return camera; };
+	Camera* camera() { return _camera; };
 
 	// set and get scene mode
 	void setSceneMode(int m) { _scenemode = m; };
@@ -64,9 +64,9 @@ public:
 
 private:
 	// scene input
-	Input* input;
+	Input* _input;
 	// scene camera
-	Camera* camera;
+	Camera* _camera;
 	// scene light
 	Light* light = NULL;
 
