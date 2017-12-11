@@ -282,6 +282,8 @@ IF(BUILD_DEMO)
     demos/smart_rockets/main.cpp
     demos/smart_rockets/world.cpp
     demos/smart_rockets/world.h
+    demos/smart_rockets/rocket.cpp
+    demos/smart_rockets/rocket.h
   )
 
   target_link_libraries(SDENV2_smart_rockets

@@ -4,6 +4,8 @@
 
 #include <scene.h>
 
+#include "rocket.h"
+
 class World : public Scene
 {
 public:
@@ -13,6 +15,7 @@ public:
 	virtual void update(float deltatime);
 
 private:
+	Rocket* rocket;
 };
 
 #endif /* end WORLD_H */
