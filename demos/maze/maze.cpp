@@ -3,7 +3,7 @@
 Maze::Maze(){
 	this->setSceneMode(SCENE2D);
 
-	worldsize = 40;
+	worldsize = 50;
 
 	genStack = std::stack<Cell*>();
 	isSolved = false;
@@ -32,7 +32,7 @@ Maze::Maze(){
 
 void Maze::update(float deltatime) {
 
-
+	
 	if (!isSolved){
 		generateMaze();
 	}else if (!isDone) {

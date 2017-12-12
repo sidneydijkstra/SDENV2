@@ -15,7 +15,7 @@ public:
 	virtual void update(float deltatime);
 
 private:
-	Rocket* rocket;
+	std::vector<Rocket*> rockets;
 };
 
 #endif /* end WORLD_H */

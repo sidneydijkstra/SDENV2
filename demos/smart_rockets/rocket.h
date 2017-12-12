@@ -12,11 +12,14 @@ public:
 
 	void update(float deltatime);
 
-	void reload();
+	void addForce(glm::vec3 force);
 
 private:
 	std::vector<glm::vec3> movement;
 	int _current;
+
+	glm::vec3 vel;
+	glm::vec3 acc;
 };
 
 #endif /* end ROCKET_H */

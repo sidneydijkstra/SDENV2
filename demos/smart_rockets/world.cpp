@@ -6,21 +6,18 @@ World::World(){
 	std::cin >> i;
 	std::srand(i);
 
-	rocket = new Rocket();
-
-	this->addChild(rocket);
-
+	for (int i = 0; i < 50; i++){
+		rockets.push_back(new Rocket());
+		this->addChild(rockets[i]);
+	}
 }
 
 World::~World()
 {
 }
 
-void World::update(float deltatime)
-{
-	rocket->update(deltatime);
-
-	if (this->getInput()->getKeyDown(GLFW_KEY_SPACE)) {
-		rocket->reload();
+void World::update(float deltatime){
+	for (int i = 0; i < 50; i++){
+		rockets[i]->update(deltatime);
 	}
 }
