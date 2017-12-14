@@ -33,12 +33,25 @@ MyScene::MyScene(){
 	this->addChild(player);
 
 	// spawn tile
-	tile = new Tile(glm::vec3(SWIDTH/2, 100, 0), glm::vec3(100, 30, 0), "assets/gold.jpg");
-	this->addChild(tile);
+	Tile* t = new Tile(glm::vec3(SWIDTH/2, 100, 0), glm::vec3(30, 30, 0), "assets/tile_3.png");
+	this->addChild(t);
+	tiles.push_back(t);
+
+	t = new Tile(glm::vec3(SWIDTH / 2 + 60, 100, 0), glm::vec3(30, 30, 0), "assets/tile_2.png");
+	this->addChild(t);
+	tiles.push_back(t);
+
+	t = new Tile(glm::vec3(SWIDTH / 2 + 120, 100, 0), glm::vec3(30, 30, 0), "assets/tile_2.png");
+	this->addChild(t);
+	tiles.push_back(t);
+
+	t = new Tile(glm::vec3(SWIDTH / 2 + 180, 100, 0), glm::vec3(30, 30, 0), "assets/tile_3.png");
+	this->addChild(t);
+	tiles.push_back(t);
 }	
 
 void MyScene::update(float deltatime) {
-	player->update(deltatime, tile);
+	player->update(deltatime, tiles);
 }
 
 MyScene::~MyScene(){

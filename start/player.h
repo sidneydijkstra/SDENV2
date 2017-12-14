@@ -11,7 +11,7 @@ public:
 	Player();
 	~Player();
 
-	void update(float deltatime, Tile* t);
+	void update(float deltatime, std::vector<Tile*> t);
 
 private:
 	glm::vec3 velocity;

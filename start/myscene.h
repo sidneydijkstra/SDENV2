@@ -19,7 +19,7 @@ public:
 
 private:
 	Player* player;
-	Tile* tile;
+	std::vector<Tile*> tiles;
 };
 
 #endif /* end MYSCENE_H */

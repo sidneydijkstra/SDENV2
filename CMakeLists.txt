@@ -222,8 +222,6 @@ IF(BUILD_START)
     start/main.cpp
     start/myscene.cpp
     start/myscene.h
-    start/myentity.cpp
-    start/myentity.h
     start/player.cpp
     start/player.h
     start/tile.cpp

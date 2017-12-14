@@ -14,7 +14,13 @@ public:
 
 	bool collision(Entity* e);
 
+	bool topCollision(Entity* e);
+	bool bottomCollision(Entity* e);
+	bool leftCollision(Entity* e);
+	bool rightCollision(Entity* e);
+
 private:
+	int _offset;
 };
 
 #endif /* end TILE_H */
