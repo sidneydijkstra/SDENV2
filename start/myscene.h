@@ -6,8 +6,8 @@
 
 #include <scene.h>
 #include <mesh.h>
-#include "myentity.h"
 #include "player.h"
+#include "tile.h"
 
 class MyScene: public Scene
 {
@@ -18,8 +18,8 @@ public:
 	virtual void update(float deltatime);
 
 private:
-	std::vector<MyEntity*> entitys;
 	Player* player;
+	Tile* tile;
 };
 
 #endif /* end MYSCENE_H */

@@ -226,6 +226,8 @@ IF(BUILD_START)
     start/myentity.h
     start/player.cpp
     start/player.h
+    start/tile.cpp
+    start/tile.h
   )
 
   target_link_libraries(SDENV2_start
