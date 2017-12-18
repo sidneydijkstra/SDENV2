@@ -226,6 +226,10 @@ IF(BUILD_START)
     start/player.h
     start/tile.cpp
     start/tile.h
+    start/level.cpp
+    start/level.h
+    start/enemy.cpp
+    start/enemy.h
   )
 
   target_link_libraries(SDENV2_start

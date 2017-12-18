@@ -12,11 +12,16 @@ public:
 
 	void update(float deltatime);
 
+	// check collision
 	bool collision(Entity* e);
 
+	// check top collision
 	bool topCollision(Entity* e);
+	// check bottom collision
 	bool bottomCollision(Entity* e);
+	// check left collision
 	bool leftCollision(Entity* e);
+	// check right collision
 	bool rightCollision(Entity* e);
 
 private:

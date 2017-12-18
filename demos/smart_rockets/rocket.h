@@ -20,6 +20,7 @@ private:
 
 	glm::vec3 vel;
 	glm::vec3 acc;
+	Rocket* r;
 };
 
 #endif /* end ROCKET_H */

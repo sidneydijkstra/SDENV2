@@ -6,9 +6,9 @@ FrameBuffer* fb2;
 
 MyScene::MyScene(){
 	// render text
-	text = new Text("assets/arial.ttf", 1, glm::vec3(0,1,0));
+	text = new Text("assets/arial.ttf", 0.3f, glm::vec3(0,1,0));
 	text->message = "QWERTYUIOPASDFGHJKLZXCVBNM!";
-	text->setColorLerp(glm::vec3(1, 0, 0), glm::vec3(0, 0, 1));
+	text->setColorLerp(glm::vec3(1, 0, 0), glm::vec3(0, 1, 1));
 	text->position.y = 100;
 	this->addText(text);
 
@@ -32,26 +32,38 @@ MyScene::MyScene(){
 	player = new Player();
 	this->addChild(player);
 
+	// create enemy
+	enemy = new Enemy(player);
+	this->addChild(enemy);
+
 	// spawn tile
-	Tile* t = new Tile(glm::vec3(SWIDTH/2, 100, 0), glm::vec3(30, 30, 0), "assets/tile_3.png");
-	this->addChild(t);
-	tiles.push_back(t);
+	_level = new Level();
 
-	t = new Tile(glm::vec3(SWIDTH / 2 + 60, 100, 0), glm::vec3(30, 30, 0), "assets/tile_2.png");
-	this->addChild(t);
-	tiles.push_back(t);
+	_level->addTileTexture("assets/tile_1.png");
+	_level->addTileTexture("assets/tile_2.png");
+	_level->addTileTexture("assets/tile_3.png");
+	_level->addTileTexture("assets/tile_4.png");
 
-	t = new Tile(glm::vec3(SWIDTH / 2 + 120, 100, 0), glm::vec3(30, 30, 0), "assets/tile_2.png");
-	this->addChild(t);
-	tiles.push_back(t);
-
-	t = new Tile(glm::vec3(SWIDTH / 2 + 180, 100, 0), glm::vec3(30, 30, 0), "assets/tile_3.png");
-	this->addChild(t);
-	tiles.push_back(t);
+	std::vector<int> layout = 
+	{
+		1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+		1,0,0,0,0,1,1,0,0,1,0,0,0,1,
+		1,0,0,0,0,0,0,0,0,3,0,0,1,1,
+		1,0,0,0,0,0,0,0,0,0,0,0,0,1,
+		1,0,0,0,0,0,0,0,0,0,0,0,0,1,
+		1,2,2,2,0,0,0,0,2,1,0,0,0,1,
+		1,0,0,0,0,0,0,0,0,1,1,0,0,1,
+		1,0,0,0,0,0,0,0,0,1,0,0,0,1,
+		1,0,0,0,0,0,0,0,0,1,0,0,0,1,
+		1,1,1,1,1,1,1,1,1,1,1,1,1,1
+	};
+	_level->loadLevelFromArray(layout, 14, 10, 60, 60);
+	this->addChild(_level);
 }	
 
 void MyScene::update(float deltatime) {
-	player->update(deltatime, tiles);
+	enemy->update(deltatime);
+	player->update(deltatime, _level->getGrid());
 }
 
 MyScene::~MyScene(){

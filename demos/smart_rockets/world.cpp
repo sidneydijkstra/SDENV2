@@ -1,15 +1,20 @@
 #include "world.h"
 
 World::World(){
+	/*
 	int i = 0;
 	std::cout << "Enter seed: ";
 	std::cin >> i;
 	std::srand(i);
+	*/
 
-	for (int i = 0; i < 50; i++){
+	for (int i = 0; i < 2; i++){
 		rockets.push_back(new Rocket());
-		this->addChild(rockets[i]);
 	}
+	rockets[1]->position = glm::vec3(0,250,0);
+	this->addChild(rockets[0]);
+	rockets[0]->addChild(rockets[1]);
+
 }
 
 World::~World()
@@ -17,7 +22,6 @@ World::~World()
 }
 
 void World::update(float deltatime){
-	for (int i = 0; i < 50; i++){
-		rockets[i]->update(deltatime);
-	}
+	rockets[0]->update(deltatime);
+	rockets[1]->update(deltatime);
 }

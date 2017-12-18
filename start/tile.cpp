@@ -64,7 +64,7 @@ bool Tile::leftCollision(Entity * e){
 	glm::vec3 ePos = e->position;
 	glm::vec3 eSize = e->scale;
 
-	if (this->collision(e) && ePos.x + eSize.x < tPos.x - (tSize.x - _offset)) {
+	if (this->collision(e) && ePos.x + eSize.x < tPos.x - (tSize.x - 1)) {
 		return true;
 	}
 
@@ -78,7 +78,7 @@ bool Tile::rightCollision(Entity * e){
 	glm::vec3 ePos = e->position;
 	glm::vec3 eSize = e->scale;
 
-	if (this->collision(e) && ePos.x - eSize.x > tPos.x + (tSize.x - _offset)) {
+	if (this->collision(e) && ePos.x - eSize.x > tPos.x + (tSize.x - 1)) {
 		return true;
 	}
 

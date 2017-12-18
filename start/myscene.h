@@ -8,6 +8,8 @@
 #include <mesh.h>
 #include "player.h"
 #include "tile.h"
+#include "level.h"
+#include "enemy.h"
 
 class MyScene: public Scene
 {
@@ -19,7 +21,12 @@ public:
 
 private:
 	Player* player;
+	Enemy* enemy;
+
+
 	std::vector<Tile*> tiles;
+
+	Level* _level;
 };
 
 #endif /* end MYSCENE_H */
