@@ -193,6 +193,8 @@ add_library(SDENV2 STATIC
 	sdenv2/project/spriteanimator.h
 	sdenv2/project/entity.cpp
 	sdenv2/project/entity.h
+	sdenv2/project/timer.cpp
+	sdenv2/project/timer.h
 	sdenv2/project/sdenv2config.h
 )
 

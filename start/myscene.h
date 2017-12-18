@@ -6,6 +6,7 @@
 
 #include <scene.h>
 #include <mesh.h>
+#include <timer.h>
 #include "player.h"
 #include "tile.h"
 #include "level.h"
