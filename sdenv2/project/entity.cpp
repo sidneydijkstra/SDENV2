@@ -23,6 +23,15 @@ void Entity::removeSpriteAnimator() {
 	}
 }
 
+void Entity::removeChild(Entity * entity){
+	for (int i = 0; i < _childeren.size(); i++) { 
+		if (_childeren[i] == entity) { 
+			_childeren.erase(_childeren.begin() + i); 
+			break; 
+		}
+	}
+}
+
 Entity::~Entity(){
 	// remove mesh sprite and spriteanimator if entity has one
 	delete _mesh;
@@ -30,9 +39,11 @@ Entity::~Entity(){
 	this->removeSpriteAnimator();
 
 	// remove childeren
+	/*
 	for (int i = 0; i < _childeren.size(); i++){
 		delete _childeren[i];
 	}
+	*/
 	_childeren.clear();
 }
 

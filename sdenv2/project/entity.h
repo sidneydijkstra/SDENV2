@@ -52,7 +52,7 @@ public:
 
 	// entity childeren functions
 	void addChild(Entity* entity) { _childeren.push_back(entity); };
-	void removeChild(Entity* entity) { for (int i; i < _childeren.size(); i++) { if (_childeren[i] == entity) { _childeren.erase(_childeren.begin() + i); delete entity; break; }; }; };
+	void removeChild(Entity* entity);
 	int getChildCount() { return _childeren.size(); };
 	std::vector<Entity*> getChilderen() { return _childeren; };
 private:

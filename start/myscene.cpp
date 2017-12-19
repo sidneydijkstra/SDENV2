@@ -67,5 +67,14 @@ void MyScene::update(float deltatime) {
 }
 
 MyScene::~MyScene(){
+	// remove childeren
+	this->removeChild(player);
+	this->removeChild(enemy);
+	this->removeChild(_level);
+
+	// delete pointers
+	delete player;
+	delete enemy;
+	delete _level;
 }
 

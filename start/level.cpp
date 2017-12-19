@@ -4,10 +4,6 @@ Level::Level(){
 	_tilesprites.push_back("assets/tile_null.png");
 }
 
-Level::~Level()
-{
-}
-
 void Level::addTileTexture(const char * _location){
 	_tilesprites.push_back(_location);
 }
@@ -45,4 +41,13 @@ void Level::loadLevelFromArray(std::vector<int> _levelmap, int _mapwidth, int _m
 
 std::vector<Tile*> Level::getGrid(){
 	return _grid;
+}
+
+Level::~Level(){
+	// remove grid and clear vector's
+	for (int i = 0; i < _grid.size(); i++) {
+		delete _grid[i];
+	}
+	_grid.clear();
+	_tilesprites.clear();
 }

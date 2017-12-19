@@ -42,19 +42,19 @@ public:
 
 	// scene childeren functions
 	void addChild(Entity* entity) { _childeren.push_back(entity); };
-	void removeChild(Entity* entity) { for (int i; i < _childeren.size(); i++) { if (_childeren[i] == entity) { _childeren.erase(_childeren.begin() + i); delete entity; break; }; }; };
+	void removeChild(Entity* entity);
 	int getChildCount() { return _childeren.size(); };
 	std::vector<Entity*> getChilderen() { return _childeren; };
 
 	// scene text functions
 	void addText(Text* text) { _texts.push_back(text); };
-	void removeText(Text* text) { for (int i; i < _texts.size(); i++) { if (_texts[i] == text) { _texts.erase(_texts.begin() + i); delete text; break; }; }; };
+	void removeText(Text* text);
 	int getTextCount() { return _texts.size(); };
 	std::vector<Text*> getTexts() { return _texts; };
 
 	// scene framebuffer functions
 	void addFramebuffer(FrameBuffer* fb) { _framebuffers.push_back(fb); };
-	void removeFramebuffer(FrameBuffer* fb) { for (int i; i < _framebuffers.size(); i++) { if (_framebuffers[i] == fb) { _framebuffers.erase(_framebuffers.begin() + i); delete fb; break; }; }; };
+	void removeFramebuffer(FrameBuffer* fb);
 	int getFramebufferCount() { return _framebuffers.size(); };
 	std::vector<FrameBuffer*> getFramebuffers() { return _framebuffers; };
 
