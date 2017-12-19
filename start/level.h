@@ -4,11 +4,20 @@
 
 #include <entity.h>
 #include "tile.h"
+#include "player.h"
+#include "enemy.h"
+
+struct Layout{
+	glm::vec2 levelSize;
+	glm::vec2 tileSize;
+};
 
 class Level : public Entity{
 public:
 	Level();
 	~Level();
+
+	void update(float deltatime);
 
 	// add tile texture
 	void addTileTexture(const char* _location);
@@ -17,6 +26,9 @@ public:
 	void addTile();
 	// remove tile from map
 	void removeTile();
+
+	// add player to map
+	void addPlayer(int x, int y);
 
 	// load a level from file
 	void loadLevelFromFile(const char* _location);
@@ -27,8 +39,13 @@ public:
 	std::vector<Tile*> getGrid();
 
 private:
+	// map variables
 	std::vector<const char*> _tilesprites;
 	std::vector<Tile*> _grid;
+	Layout _layout;
+
+	// entitys variables
+	Player* _player;
 };
 
 #endif /* end LEVEL_H */

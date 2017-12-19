@@ -21,13 +21,10 @@ public:
 	virtual void update(float deltatime);
 
 private:
-	Player* player;
-	Enemy* enemy;
-
-
-	std::vector<Tile*> tiles;
-
 	Level* _level;
+
+	FrameBuffer* fbTop;
+	FrameBuffer* fbBottom;
 };
 
 #endif /* end MYSCENE_H */

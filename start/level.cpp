@@ -2,10 +2,30 @@
 
 Level::Level(){
 	_tilesprites.push_back("assets/tile_null.png");
+
+	_player = NULL;
+}
+
+void Level::update(float deltatime){
+	if (_player != NULL) {
+		_player->update(deltatime, this->getGrid());
+	}
 }
 
 void Level::addTileTexture(const char * _location){
 	_tilesprites.push_back(_location);
+}
+
+void Level::addPlayer(int x, int y){
+	if (x <= _layout.levelSize.x && x >= 0 && y <= _layout.levelSize.y && y >= 0) {
+		_player = new Player();
+		float posx = (_layout.tileSize.x / 2) + _layout.tileSize.x * x;
+		float posy = (_layout.tileSize.y / 2) + _layout.tileSize.y * y;
+		_player->position = glm::vec3(posx, posy, 0);
+
+		this->addChild(_player);
+	}
+	
 }
 
 void Level::loadLevelFromFile(const char * _location)
@@ -37,6 +57,10 @@ void Level::loadLevelFromArray(std::vector<int> _levelmap, int _mapwidth, int _m
 			this->addChild(t);
 		}
 	}
+
+	// set layout to store map and tile size
+	_layout.levelSize = glm::vec2(_mapwidth, _mapheight);
+	_layout.tileSize = glm::vec2(_tilewidth, _tileheight);
 }
 
 std::vector<Tile*> Level::getGrid(){

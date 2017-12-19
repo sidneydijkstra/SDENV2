@@ -1,50 +1,34 @@
 #include "myscene.h"
 
-Text* text;
-FrameBuffer* fb;
-FrameBuffer* fb2;
 
 MyScene::MyScene(){
-	// render text
-	text = new Text("assets/arial.ttf", 0.3f, glm::vec3(0,1,0));
-	text->message = "QWERTYUIOPASDFGHJKLZXCVBNM!";
-	text->setColorLerp(glm::vec3(1, 0, 0), glm::vec3(0, 1, 1));
-	text->position.y = 100;
-	this->addText(text);
-
 	// create top framebuffer
-	fb2 = new FrameBuffer();
-	fb2->position = glm::vec3(SWIDTH/ 2, (SHEIGHT / 4) * 3, 0);
-	fb2->size = glm::vec3(SWIDTH / 2, SHEIGHT / 4, 0);
-	fb2->background = Color(255, 255, 255);
-	this->addFramebuffer(fb2);
+	fbTop = new FrameBuffer();
+	fbTop->position = glm::vec3(SWIDTH/ 2, (SHEIGHT / 4) * 3, 0);
+	fbTop->size = glm::vec3(SWIDTH / 2, SHEIGHT / 4, 0);
+	fbTop->background = Color(255, 255, 255);
+	this->addFramebuffer(fbTop);
 
 	// create bottom framebuffer
-	fb = new FrameBuffer();
-	fb->position = glm::vec3(SWIDTH / 2, SHEIGHT / 4, 0);
-	fb->size = glm::vec3(SWIDTH / 2, SHEIGHT / 4, 0);
-	fb->rotation.z = 1.570796327f * 2;
-	fb->rotation.y = 1.570796327f * 2;
-	fb->background = Color(0, 100, 0);
-	this->addFramebuffer(fb);
+	fbBottom = new FrameBuffer();
+	fbBottom->position = glm::vec3(SWIDTH / 2, SHEIGHT / 4, 0);
+	fbBottom->size = glm::vec3(SWIDTH / 2, SHEIGHT / 4, 0);
+	fbBottom->rotation.z = 1.570796327f * 2;
+	fbBottom->rotation.y = 1.570796327f * 2;
+	fbBottom->background = Color(0, 100, 0);
+	this->addFramebuffer(fbBottom);
 
-	// create player
-	player = new Player();
-	this->addChild(player);
-
-	// create enemy
-	enemy = new Enemy(player);
-	this->addChild(enemy);
-
-	// spawn tile
+	// create level
 	_level = new Level();
 
+	// add tile textures level can use
 	_level->addTileTexture("assets/tile_1.png");
 	_level->addTileTexture("assets/tile_2.png");
 	_level->addTileTexture("assets/tile_3.png");
 	_level->addTileTexture("assets/tile_4.png");
 
-	std::vector<int> layout = 
+	// level grid
+	std::vector<int> levellayout = 
 	{
 		1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 		1,0,0,0,0,1,1,0,0,1,0,0,0,1,
@@ -57,24 +41,30 @@ MyScene::MyScene(){
 		1,0,0,0,0,0,0,0,0,1,0,0,0,1,
 		1,1,1,1,1,1,1,1,1,1,1,1,1,1
 	};
-	_level->loadLevelFromArray(layout, 14, 10, 60, 60);
+
+	// load level
+	_level->loadLevelFromArray(levellayout, 14, 10, 60, 60);
+
+	// add player
+	_level->addPlayer(5,5);
+
+	// add level as child
 	this->addChild(_level);
 }	
 
 void MyScene::update(float deltatime) {
-	enemy->update(deltatime);
-	player->update(deltatime, _level->getGrid());
+	// update level
+	_level->update(deltatime);
 }
 
 MyScene::~MyScene(){
-	// remove childeren
-	this->removeChild(player);
-	this->removeChild(enemy);
+	// remove childeren, framebuffers and text
 	this->removeChild(_level);
-
+	this->removeFramebuffer(fbTop);
+	this->removeFramebuffer(fbBottom);
 	// delete pointers
-	delete player;
-	delete enemy;
 	delete _level;
+	delete fbTop;
+	delete fbBottom;
 }
 
