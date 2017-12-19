@@ -13,7 +13,7 @@ Player::Player(){
 		"assets/animations/charackters/characters_40.png",
 		"assets/animations/charackters/characters_41.png",
 	};
-	this->spriteAnimator()->setAnimations(locations, 0.3f, 0, 0);
+	this->spriteAnimator()->setAnimations(locations, 0.1f, 0, 0);
 
 	velocity = glm::vec3(0.0f);
 	acceleration = glm::vec3(0.0f);
@@ -34,12 +34,14 @@ void Player::update(float deltatime, std::vector<Tile*> t){
 	}
 
 	// grafity
-	this->acceleration.y = -9.9f;
+	this->acceleration.y = -12;
 
 	// movement
 	if (this->input()->getKey(GLFW_KEY_A)) {
+		this->rotation.y = 1.570796327f * 2;
 		this->velocity.x = -4;
 	}else if(this->input()->getKey(GLFW_KEY_D)){
+		this->rotation.y = 0;
 		this->velocity.x = 4;
 	}else {
 		this->velocity.x = 0;
