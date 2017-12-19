@@ -81,6 +81,8 @@ void Sprite::loadTexture(const char * location, int filter, int wrap){
 
 	// set texture
 	_texture = texture;
+
+	std::cout << "loaded texture: " << location << std::endl;
 }
 
 

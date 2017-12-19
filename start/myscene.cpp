@@ -48,6 +48,18 @@ MyScene::MyScene(){
 	// add player
 	_level->addPlayer(5,5);
 
+	// add enemy
+	_level->addEnemy(2, 6, 1, 3);
+	
+	/*for (int y = 0; y < 10; y++) {
+		for (int x = 0; x < 14; x++) {
+			int _index = y * 14 + x;
+			if (levellayout[_index] == 0) {
+				_level->addEnemy(x,y,0,0,0,0);
+			}
+		}
+	}*/
+
 	// add level as child
 	this->addChild(_level);
 }	

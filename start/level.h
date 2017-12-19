@@ -29,6 +29,11 @@ public:
 
 	// add player to map
 	void addPlayer(int x, int y);
+	// remove player from map
+	void removePlayer();
+
+	// add enemy to map
+	void addEnemy(int x, int y, int minx, int maxx);
 
 	// load a level from file
 	void loadLevelFromFile(const char* _location);
@@ -46,6 +51,8 @@ private:
 
 	// entitys variables
 	Player* _player;
+
+	std::vector<Enemy*> _enemys;
 };
 
 #endif /* end LEVEL_H */

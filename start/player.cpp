@@ -2,8 +2,18 @@
 
 Player::Player(){
 	this->mesh()->loadQuad();
-	this->scale = glm::vec3(10, 40, 0);
+	this->scale = glm::vec3(20, 50, 0);
 	this->position = glm::vec3(SWIDTH/2, SHEIGHT/2, 0);
+
+	this->addSpriteAnimator();
+	std::vector<const char*> locations = {
+		"assets/animations/charackters/characters_37.png",
+		"assets/animations/charackters/characters_38.png",
+		"assets/animations/charackters/characters_39.png",
+		"assets/animations/charackters/characters_40.png",
+		"assets/animations/charackters/characters_41.png",
+	};
+	this->spriteAnimator()->setAnimations(locations, 0.3f, 0, 0);
 
 	velocity = glm::vec3(0.0f);
 	acceleration = glm::vec3(0.0f);
@@ -14,6 +24,9 @@ Player::~Player()
 }
 
 void Player::update(float deltatime, std::vector<Tile*> t){
+
+	this->spriteAnimator()->update();
+
 	// jump
 	float jump = 0;
 	if (input()->getKeyDown(GLFW_KEY_SPACE)) {

@@ -45,6 +45,8 @@ void Core::createWindow() {
 
 	// set openGL options
 	glEnable(GL_DEPTH_TEST);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
+	glEnable(GL_BLEND);
 
 }
 
@@ -76,8 +78,6 @@ void Core::init() {
 
 	// set openGL options for rendering text
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glDisable(GL_DEPTH_TEST);
 }
 
 bool Core::run(){

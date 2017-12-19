@@ -10,6 +10,11 @@ void Level::update(float deltatime){
 	if (_player != NULL) {
 		_player->update(deltatime, this->getGrid());
 	}
+
+	for (int i = 0; i < _enemys.size(); i++){
+		_enemys[i]->update(deltatime, this->getGrid());
+	}
+
 }
 
 void Level::addTileTexture(const char * _location){
@@ -18,18 +23,40 @@ void Level::addTileTexture(const char * _location){
 
 void Level::addPlayer(int x, int y){
 	if (x <= _layout.levelSize.x && x >= 0 && y <= _layout.levelSize.y && y >= 0) {
+		// remove player
+		this->removePlayer();
+		
+		// create new player
 		_player = new Player();
 		float posx = (_layout.tileSize.x / 2) + _layout.tileSize.x * x;
 		float posy = (_layout.tileSize.y / 2) + _layout.tileSize.y * y;
 		_player->position = glm::vec3(posx, posy, 0);
 
+		// add player as child
 		this->addChild(_player);
 	}
 	
 }
 
-void Level::loadLevelFromFile(const char * _location)
-{
+void Level::removePlayer(){
+	if (_player != NULL) {
+		this->removeChild(_player);
+		delete _player;
+		_player = NULL;
+	}
+}
+
+void Level::addEnemy(int x, int y, int minx, int maxx){
+	Enemy* e = new Enemy(_player, (_layout.tileSize.x / 2) + _layout.tileSize.x * minx, (_layout.tileSize.x / 2) + _layout.tileSize.x * maxx);
+	float posx = (_layout.tileSize.x / 2) + _layout.tileSize.x * x;
+	float posy = (_layout.tileSize.y / 2) + _layout.tileSize.y * y;
+	e->position = glm::vec3(posx, posy, 0);
+
+	this->addChild(e);
+	_enemys.push_back(e);
+}
+
+void Level::loadLevelFromFile(const char * _location){
 }
 
 void Level::loadLevelFromArray(std::vector<int> _levelmap, int _mapwidth, int _mapheight, int _tilewidth, int _tileheight){
@@ -68,10 +95,19 @@ std::vector<Tile*> Level::getGrid(){
 }
 
 Level::~Level(){
-	// remove grid and clear vector's
+	// delete grid and clear vector's
 	for (int i = 0; i < _grid.size(); i++) {
 		delete _grid[i];
 	}
 	_grid.clear();
 	_tilesprites.clear();
+
+	// delete player
+	this->removePlayer();
+
+	// delete enemys
+	for (int i = 0; i < _enemys.size(); i++){
+		delete _enemys[i];
+	}
+	_enemys.clear();
 }
