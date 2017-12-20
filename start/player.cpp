@@ -47,7 +47,6 @@ void Player::update(float deltatime, std::vector<Tile*> t){
 		this->velocity.x = 0;
 	}
 
-
 	// collision loop
 	glm::vec3 temp = this->position; // save start pos
 	this->position += velocity * 40.0f * deltatime;

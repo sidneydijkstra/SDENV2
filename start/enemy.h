@@ -18,6 +18,18 @@ public:
 
 	virtual void update(float deltatime, std::vector<Tile*> t);
 
+	// check collision
+	bool collision(Entity* e);
+
+	// check top collision
+	bool topCollision(Entity* e);
+	// check bottom collision
+	bool bottomCollision(Entity* e);
+	// check left collision
+	bool leftCollision(Entity* e);
+	// check right collision
+	bool rightCollision(Entity* e);
+
 private:
 	// target of enemy
 	Player* _target;
@@ -29,6 +41,8 @@ private:
 	// min and max x enemy can walk
 	float _minx;
 	float _maxx;
+
+	int _offset;
 };
 
 #endif /* end ENEMY_H */

@@ -7,14 +7,23 @@ Level::Level(){
 }
 
 void Level::update(float deltatime){
-	if (_player != NULL) {
-		_player->update(deltatime, this->getGrid());
-	}
 
-	for (int i = 0; i < _enemys.size(); i++){
+	for (int i = 0; i < _enemys.size(); i++) {
 		_enemys[i]->update(deltatime, this->getGrid());
 	}
 
+	if (_player != NULL) {
+		_player->update(deltatime, this->getGrid());
+		for (int i = 0; i < _enemys.size(); i++) {
+			if (_enemys[i]->collision(_player) && _enemys[i]->topCollision(_player)) {
+				this->removeChild(_enemys[i]);
+				delete _enemys[i];
+				_enemys.erase(_enemys.begin() + i);
+				break;
+			}
+
+		}
+	}
 }
 
 void Level::addTileTexture(const char * _location){
