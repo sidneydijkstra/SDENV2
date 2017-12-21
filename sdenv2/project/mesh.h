@@ -1,3 +1,12 @@
+/**
+* @file mesh.h
+*
+* @brief The Mesh header file.
+*
+* This file is part of SDENV2, a 2D/3D OpenGL framework.
+*
+*/
+
 #ifndef MESH_H
 #define MESH_H
 
@@ -17,24 +26,30 @@
 #include "color.h"
 #include "sdenv2config.h"
 
+/**
+* @brief The Mesh class
+*/
 class Mesh
 {
 public:
-	Mesh();
-	~Mesh();
+	Mesh(); ///< @brief Constructor of the Mesh
+	~Mesh(); ///< @brief Destructor of the Mesh
 
 	// mesh buffer varables
-	GLuint _VAO, _VBO;
-	int _drawsize;
+	GLuint _VAO; ///< @brief the VAO buffer of Mesh
+	GLuint _VBO; ///< @brief the VBO buffer of Mesh
+	int _drawsize; ///< @brief the drawsize of Mesh
 
-	// load 3d cube
+	/// @brief load the Mesh for a cube
+	/// @return void
 	void loadCube();
-
-	// load 3d object
-	void loadObject(const char * location);
-
-	// load 2d quad
+	/// @brief load the Mesh for a quad
+	/// @return void
 	void loadQuad();
+	/// @brief load the Mesh for a object with a .obj file
+	/// @param the file location
+	/// @return void
+	void loadObject(const char * location);
 private:
 };
 

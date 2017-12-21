@@ -25,7 +25,7 @@ MyScene::MyScene(){
 	_level->addTileTexture("assets/tile_1.png");
 	_level->addTileTexture("assets/tile_2.png");
 	_level->addTileTexture("assets/tile_3.png");
-	_level->addTileTexture("assets/tile_4.png");
+	_level->addTileTexture("assets/head.jpg");
 
 	// level grid
 	std::vector<int> levellayout = 
@@ -46,15 +46,33 @@ MyScene::MyScene(){
 		1,1,1,1,1,1,1,1,1,1,1,1,1,1
 	};
 
+	std::vector<int> testlayout =
+	{
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0
+	};
+
 	// load level
 	_level->loadLevelFromArray(levellayout, 14, 14, 60, 60);
 
 	// add player
-	_level->addPlayer(5,5);
+	_level->addPlayer(5, 5);
 
 	// add enemy
 	_level->addEnemy(2, 7, 1, 3);
-	
+
 	/*for (int y = 0; y < 10; y++) {
 		for (int x = 0; x < 14; x++) {
 			int _index = y * 14 + x;

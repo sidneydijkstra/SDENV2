@@ -1,3 +1,11 @@
+/**
+* @file renderer.h
+*
+* @brief The Renderer header file.
+*
+* This file is part of SDENV2, a 2D/3D OpenGL framework.
+*
+*/
 
 #ifndef RENDERER_H
 #define RENDERER_H
@@ -43,33 +51,52 @@
 #include "text.h"
 // include shader
 #include "sprite.h"
+// include shader
+#include "resourcemanager.h"
 
+/**
+* @brief The Renderer class
+*/
 class Renderer
 {
 public:
-	Renderer();
-	~Renderer();
+	Renderer(); ///< @brief Constructor of the Renderer
+	~Renderer(); ///< @brief Destructor of the Renderer
 
-	// renderer functions to render scene
+	/// @brief render a scene
+	/// @param the scene you want to renderer
+	/// @param the 2D shader
+	/// @param the 3D shader
+	/// @return void
 	void renderScene(Scene* scene, Shader* shader2D, Shader* shader3D);
-
-	// renderer functions to render 3D objects
+	/// @brief render a 3D entity
+	/// @param the entity you want to render
+	/// @param the shader you want to use
+	/// @param the scene the entity is in
+	/// @param the position of the parent
+	/// @return void
 	void render3D(Entity* mesh, Shader* shader, Scene* scene, glm::vec3 parentPosition);
-
-	// renderer functions to render 2D objects
+	/// @brief render a 2D entity
+	/// @param the entity you want to render
+	/// @param the shader you want to use
+	/// @param the scene the entity is in
+	/// @param the position of the parent
+	/// @return void
 	void render2D(Entity* mesh, Shader* shader, Scene* scene, glm::vec3 parentPosition);
-
-	// renderer function to render framebuffer
+	/// @brief render a framebuffer
+	/// @param the framebuffer you want to render
+	/// @param the shader you want to use
+	/// @return void
 	void renderFramebuffer(FrameBuffer* framebuffer, Shader* shader);
-
-	// renderer function to render text
-	void renderText(Shader* shader, Text* text);
+	/// @brief render text
+	/// @param the text you want to render
+	/// @param the shader you want to use
+	/// @return void
+	void renderText(Text* text, Shader* shader);
 private:
-	// font loader
-	FontLoader* fontloader;
-
-	// framebuffer quad
-	Mesh* framebufferQuad;
+	FontLoader* _fontloader; ///< @brief the fontloader of the Renderer
+	Mesh* framebufferQuad; ///< @brief the mesh for the framebuffers
+	Resourcemanager* _resmanager; ///< @brief the resourcemanager of the Renderer
 };
 
 #endif /* end renderer */

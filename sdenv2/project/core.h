@@ -1,3 +1,13 @@
+
+/**
+* @file core.h
+*
+* @brief The Core header file.
+*
+* This file is part of SDENV2, a 2D/3D OpenGL framework.
+*
+*/
+
 #ifndef CORE_H
 #define CORE_H
 
@@ -23,47 +33,53 @@
 #include "scenemanager.h"
 #include "sdenv2config.h"
 
+/**
+* @brief The Core class
+*/
 class Core
 {
 public:
-	Core();
-	~Core();
+	Core(); ///< @brief Constructor of the Core
+	~Core(); ///< @brief Destructor of the Core
 
+	/// @brief the main run function of the Core
+	/// @return void
 	bool run();
 
-	// scene manager
-	SceneManager* scenemanager;
+	SceneManager* scenemanager; ///< @brief the scenemanager pointer
 private:
-	// the window
-	GLFWwindow* _window;
+	GLFWwindow* _window; ///< @brief the window pointer
 
-	// renderer
-	Renderer* renderer;
+	Renderer* renderer; ///< @brief the renderer pointer
 
-	// create the window
+	/// @brief create the window
+	/// @return void
 	void createWindow();
-	// init core
+	/// @brief initialize the Core
+	/// @return void
 	void init();
 
-	// renderer deltatime
+	/// @brief calculate the deltatime
+	/// @return void
 	void calculateDeltatime();
-	GLfloat _deltaTime = 0.0f;
-	GLfloat _lastFrame = 0.0f;
-	// renderer fps
+	GLfloat _deltaTime = 0.0f; ///< @brief the deltatime
+	GLfloat _lastFrame = 0.0f; ///< @brief the lastframe time
+	/// @brief calculate the fps
+	/// @return void
 	void calculateFPS();
-	GLfloat _currentTime;
-	GLfloat _lastTime;
-	GLfloat _fps;
-	Text* _textfps;
+	GLfloat _currentTime; ///< @brief the currenTime
+	GLfloat _lastTime; ///< @brief the lastTime
+	GLfloat _fps; ///< @brief the fps
+	Text* _textfps;  ///< @brief the fps text
 
 	// shaders
-	Shader* normal3DShader;
-	Shader* normal2DShader;
-	Shader* framebufferShader;
-	Shader* textShader;
+	Shader* normal3DShader;  ///< @brief the normal 3D shader
+	Shader* normal2DShader;  ///< @brief the normal 2D shader
+	Shader* framebufferShader; ///< @brief the framebuffer shader
+	Shader* textShader; ///< @brief the text shader
 
 	// TEMP DEBUG VAR
-	bool renderTriangle = true;
+	bool renderTriangle = true; ///< @brief the renderTriangle
 };
 
 #endif /* end CORE_H */

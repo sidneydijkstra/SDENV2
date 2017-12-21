@@ -1,9 +1,11 @@
 #include "spriteanimator.h"
 
-SpriteAnimator::SpriteAnimator(Sprite* s){
-	_sprite = s;
+SpriteAnimator::SpriteAnimator(){
 	_currentAnimation = 0;
 	_timer = 0;
+
+	_filter = 0;
+	_wrap = 0;
 }
 
 SpriteAnimator::~SpriteAnimator(){
@@ -26,14 +28,16 @@ void SpriteAnimator::update(){
 void SpriteAnimator::setAnimations(std::vector<const char*> locations, float delay, int filter, int wrap){
 	_animations.clear();
 	_currentAnimation = 0;
-	
-	for (int i = 0; i < locations.size(); i++){
-		animation a;
-		_sprite->loadTexture(locations[i], filter, wrap);
-		a.id = _sprite->getTexture();
-		a.delay = delay;
 
-		_animations.push_back(a);
+	_filter = filter;
+	_wrap = wrap;
+
+	for (int i = 0; i < locations.size(); i++){
+		Animation anim;
+		anim.id = locations[i];
+		anim.delay = delay;
+
+		_animations.push_back(anim);
 	}
 
 	_timer = glfwGetTime() + _animations[_currentAnimation].delay;

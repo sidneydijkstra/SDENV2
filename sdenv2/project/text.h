@@ -1,3 +1,11 @@
+/**
+* @file text.h
+*
+* @brief The Text header file.
+*
+* This file is part of SDENV2, a 2D/3D OpenGL framework.
+*
+*/
 
 #ifndef TEXT_H
 #define TEXT_H
@@ -21,40 +29,56 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H  
 
+/**
+* @brief The Text class
+*/
 class Text
 {
 public:
+	///< @brief Constructor of the Text
+	/// @param the font you want to use
+	/// @param the scale of the text
+	/// @param the color of the text
 	Text(const char* font, float _scale, glm::vec3 _color = glm::vec3(1, 1, 1));
-	~Text();
+	~Text(); ///< @brief Destructor of the Text
 
-	// load new font
+	/// @brief set the font
+	/// @param the location of the font
+	/// @return void
 	void setFont(const char* font);
+	/// @brief get the current font
+	/// @return const char*
 	const char* getFont() { return _font; };
 
-	// color options
+	/// @brief set color lerp
+	/// @param the lerp start color
+	/// @param the lerp end color
+	/// @return void
 	void setColorLerp(glm::vec3 s, glm::vec3 e);
+	/// @brief remove the lerp
+	/// @return void
 	void removeColorLerp();
+	/// @brief get if lerp is active
+	/// @return bool
 	bool doColorLerp();
+	/// @brief get the lerp color
+	/// @param the index
+	/// @return glm::vec3
 	glm::vec3 getColorLerp(int i);
 
-	// text size
-	float scale;
-	// text color
-	glm::vec3 color;
-	// text message
-	std::string message;
-	// text position
-	glm::vec3 position;
+	float scale; ///< @brief the scale of the Text
+	glm::vec3 color; ///< @brief the color of the Text
+	std::string message; ///< @brief the message of the Text
+	glm::vec3 position; ///< @brief the position of the Text
 
-	// VAO and VBO
-	GLuint _VAO, _VBO;
+	GLuint _VAO; ///< @brief the VAO of the Text
+	GLuint _VBO; ///< @brief the VBO of the Text
 private:
-	// color lerp vars
-	std::vector<glm::vec3> _lerpColors;
+	std::vector<glm::vec3> _lerpColors; ///< @brief the list of lerp colors
+	const char* _font; ///< @brief the font of the text
 
-	// text font
-	const char* _font;
-	// init text
+	/// @brief initialized the text
+	/// @return void
 	void init();
 };
 

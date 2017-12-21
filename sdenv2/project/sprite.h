@@ -1,3 +1,12 @@
+/**
+* @file sprite.h
+*
+* @brief The Sprite header file.
+*
+* This file is part of SDENV2, a 2D/3D OpenGL framework.
+*
+*/
+
 #ifndef SPRITE_H
 #define SPRITE_H
 
@@ -15,46 +24,36 @@
 // include soil
 #include <SOIL.h>
 
-
-
+/**
+* @brief The Sprite class
+*/
 class Sprite
 {
 public:
-	Sprite();
-	virtual ~Sprite();
+	Sprite(); ///< @brief Constructor of the Sprite
+	virtual ~Sprite(); ///< @brief Destructor of the Sprite
 
-	// load texture
+	/// @brief load a texture
+	/// @param the loaction
+	/// @param the filter type
+	/// @param the wrap type
+	/// @return void
 	void loadTexture(const char* location, int filter, int wrap);
 
-	// load texture from sprite sheet
-	void loadSpriteSheet(const char* location,int rows, int cells, int filter, int wrap); // NOT WORKING YET!
-
-	// get texture
-	GLuint getTexture() { return _texture; };
-	// get if sprite is spritesheet
-	bool isSpriteSheet() { if (_type == 1) return true; return false; }
-	// get filter type
+	/// @brief get the texture location
+	/// @return const char*
+	const char* texture() { return _texturename; };
+	/// @brief get the filter type
+	/// @return int
 	int filter() { return _filter; }
-	// get wraping type 
+	/// @brief get the wrap type
+	/// @return int
 	int wraping() { return _wrap; }
-
-	// texture width and height
-	int width;
-	int height;
-
 private:
-	// texture info
-	GLuint _texture;
-	std::vector<std::vector<glm::vec2>> _spriteSheetCords; // top-right, bottom-right, bottom-left, top-left
+	const char* _texturename; ///< @brief the location of the texture
 
-	// texture type
-	// 0 = normal
-	// 1 = sprite sheet
-	int _type;
-
-	// filter and wrap
-	int _filter;
-	int _wrap;
+	int _filter; ///< @brief the filter type
+	int _wrap; ///< @brief the wrap type
 };
 
 #endif /* end SPRITE_H */

@@ -195,6 +195,10 @@ add_library(SDENV2 STATIC
 	sdenv2/project/entity.h
 	sdenv2/project/timer.cpp
 	sdenv2/project/timer.h
+	sdenv2/project/resourcemanager.cpp
+	sdenv2/project/resourcemanager.h
+	sdenv2/project/texture.cpp
+	sdenv2/project/texture.h
 	sdenv2/project/sdenv2config.h
 )
 

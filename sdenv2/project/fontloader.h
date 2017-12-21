@@ -1,3 +1,11 @@
+/**
+* @file fontloader.h
+*
+* @brief The FontLoader header file.
+*
+* This file is part of SDENV2, a 2D/3D OpenGL framework.
+*
+*/
 
 #ifndef FONTLOADER_H
 #define FONTLOADER_H
@@ -22,28 +30,38 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H  
 
+/**
+* @brief The Character struct
+*/
 struct Character {
-	GLuint     textureID;  // ID handle of the glyph texture
-	glm::ivec2 size;       // Size of glyph
-	glm::ivec2 bearing;    // Offset from baseline to left/top of glyph
-	GLuint     advance;    // Offset to advance to next glyph
+	GLuint textureID; ///< @brief the id of the glyph texture
+	glm::ivec2 size; ///< @brief the size of the glyph
+	glm::ivec2 bearing; ///< @brief the offset from baseline to left/top of glyph
+	GLuint advance; ///< @brief the offset to advance to next glyph
 };
 
+/**
+* @brief The FontLoader class
+*/
 class FontLoader
 {
 public:
-	FontLoader();
-	~FontLoader();
+	FontLoader(); ///< @brief Constructor of the FontLoader
+	~FontLoader(); ///< @brief Destructor of the FontLoader
 
-	// add a new font
+	/// @brief add a new font
+	/// @param the file location
+	/// @return void
 	void addFont(const char* location);
 
-	// get font if font not loaded get normal font
+	/// @brief get a font
+	/// @param the file location
+	/// @return std::map<GLchar, Character>
 	std::map<GLchar, Character> getFont(const char* location);
 
 private:
-	std::map<std::string, std::map<GLchar, Character>> fonts;
-	std::vector<const char*> unknown;
+	std::map<std::string, std::map<GLchar, Character>> fonts; ///< @brief the fonts that are loaded
+	std::vector<const char*> unknown; ///< @brief the fonts that cant be loaded
 };
 
 #endif /* end FONTLOADER_H */

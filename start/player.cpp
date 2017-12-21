@@ -6,6 +6,7 @@ Player::Player(){
 	this->position = glm::vec3(SWIDTH/2, SHEIGHT/2, 0);
 
 	this->addSpriteAnimator();
+
 	std::vector<const char*> locations = {
 		"assets/animations/charackters/characters_37.png",
 		"assets/animations/charackters/characters_38.png",
@@ -13,6 +14,7 @@ Player::Player(){
 		"assets/animations/charackters/characters_40.png",
 		"assets/animations/charackters/characters_41.png",
 	};
+
 	this->spriteAnimator()->setAnimations(locations, 0.1f, 0, 0);
 
 	velocity = glm::vec3(0.0f);

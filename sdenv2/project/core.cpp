@@ -44,9 +44,9 @@ void Core::createWindow() {
 	glViewport(0, 0, _windowWidth, _windowHeight);
 
 	// set openGL options
-	glEnable(GL_DEPTH_TEST);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
 	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glDisable(GL_DEPTH_TEST);
 
 }
 
@@ -66,7 +66,7 @@ void Core::init() {
 	Input::init(_window);
 
 	// init scene manager
-	scenemanager = new SceneManager(_window);
+	scenemanager = new SceneManager();
 	
 	// init renderer
 	renderer = new Renderer();
@@ -78,6 +78,8 @@ void Core::init() {
 
 	// set openGL options for rendering text
 	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glDisable(GL_DEPTH_TEST);
 }
 
 bool Core::run(){
@@ -142,11 +144,11 @@ bool Core::run(){
 	int textcount = scene->getTextCount();
 	std::vector<Text*> texts = scene->getTexts();
 	for (int i = 0; i < textcount; i++) {
-		renderer->renderText(textShader, texts[i]);
+		renderer->renderText(texts[i], textShader);
 	}
 
 	// display fps
-	renderer->renderText(textShader, _textfps);
+	renderer->renderText(_textfps, textShader);
 
 	// debug
 

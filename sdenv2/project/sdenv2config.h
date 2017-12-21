@@ -1,3 +1,11 @@
+/**
+* @file sdenv2config.h
+*
+* @brief The sdenv2config header file. In here you can edit the config of the framework.
+*
+* This file is part of SDENV2, a 2D/3D OpenGL framework.
+*
+*/
 
 #ifndef SDENV2CONFIG_H
 #define SDENV2CONFIG_H

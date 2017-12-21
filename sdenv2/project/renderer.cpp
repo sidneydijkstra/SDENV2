@@ -3,7 +3,8 @@
 
 // renderer constructor
 Renderer::Renderer(){
-	fontloader = new FontLoader();
+	_fontloader = new FontLoader();
+	_resmanager = new Resourcemanager();
 
 	framebufferQuad = new Mesh();
 	framebufferQuad->loadQuad();
@@ -36,15 +37,15 @@ void Renderer::render3D(Entity* entity, Shader* shader, Scene* scene, glm::vec3 
 		glBindVertexArray(entity->mesh()->_VAO);
 
 		// activate textures
-		if (entity->sprite()->getTexture() != NULL) {
+		if (entity->sprite()->texture() != NULL) {
 			shader->setBool("doTexture", true);
 
 			if (entity->spriteAnimator() != NULL) {
 				glActiveTexture(GL_TEXTURE0);
-				glBindTexture(GL_TEXTURE_2D, entity->spriteAnimator()->getCurrentAnimation());
+				glBindTexture(GL_TEXTURE_2D, _resmanager->getTexture(entity->spriteAnimator()->getCurrentAnimation(), entity->spriteAnimator()->filter(), entity->spriteAnimator()->wraping()));
 			}else{
 				glActiveTexture(GL_TEXTURE0);
-				glBindTexture(GL_TEXTURE_2D, entity->sprite()->getTexture());
+				glBindTexture(GL_TEXTURE_2D, _resmanager->getTexture(entity->sprite()->texture(), entity->sprite()->filter(), entity->sprite()->wraping()));
 			}
 
 		}else {
@@ -112,15 +113,15 @@ void Renderer::render2D(Entity* entity, Shader* shader, Scene* scene, glm::vec3 
 		glBindVertexArray(entity->mesh()->_VAO);
 
 		// activate textures
-		if (entity->sprite()->getTexture() != NULL) {
+		if (entity->sprite()->texture() != NULL || entity->spriteAnimator() != NULL) {
 			shader->setBool("doTexture", true);
 
 			if (entity->spriteAnimator() != NULL) {
 				glActiveTexture(GL_TEXTURE0);
-				glBindTexture(GL_TEXTURE_2D, entity->spriteAnimator()->getCurrentAnimation());
+				glBindTexture(GL_TEXTURE_2D, _resmanager->getTexture(entity->spriteAnimator()->getCurrentAnimation(), entity->spriteAnimator()->filter(), entity->spriteAnimator()->wraping()));
 			}else{
 				glActiveTexture(GL_TEXTURE0);
-				glBindTexture(GL_TEXTURE_2D, entity->sprite()->getTexture());
+				glBindTexture(GL_TEXTURE_2D, _resmanager->getTexture(entity->sprite()->texture(), entity->sprite()->filter(), entity->sprite()->wraping()));
 			}
 
 		}else {
@@ -185,7 +186,7 @@ void Renderer::renderFramebuffer(FrameBuffer * framebuffer, Shader * shader){
 	glBindVertexArray(0);
 }
 
-void Renderer::renderText(Shader* shader, Text* text){
+void Renderer::renderText(Text* text, Shader* shader){
 	// set text color
 	shader->setVec3("textColor", text->color);
 
@@ -210,7 +211,7 @@ void Renderer::renderText(Shader* shader, Text* text){
 		}
 
 		// get charackter
-		Character ch = fontloader->getFont(text->getFont())[*c];
+		Character ch = _fontloader->getFont(text->getFont())[*c];
 
 		// set pos
 		GLfloat xpos = x + ch.bearing.x * scale;
@@ -251,6 +252,7 @@ void Renderer::renderText(Shader* shader, Text* text){
 // renderer deconstructor
 Renderer::~Renderer() {
 	// delete scene manager and framebufferQuad
-	delete fontloader;
+	delete _fontloader;
 	delete framebufferQuad;
+	delete _resmanager;
 }

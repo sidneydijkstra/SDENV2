@@ -1,7 +1,7 @@
 #include "scenemanager.h"
 
 // scene manager constructor
-SceneManager::SceneManager(GLFWwindow* _window){
+SceneManager::SceneManager(){
 
 	// sceneManager create message
 	std::cout << "created new sceneManager" << std::endl;

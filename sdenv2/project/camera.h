@@ -1,4 +1,12 @@
 
+/**
+* @file camera.h
+*
+* @brief The Camera header file.
+*
+* 
+*
+*/
 #ifndef CAMERA_H
 #define CAMERA_H
 
@@ -15,27 +23,39 @@
 
 #include "input.h"
 
+/**
+* @brief The Camera class
+*/
 class Camera
 {
 public:
-	Camera();
+	Camera(); ///< @brief Constructor of the Camera
 
+	/// @brief the move function of the camera
+	/// @param the deltatime
+	/// @return void
 	void move(float deltaTime) { cameraMouseMovement(deltaTime); cameraPositionMovement(deltaTime); };
-	// Camera
-	glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
-	glm::vec3 front = glm::vec3(0.0f, 0.0f, -1.0f);
-	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
-	glm::vec3 right = glm::vec3(1.0f, 0.0f, 0.0f);
+	
+	glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f); ///< @brief the position of the camera
+	glm::vec3 front = glm::vec3(0.0f, 0.0f, -1.0f); ///< @brief the front of the camera
+	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f); ///< @brief the up of the camera
+	glm::vec3 right = glm::vec3(1.0f, 0.0f, 0.0f); ///< @brief the right of the camera
 
-	GLfloat yaw = -90.0f;
-	GLfloat pitch = 0.0f;
-	GLfloat fov = 70.0f;
-	GLfloat lastX;
-	GLfloat lastY;
+	GLfloat yaw = -90.0f; ///< @brief the yaw of the camera
+	GLfloat pitch = 0.0f; ///< @brief the pitch of the camera
+	GLfloat fov = 70.0f; ///< @brief the fov of the camera
 private:
-	// camera move
+	/// @brief the position movement function of the camera
+	/// @param the deltatime
+	/// @return void
 	void cameraPositionMovement(float deltaTime);
+	/// @brief the mouse movement function of the camera
+	/// @param the deltatime
+	/// @return void
 	void cameraMouseMovement(float deltaTime);
+
+	GLfloat lastX; ///< @brief the lastX of the camera
+	GLfloat lastY; ///< @brief the lastY of the camera
 };
 
 #endif

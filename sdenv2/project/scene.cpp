@@ -6,6 +6,9 @@ Scene::Scene() {
 	_input = Input::getInstance();
 	_camera = new Camera();
 
+	// set light to NULL
+	light = NULL;
+
 	// set scene mode
 	_scenemode = SCENE2D;
 

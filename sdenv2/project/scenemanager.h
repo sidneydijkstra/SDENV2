@@ -1,3 +1,11 @@
+/**
+* @file scenemanager.h
+*
+* @brief The SceneManager header file.
+*
+* This file is part of SDENV2, a 2D/3D OpenGL framework.
+*
+*/
 
 #ifndef SCENEMANAGER_H
 #define SCENEMANAGER_H
@@ -15,22 +23,29 @@
 #include "camera.h"
 #include "mesh.h"
 
+/**
+* @brief The SceneManager class
+*/
 class SceneManager
 {
 public:
-	SceneManager(GLFWwindow* _window);
-	~SceneManager();
+	SceneManager(); ///< @brief Constructor of the SceneManager
+	~SceneManager(); ///< @brief Destructor of the SceneManager
 
-	// scene manager update
+	/// @brief the update function of the SceneManager
+	/// @param the deltatime
+	/// @return void
 	void update(float deltatime);
 
-	// set current scene
+	/// @brief set the current scene you want to render
+	/// @param the Scene
+	/// @return void
 	void setCurrentScene(Scene* _scene) { _currentScene = _scene; };
-	// get current scene
+	/// @brief get the current scene
+	/// @return Scene*
 	Scene* getCurrentScene() { return _currentScene; };
 private:
-	// temp current scene variable
-	Scene* _currentScene;
+	Scene* _currentScene; ///< @brief the current Scene
 };
 
 #endif /* end scenemanager */

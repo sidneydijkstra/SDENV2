@@ -1,3 +1,11 @@
+/**
+* @file scene.h
+*
+* @brief The Scene header file.
+*
+* This file is part of SDENV2, a 2D/3D OpenGL framework.
+*
+*/
 
 #ifndef SCENE_H
 #define SCENE_H
@@ -22,65 +30,98 @@
 #include "color.h"
 #include "framebuffer.h"
 
+/**
+* @brief The Scene class
+*/
 class Scene
 {
 public:
-	Scene();
-	virtual ~Scene();
+	Scene(); ///< @brief Constructor of the Scene
+	virtual ~Scene(); ///< @brief Destructor of the Scene
 
-	// scene update function
+	/// @brief the update function of the Scene
+	/// @param the deltatime
+	/// @return void
 	virtual void update(float deltatime);
 
-	// scene get input
+	/// @brief get the input
+	/// @return Input*
 	Input* input() { return _input; };
-	// scene get camera
+	/// @brief get the camera of the scene
+	/// @return Camera*
 	Camera* camera() { return _camera; };
 
-	// set and get scene mode
+	/// @brief set the mode of the scene SCENE2D or SCENE3D
+	/// @param the mode
+	/// @return void
 	void setSceneMode(int m) { _scenemode = m; };
+	/// @brief get the mode of the scene SCENE2D or SCENE3D
+	/// @return int
 	int getSceneMode() { return _scenemode; };
 
-	// scene childeren functions
+	/// @brief add a child to the Scene
+	/// @param the child
+	/// @return void
 	void addChild(Entity* entity) { _childeren.push_back(entity); };
+	/// @brief remove a child from the Scene
+	/// @param the child
+	/// @return void
 	void removeChild(Entity* entity);
+	/// @brief get the child count
+	/// @return int
 	int getChildCount() { return _childeren.size(); };
+	/// @brief get all the childeren
+	/// @return std::vector<Entity*>
 	std::vector<Entity*> getChilderen() { return _childeren; };
 
-	// scene text functions
+	/// @brief add a text to the Scene
+	/// @param the text
+	/// @return void
 	void addText(Text* text) { _texts.push_back(text); };
+	/// @brief remove a text from the Scene
+	/// @param the text
+	/// @return void
 	void removeText(Text* text);
+	/// @brief get the text count
+	/// @return int
 	int getTextCount() { return _texts.size(); };
+	/// @brief get all the texts
+	/// @return std::vector<Text*>
 	std::vector<Text*> getTexts() { return _texts; };
 
-	// scene framebuffer functions
+	/// @brief add a framebuffer to the Scene
+	/// @param the framebuffer
+	/// @return void
 	void addFramebuffer(FrameBuffer* fb) { _framebuffers.push_back(fb); };
+	/// @brief remove a framebuffer from the Scene
+	/// @param the framebuffer
+	/// @return void
 	void removeFramebuffer(FrameBuffer* fb);
+	/// @brief get the framebuffer count
+	/// @return int
 	int getFramebufferCount() { return _framebuffers.size(); };
+	/// @brief get all the framebuffer
+	/// @return std::vector<FrameBuffer*>
 	std::vector<FrameBuffer*> getFramebuffers() { return _framebuffers; };
 
-	// scene light functions
+	/// @brief add a light to the Scene
+	/// @param the light
+	/// @return void
 	void addLight() { light = new Light(); };
+	/// @brief get the light of the Scene
+	/// @return Light*
 	Light* getLight() { return light; };
 
 private:
-	// scene input
-	Input* _input;
-	// scene camera
-	Camera* _camera;
-	// scene light
-	Light* light = NULL;
+	Input* _input; ///< @brief the Input
+	Camera* _camera; ///< @brief the Camera of the Scene
+	Light* light; ///< @brief the Light of the Scene
 
-	// the mode of the scene 2D = 0 3D = 1
-	int _scenemode;
+	std::vector<Entity*> _childeren; ///< @brief the list of childeren
+	std::vector<Text*> _texts; ///< @brief the list of texts
+	std::vector<FrameBuffer*> _framebuffers; ///< @brief the list of framebuffers
 
-	// childeren
-	std::vector<Entity*> _childeren;
-
-	// texts
-	std::vector<Text*> _texts;
-
-	// framebuffers
-	std::vector<FrameBuffer*> _framebuffers;
+	int _scenemode; ///< @brief the Mode of the Scene
 };
 
 #endif /* end SCENE_H */
