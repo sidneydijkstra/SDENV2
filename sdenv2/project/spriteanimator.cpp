@@ -2,6 +2,7 @@
 
 SpriteAnimator::SpriteAnimator(){
 	_currentAnimation = 0;
+	_currentFrame = 0;
 	_timer = 0;
 
 	_filter = 0;
@@ -13,21 +14,20 @@ SpriteAnimator::~SpriteAnimator(){
 }
 
 void SpriteAnimator::update(){
-	if (glfwGetTime() >= _timer) {
+	if (_animations.size() > 0 && glfwGetTime() >= _timer) {
 		// go to next aniamtion
-		_currentAnimation++;
-		if (_currentAnimation >= _animations.size()) {
-			_currentAnimation = 0;
+		_currentFrame++;
+		if (_currentFrame >= _animations[_currentAnimation].size()) {
+			_currentFrame = 0;
 		}
 
 		// set new timer
-		_timer = glfwGetTime() + _animations[_currentAnimation].delay;
+		_timer = glfwGetTime() + _animations[_currentAnimation][_currentFrame].delay;
 	}
 }
 
-void SpriteAnimator::setAnimations(std::vector<const char*> locations, float delay, int filter, int wrap){
-	_animations.clear();
-	_currentAnimation = 0;
+void SpriteAnimator::addAnimations(std::vector<const char*> locations, float delay, int filter, int wrap){
+	std::vector<Animation> _tmpanim;
 
 	_filter = filter;
 	_wrap = wrap;
@@ -37,8 +37,26 @@ void SpriteAnimator::setAnimations(std::vector<const char*> locations, float del
 		anim.id = locations[i];
 		anim.delay = delay;
 
-		_animations.push_back(anim);
+		_tmpanim.push_back(anim);
 	}
 
-	_timer = glfwGetTime() + _animations[_currentAnimation].delay;
+	_animations.push_back(_tmpanim);
+
+	_timer = glfwGetTime() + _animations[_currentAnimation][_currentFrame].delay;
+}
+
+void SpriteAnimator::setAnimation(int i){
+	if (i == _currentAnimation) {
+		return;
+	}
+
+	if (i < _animations.size() && i >= 0) {
+
+		_timer = 0;
+
+		_currentAnimation = i;
+		_currentFrame = i;
+	}else {
+		std::cout << "SpriteAnimator: can't set new animation 'int out of bounds' l:" << _animations.size() << " ca: " << i <<  std::endl;
+	}
 }

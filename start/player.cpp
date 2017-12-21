@@ -7,15 +7,29 @@ Player::Player(){
 
 	this->addSpriteAnimator();
 
-	std::vector<const char*> locations = {
-		"assets/animations/charackters/characters_37.png",
-		"assets/animations/charackters/characters_38.png",
-		"assets/animations/charackters/characters_39.png",
-		"assets/animations/charackters/characters_40.png",
-		"assets/animations/charackters/characters_41.png",
+	std::vector<const char*> idleanim = {
+		"assets/animations/charackters/idle_1.png",
+		"assets/animations/charackters/idle_2.png"
 	};
 
-	this->spriteAnimator()->setAnimations(locations, 0.1f, 0, 0);
+	std::vector<const char*> walkanim = {
+		"assets/animations/charackters/walk_1.png",
+		"assets/animations/charackters/walk_2.png",
+		"assets/animations/charackters/walk_3.png",
+		"assets/animations/charackters/walk_4.png"
+	};
+
+	std::vector<const char*> jumpanim = {
+		"assets/animations/charackters/jump_1.png",
+		"assets/animations/charackters/jump_2.png",
+		"assets/animations/charackters/jump_3.png"
+	};
+
+	this->spriteAnimator()->addAnimations(idleanim, 0.6f, 0, 0);
+	this->spriteAnimator()->addAnimations(walkanim, 0.1f, 0, 0);
+	this->spriteAnimator()->addAnimations(jumpanim, 0.1f, 0, 0);
+
+	this->spriteAnimator()->setAnimation(0);
 
 	velocity = glm::vec3(0.0f);
 	acceleration = glm::vec3(0.0f);
@@ -74,7 +88,7 @@ void Player::update(float deltatime, std::vector<Tile*> t){
 		}
 	}
 	this->position = temp; // set saved start pos as normal
-	 
+
 	// only do if can jump
 	if (didCol && jump == 12) {
 		this->velocity.y = jump;
@@ -83,6 +97,15 @@ void Player::update(float deltatime, std::vector<Tile*> t){
 	// move player
 	this->velocity += acceleration * deltatime;
 	this->position += velocity * 40.0f * deltatime;
+
+	// set animation
+	if (this->velocity.x == 0 && this->velocity.y == 0) {
+		this->spriteAnimator()->setAnimation(0);
+	}else if (this->velocity.y == 0) {
+		this->spriteAnimator()->setAnimation(1);
+	}else if(this->velocity.y < 0 || this->velocity.y > 0){
+		this->spriteAnimator()->setAnimation(2);
+	}
 
 	//std::cout << "X: " << this->velocity.x << " Y: "<< this->velocity.y << std::endl;
 

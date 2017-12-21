@@ -50,10 +50,14 @@ public:
 	/// @param the filter type
 	/// @param the wrap type
 	/// @return void
-	void setAnimations(std::vector<const char*> locations, float delay, int filter, int wrap);
+	void addAnimations(std::vector<const char*> locations, float delay, int filter, int wrap);
 	/// @brief get the current animation
 	/// @return const char*
-	const char* getCurrentAnimation() { return _animations[_currentAnimation].id; };
+	const char* getCurrentAnimation() { return _animations[_currentAnimation][_currentFrame].id; };
+	/// @brief activate a new animation
+	/// @param the animation number
+	/// @return void
+	void setAnimation(int i);
 
 	/// @brief get the filter type
 	/// @return int
@@ -63,8 +67,9 @@ public:
 	int wraping() { return _wrap; }
 
 private:
-	std::vector<Animation> _animations; ///< @brief the list of animations
+	std::vector<std::vector<Animation>> _animations; ///< @brief the list of animations
 	int _currentAnimation; ///< @brief the current animation
+	int _currentFrame; ///< @brief the current animation frame
 	float _timer; ///< @brief the timer
 
 	int _filter; ///< @brief the filter type
