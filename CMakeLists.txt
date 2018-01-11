@@ -312,4 +312,29 @@ IF(BUILD_DEMO)
   	)
   ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
+  #################
+  ### CUBE WAVE ###
+  #################
+  add_executable(SDENV2_cube_wave
+    demos/cube_wave/main.cpp
+    demos/cube_wave/world.cpp
+    demos/cube_wave/world.h
+    demos/cube_wave/cube.cpp
+    demos/cube_wave/cube.h
+  )
+
+  target_link_libraries(SDENV2_cube_wave
+    glfw
+    SDENV2
+  )
+
+  set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT SDENV2_cube_wave)
+
+
+  IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+  	target_link_libraries(SDENV2_cube_wave
+  		-lGL
+  	)
+  ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+
 ENDIF(BUILD_DEMO)

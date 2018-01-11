@@ -25,6 +25,8 @@ void Renderer::renderScene(Scene * scene, Shader* shader2D, Shader* shader3D) {
 			this->render3D(childeren[i], shader3D, scene, glm::vec3(0.0f));
 		}
 	}
+
+	this->renderLine(shader2D, childeren[0]->getChilderen()[childeren[0]->getChilderen().size()-1]->position, childeren[0]->getChilderen()[childeren[0]->getChilderen().size() - 2]->position);
 }
 
 void Renderer::render3D(Entity* entity, Shader* shader, Scene* scene, glm::vec3 parentPosition) {
@@ -54,7 +56,7 @@ void Renderer::render3D(Entity* entity, Shader* shader, Scene* scene, glm::vec3 
 
 		// get model matrix
 		glm::mat4 model;
-		model = glm::translate(model, pos);					// position
+		model = glm::translate(model, pos);									// position
 		model = glm::scale(model, entity->scale);							// scale
 		model = glm::rotate(model, entity->rotation.x, glm::vec3(1, 0, 0));	// rotation x
 		model = glm::rotate(model, entity->rotation.y, glm::vec3(0, 1, 0));	// rotation y
@@ -247,6 +249,64 @@ void Renderer::renderText(Text* text, Shader* shader){
 	}
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void Renderer::renderLine(Shader* shader, glm::vec3 posA, glm::vec3 posB){
+
+	GLuint _VAO;
+	GLuint _VBO;
+
+	/*
+	float vertices[] = {
+		 10.0f,   1.0f,  0.0f, 1.0f,
+		 20.0f,   1.0f,  0.0f, 1.0f,
+		 20.0f,   1.0f,  0.0f, 1.0f,
+		 20.0f,   60.0f,  0.0f, 1.0f,
+	};*/
+
+	//std::cout << "aX: " << posA.x << " bX: " << posB.x << std::endl;
+
+	float vertices[] = {
+		posA.x, posA.y,  0.0f, 1.0f,
+		posB.x, posB.y,  0.0f, 1.0f,
+	};
+
+	glGenVertexArrays(1, &_VAO);
+	glGenBuffers(1, &_VBO);
+	glBindVertexArray(_VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, _VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+
+	// set draw size to 36 again
+	int _drawsize = 2;
+
+	// use shader
+	shader->use();
+
+	// bind VAO
+	glBindVertexArray(_VAO);
+
+	// get model matrix
+	glm::mat4 model;
+	model = glm::translate(model, glm::vec3(0,0,0));
+	model = glm::scale(model, glm::vec3(1,1,0));
+
+	glm::mat4 projection = glm::ortho(0.0f, (float)SWIDTH, 0.0f, (float)SHEIGHT, 0.0f, 1.0f); // render 2D
+	
+	shader->setMat4("model", model);
+	shader->setMat4("projection", projection);
+
+	// set object color uniform
+	shader->setVec3("fragObjectColor", Color(255,0,0).getColor());
+	
+	// draw cube
+	glLineWidth(3.0f);
+	glDrawArrays(GL_LINES, 0, _drawsize);
+	glBindVertexArray(0);
 }
 
 // renderer deconstructor

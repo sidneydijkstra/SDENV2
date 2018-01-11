@@ -93,6 +93,10 @@ public:
 	/// @param the shader you want to use
 	/// @return void
 	void renderText(Text* text, Shader* shader);
+
+	// TODO: make the line render function working
+	void renderLine(Shader* shader, glm::vec3 posA, glm::vec3 posB);
+
 private:
 	FontLoader* _fontloader; ///< @brief the fontloader of the Renderer
 	Mesh* framebufferQuad; ///< @brief the mesh for the framebuffers

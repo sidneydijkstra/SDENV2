@@ -42,12 +42,6 @@ void Core::createWindow() {
 
 	// set view port
 	glViewport(0, 0, _windowWidth, _windowHeight);
-
-	// set openGL options
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glDisable(GL_DEPTH_TEST);
-
 }
 
 void Core::init() {
@@ -79,7 +73,8 @@ void Core::init() {
 	// set openGL options for rendering text
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glDisable(GL_DEPTH_TEST);
+	//glEnable(GL_DEPTH_TEST); // <-- for 3D
+	glDisable(GL_DEPTH_TEST); // <-- for 2D
 }
 
 bool Core::run(){
