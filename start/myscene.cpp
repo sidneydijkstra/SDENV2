@@ -64,6 +64,7 @@ MyScene::MyScene(){
 		0,0,0,0,0,0,0,0,0,0,0,0,0,0
 	};
 
+
 	// load level
 	_level->loadLevelFromArray(levellayout, 14, 14, 60, 60);
 
