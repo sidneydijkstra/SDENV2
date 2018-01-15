@@ -240,6 +240,10 @@ IF(BUILD_START)
     start/level.h
     start/enemy.cpp
     start/enemy.h
+    start/coin.cpp
+    start/coin.h
+    start/collider.cpp
+    start/collider.h
   )
 
   target_link_libraries(SDENV2_start

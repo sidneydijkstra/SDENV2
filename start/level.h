@@ -6,6 +6,7 @@
 #include "tile.h"
 #include "player.h"
 #include "enemy.h"
+#include "coin.h"
 
 struct Layout{
 	glm::vec2 levelSize;
@@ -35,6 +36,9 @@ public:
 	// add enemy to map
 	void addEnemy(int x, int y, int minx, int maxx);
 
+	// add coin from map
+	void addCoin(int x, int y);
+
 	// load a level from file
 	void loadLevelFromFile(const char* _location);
 	// load a level from array
@@ -52,7 +56,10 @@ private:
 	// entitys variables
 	Player* _player;
 
+	// list of enemys
 	std::vector<Enemy*> _enemys;
+	// list of coins
+	std::vector<Coin*> _coins;
 };
 
 #endif /* end LEVEL_H */

@@ -8,12 +8,20 @@ Level::Level(){
 
 void Level::update(float deltatime){
 
+	// update enemys
 	for (int i = 0; i < _enemys.size(); i++) {
 		_enemys[i]->update(deltatime, this->getGrid());
 	}
 
+	// update coins
+	for (int i = 0; i < _coins.size(); i++) {
+		_coins[i]->update(deltatime);
+	}
+
 	if (_player != NULL) {
 		_player->update(deltatime, this->getGrid());
+
+		// check for enemy collision with player
 		for (int i = 0; i < _enemys.size(); i++) {
 			if (_enemys[i]->collision(_player) && _enemys[i]->topCollision(_player)) {
 				this->removeChild(_enemys[i]);
@@ -22,6 +30,16 @@ void Level::update(float deltatime){
 				break;
 			}
 
+		}
+
+		// check for coin collision with player
+		for (int i = 0; i < _coins.size(); i++) {
+			if (_coins[i]->collision(_player)) {
+				this->removeChild(_coins[i]);
+				delete _coins[i];
+				_coins.erase(_coins.begin() + i);
+				break;
+			}
 		}
 	}
 }
@@ -63,6 +81,14 @@ void Level::addEnemy(int x, int y, int minx, int maxx){
 
 	this->addChild(e);
 	_enemys.push_back(e);
+}
+
+void Level::addCoin(int x, int y){
+	glm::vec3 position = glm::vec3((_layout.tileSize.x / 2) + _layout.tileSize.x * x, (_layout.tileSize.y / 2) + _layout.tileSize.y * y, 0);
+	Coin* c = new Coin(position);
+
+	this->addChild(c);
+	_coins.push_back(c);
 }
 
 void Level::loadLevelFromFile(const char * _location){

@@ -74,6 +74,12 @@ MyScene::MyScene(){
 	// add enemy
 	_level->addEnemy(2, 7, 1, 3);
 
+	// add coins
+	_level->addCoin(12,  3);
+	_level->addCoin(10,  7);
+	_level->addCoin(12,  9);
+	_level->addCoin(10, 11);
+
 	// add level as child
 	this->addChild(_level);
 }	
