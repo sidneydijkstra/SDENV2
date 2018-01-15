@@ -19,7 +19,7 @@ Rocket::Rocket(){
 	
 	this->addSpriteAnimator();
 	std::vector<const char*> locations = { "assets/animations/one.png" ,"assets/animations/two.png" ,"assets/animations/three.png" ,"assets/animations/fore.png" };
-	this->spriteAnimator()->setAnimations(locations, 0.4f, 0, 0);
+	this->spriteAnimator()->addAnimations(locations, 0.4f, 0, 0);
 }
 
 Rocket::~Rocket()

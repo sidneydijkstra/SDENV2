@@ -53,6 +53,8 @@
 #include "sprite.h"
 // include shader
 #include "resourcemanager.h"
+// include line
+#include "line.h"
 
 /**
 * @brief The Renderer class
@@ -95,7 +97,7 @@ public:
 	void renderText(Text* text, Shader* shader);
 
 	// TODO: make the line render function working
-	void renderLine(Shader* shader, glm::vec3 posA, glm::vec3 posB);
+	void renderLine(Shader* shader, Line* line);
 
 private:
 	FontLoader* _fontloader; ///< @brief the fontloader of the Renderer

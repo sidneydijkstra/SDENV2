@@ -26,7 +26,17 @@ void Renderer::renderScene(Scene * scene, Shader* shader2D, Shader* shader3D) {
 		}
 	}
 
-	this->renderLine(shader2D, childeren[0]->getChilderen()[childeren[0]->getChilderen().size()-1]->position, childeren[0]->getChilderen()[childeren[0]->getChilderen().size() - 2]->position);
+	Line* l = new Line();
+	l->addPoint(childeren[1]->position);
+	l->addPoint(childeren[0]->position);
+	l->addPoint(childeren[0]->position);
+	l->addPoint(childeren[2]->position);
+	l->addPoint(childeren[2]->position);
+	l->addPoint(childeren[1]->position);
+
+	this->renderLine(shader2D, l);
+
+	delete l;
 }
 
 void Renderer::render3D(Entity* entity, Shader* shader, Scene* scene, glm::vec3 parentPosition) {
@@ -251,38 +261,53 @@ void Renderer::renderText(Text* text, Shader* shader){
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void Renderer::renderLine(Shader* shader, glm::vec3 posA, glm::vec3 posB){
+void Renderer::renderLine(Shader* shader, Line* line){
 
 	GLuint _VAO;
 	GLuint _VBO;
 
-	/*
-	float vertices[] = {
-		 10.0f,   1.0f,  0.0f, 1.0f,
-		 20.0f,   1.0f,  0.0f, 1.0f,
-		 20.0f,   1.0f,  0.0f, 1.0f,
-		 20.0f,   60.0f,  0.0f, 1.0f,
+	// get points in vertice
+
+	std::vector<glm::vec3> points = line->getPoints();
+
+	std::vector<float> verts = std::vector<float>();
+
+	GLfloat *vertices = new GLfloat[points.size() * 4];
+
+	for (int i = 0; i < points.size(); i++){
+		glm::vec3 pos = points[i];
+
+		vertices[i * 4 + 0] = pos.x;
+		vertices[i * 4 + 1] = pos.y;
+
+		vertices[i * 4 + 2] = 0.0f;
+		vertices[i * 4 + 3] = 1.0f;
+
+		if (i+1 & 2 == 0 && i+1 > points.size()) {
+			/*verts.push_back(pos.x);
+			verts.push_back(pos.y);
+
+			verts.push_back(0.0f);
+			verts.push_back(1.0f);*/
+		}
+	}
+
+	/*float vertices[] = {
+		points[0].x, points[0].y,  0.0f, 1.0f,
+		points[1].x, points[1].y,  0.0f, 1.0f,
 	};*/
 
-	//std::cout << "aX: " << posA.x << " bX: " << posB.x << std::endl;
-
-	float vertices[] = {
-		posA.x, posA.y,  0.0f, 1.0f,
-		posB.x, posB.y,  0.0f, 1.0f,
-	};
+	int _drawsize = points.size() * 4 * sizeof(GLfloat);
 
 	glGenVertexArrays(1, &_VAO);
 	glGenBuffers(1, &_VBO);
 	glBindVertexArray(_VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, _VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, _drawsize, vertices, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
-
-	// set draw size to 36 again
-	int _drawsize = 2;
 
 	// use shader
 	shader->use();
@@ -297,14 +322,18 @@ void Renderer::renderLine(Shader* shader, glm::vec3 posA, glm::vec3 posB){
 
 	glm::mat4 projection = glm::ortho(0.0f, (float)SWIDTH, 0.0f, (float)SHEIGHT, 0.0f, 1.0f); // render 2D
 	
+	// give model and projection to shader
 	shader->setMat4("model", model);
 	shader->setMat4("projection", projection);
 
-	// set object color uniform
-	shader->setVec3("fragObjectColor", Color(255,0,0).getColor());
+	// set doTextures to false
+	shader->setBool("doTexture", false);
+
+	// give object color to shader
+	shader->setVec3("fragObjectColor", Color(0,255,0).getColor());
 	
 	// draw cube
-	glLineWidth(3.0f);
+	glLineWidth(20.0f);
 	glDrawArrays(GL_LINES, 0, _drawsize);
 	glBindVertexArray(0);
 }
