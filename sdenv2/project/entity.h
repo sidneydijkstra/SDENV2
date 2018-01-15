@@ -24,6 +24,7 @@
 #include "color.h"
 #include "input.h"
 #include "sdenv2config.h"
+#include "vector2.h"
 
 /**
 * @brief The Entity class

@@ -201,6 +201,8 @@ add_library(SDENV2 STATIC
 	sdenv2/project/texture.h
 	sdenv2/project/line.cpp
 	sdenv2/project/line.h
+	sdenv2/project/vector2.cpp
+	sdenv2/project/vector2.h
 	sdenv2/project/sdenv2config.h
 )
 

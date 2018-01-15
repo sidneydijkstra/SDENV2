@@ -26,7 +26,7 @@ void Renderer::renderScene(Scene * scene, Shader* shader2D, Shader* shader3D) {
 		}
 	}
 
-	Line* l = new Line();
+	/*Line* l = new Line();
 	l->addPoint(childeren[1]->position);
 	l->addPoint(childeren[0]->position);
 	l->addPoint(childeren[0]->position);
@@ -36,7 +36,7 @@ void Renderer::renderScene(Scene * scene, Shader* shader2D, Shader* shader3D) {
 
 	this->renderLine(shader2D, l);
 
-	delete l;
+	delete l;*/
 }
 
 void Renderer::render3D(Entity* entity, Shader* shader, Scene* scene, glm::vec3 parentPosition) {

@@ -17,7 +17,6 @@ World::World(){
 	this->addChild(rockets[0]);
 	this->addChild(rockets[1]);
 	this->addChild(rockets[2]);
-
 }
 
 World::~World()
