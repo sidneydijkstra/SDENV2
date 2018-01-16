@@ -62,8 +62,8 @@ private:
 	/// @brief calculate the deltatime
 	/// @return void
 	void calculateDeltatime();
-	GLfloat _deltaTime = 0.0f; ///< @brief the deltatime
-	GLfloat _lastFrame = 0.0f; ///< @brief the lastframe time
+	GLfloat _deltaTime; ///< @brief the deltatime
+	GLfloat _lastFrame; ///< @brief the lastframe time
 	/// @brief calculate the fps
 	/// @return void
 	void calculateFPS();

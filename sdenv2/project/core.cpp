@@ -65,9 +65,13 @@ void Core::init() {
 	// init renderer
 	renderer = new Renderer();
 
+	// define deltatime and lastframe
+	_deltaTime = 0.0f;
+	_lastFrame = 0.0f;
+
 	// create fps text
 	_fps = 0;
-	_textfps = new Text("assets/arial.ttf", 0.35, glm::vec3(1, 0, 0));
+	_textfps = new Text("assets/arial.ttf", 0.35, glm::vec3(0, 0, 0));
 	_textfps->position.y = SHEIGHT - 20;
 
 	// set openGL options for rendering text
@@ -82,8 +86,8 @@ bool Core::run(){
 	Input::update();
 
 	// calculate deltattime and fps
-	calculateDeltatime();
 	calculateFPS();
+	calculateDeltatime();
 
 	// update scene manager and scene manager updates current scene
 	scenemanager->update(_deltaTime);
@@ -175,7 +179,7 @@ void Core::calculateFPS() {
 	_fps++;
 	if (_currentTime - _lastTime >= 1) {
 
-		_textfps->message = "FPS: " + std::to_string(_fps);
+		_textfps->message = "FPS: " + std::to_string(_fps) + " DELTATIME: " + std::to_string(_deltaTime);
 		_lastTime = glfwGetTime();
 		_fps = 0;
 	}

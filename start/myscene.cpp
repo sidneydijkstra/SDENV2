@@ -69,7 +69,7 @@ MyScene::MyScene(){
 	_level->loadLevelFromArray(levellayout, 14, 14, 60, 60);
 
 	// add player
-	_level->addPlayer(5, 5);
+	_level->addPlayer(5, 10);
 
 	// add enemy
 	_level->addEnemy(2, 7, 1, 3);
@@ -87,6 +87,7 @@ MyScene::MyScene(){
 void MyScene::update(float deltatime) {
 	// update level
 	_level->update(deltatime);
+	camera()->position.x += 1 * deltatime;
 }
 
 MyScene::~MyScene(){

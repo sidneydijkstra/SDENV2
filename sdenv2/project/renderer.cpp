@@ -148,11 +148,15 @@ void Renderer::render2D(Entity* entity, Shader* shader, Scene* scene, glm::vec3 
 		model = glm::rotate(model, entity->rotation.y, glm::vec3(0, 1, 0));	// rotation y
 		model = glm::rotate(model, entity->rotation.z, glm::vec3(0, 0, 1));	// rotation z
 	
-
+		// get view
+		//glm::mat4 view = glm::lookAt(scene->camera()->position, scene->camera()->position + scene->camera()->front, scene->camera()->up); // render 3D
+		
+		// get projection
 		glm::mat4 projection = glm::ortho(0.0f, (float)SWIDTH, 0.0f, (float)SHEIGHT, 0.0f, 1.0f); // render 2D
 
 		// set uniforms
 		shader->setMat4("model", model);
+		//shader->setMat4("view", view);
 		shader->setMat4("projection", projection);
 
 		// set object color uniform
