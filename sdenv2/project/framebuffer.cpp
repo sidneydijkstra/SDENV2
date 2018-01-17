@@ -15,7 +15,7 @@ FrameBuffer::FrameBuffer(){
 	// set shader
 	_vertShader = "shaders/framebuffer.vert";
 	_fragShader = "shaders/framebuffer.frag";
-	_shader = new Shader(_vertShader, "", _fragShader);;
+	_shader = new Shader(_vertShader, "", _fragShader);
 
 	// set position size and backgroundcolor
 	position = glm::vec3(SWIDTH / 2, SHEIGHT / 2, 0);
@@ -95,4 +95,14 @@ void FrameBuffer::bind(){
 
 void FrameBuffer::unbind(){
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void FrameBuffer::addCostumShader(const char * vertLocation, const char * fragLocation){
+	if (_shader != NULL) {
+		delete _shader;
+	}
+
+	_vertShader = vertLocation;
+	_fragShader = fragLocation;
+	_shader = new Shader(_vertShader, "", _fragShader);
 }

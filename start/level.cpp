@@ -24,6 +24,9 @@ void Level::update(float deltatime){
 		// check for enemy collision with player
 		for (int i = 0; i < _enemys.size(); i++) {
 			if (_enemys[i]->collision(_player) && _enemys[i]->topCollision(_player)) {
+				_player->addForce(glm::vec3(0,20,0)); // <-- add froce to player to make him bounce of enemy's
+
+				// remove enemy
 				this->removeChild(_enemys[i]);
 				delete _enemys[i];
 				_enemys.erase(_enemys.begin() + i);
@@ -35,6 +38,8 @@ void Level::update(float deltatime){
 		// check for coin collision with player
 		for (int i = 0; i < _coins.size(); i++) {
 			if (_coins[i]->collision(_player)) {
+
+				// remove coin
 				this->removeChild(_coins[i]);
 				delete _coins[i];
 				_coins.erase(_coins.begin() + i);

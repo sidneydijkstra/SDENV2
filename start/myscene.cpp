@@ -15,7 +15,10 @@ MyScene::MyScene(){
 	fbBottom->size = glm::vec3(SWIDTH / 2, SHEIGHT / 4, 0);
 	fbBottom->rotation.z = 1.570796327f * 2;
 	fbBottom->rotation.y = 1.570796327f * 2;
-	fbBottom->background = Color(0, 100, 0);
+	fbBottom->background = Color(0, 0, 0);
+
+	fbBottom->addCostumShader("shaders/framebuffer.vert", "shaders/framebuffer_costumshader.frag");
+
 	this->addFramebuffer(fbBottom);
 
 	// create level
@@ -38,10 +41,10 @@ MyScene::MyScene(){
 		1,2,2,2,0,0,0,0,2,1,0,0,0,1,
 		1,0,0,0,0,0,0,0,0,1,1,0,0,1,
 		1,0,0,0,0,0,0,0,0,1,0,0,0,1,
-		1,0,0,0,0,0,0,0,0,1,0,0,1,1,
 		1,0,0,0,0,0,0,0,0,1,0,0,0,1,
-		1,0,0,0,0,0,0,0,0,1,1,0,0,1,
-		1,0,0,0,0,0,1,1,1,1,0,0,0,1,
+		1,0,0,0,0,0,0,0,0,1,0,0,0,1,
+		1,0,0,0,0,0,1,0,0,1,1,0,0,1,
+		1,0,0,0,0,0,0,1,1,1,0,0,0,1,
 		1,0,0,0,0,0,0,0,0,1,0,0,0,1,
 		1,1,1,1,1,1,1,1,1,1,1,1,1,1
 	};
@@ -73,11 +76,11 @@ MyScene::MyScene(){
 
 	// add enemy
 	_level->addEnemy(2, 7, 1, 3);
+	_level->addEnemy(11, 2, 10, 12);
 
 	// add coins
 	_level->addCoin(12,  3);
 	_level->addCoin(10,  7);
-	_level->addCoin(12,  9);
 	_level->addCoin(10, 11);
 
 	// add level as child

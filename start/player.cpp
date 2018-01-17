@@ -113,4 +113,8 @@ void Player::update(float deltatime, std::vector<Tile*> t){
 
 	this->acceleration *= 0;
 }
+
+void Player::addForce(glm::vec3 _force) {
+	this->velocity += _force;
+}
  

@@ -5,8 +5,8 @@ Coin::Coin(glm::vec3 _position){
 
 	this->mesh()->loadQuad();
 
-	this->scale = glm::vec3(10,20,0);
-	this->sprite()->loadTexture("assets/gold.jpg", 0, 0);
+	this->scale = glm::vec3(12,24,0);
+	this->sprite()->loadTexture("assets/coin.png", 0, 0);
 }
 
 Coin::~Coin(){

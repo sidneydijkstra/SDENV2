@@ -13,6 +13,8 @@ public:
 
 	void update(float deltatime, std::vector<Tile*> t);
 
+	void addForce(glm::vec3 _force);
+
 private:
 	glm::vec3 velocity;
 	glm::vec3 acceleration;

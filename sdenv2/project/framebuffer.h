@@ -63,6 +63,11 @@ public:
 	/// @return int
 	int getFrameBufferDepthTexture() { return _depthTexture; };
 
+	/// @brief add a costum shader to the framebuffer
+	/// @param the location of the vertex shader
+	/// @param the location of the fragment shader
+	/// @return void
+	void addCostumShader(const char* vertLocation, const char* fragLocation);
 	/// @brief get the shader of the FrameBuffer
 	/// @return Shader*
 	Shader* shader() { return _shader; };
@@ -84,8 +89,8 @@ private:
 
 	// shaders
 	Shader* _shader; ///< @brief the shader of the framebuffer
-	const GLchar* _fragShader; ///< @brief the fragment shader of the framebuffer
 	const GLchar* _vertShader; ///< @brief the vertex shader of the framebuffer
+	const GLchar* _fragShader; ///< @brief the fragment shader of the framebuffer
 
 };
 

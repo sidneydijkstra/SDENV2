@@ -177,8 +177,8 @@ void Renderer::render2D(Entity* entity, Shader* shader, Scene* scene, glm::vec3 
 }
 
 void Renderer::renderFramebuffer(FrameBuffer * framebuffer, Shader * shader){
-	// set shader, frame buffer options and bind texture
-	shader->use();
+	// use framebuffer shader, frame buffer options and bind texture
+	framebuffer->shader()->use();
 	glBindVertexArray(framebufferQuad->_VAO);
 	glBindTexture(GL_TEXTURE_2D, framebuffer->getFrameBufferNormalTexture());
 
