@@ -203,6 +203,8 @@ add_library(SDENV2 STATIC
 	sdenv2/project/line.h
 	sdenv2/project/vector2.cpp
 	sdenv2/project/vector2.h
+	sdenv2/project/savemanager.cpp
+	sdenv2/project/savemanager.h
 	sdenv2/project/sdenv2config.h
 )
 

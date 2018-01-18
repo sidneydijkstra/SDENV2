@@ -59,6 +59,10 @@ void Core::init() {
 	// init input
 	Input::init(_window);
 
+	// init save managers
+	SaveManager::init();
+	//SaveManager::getInstance()->setValue("newkey", "420");
+
 	// init scene manager
 	scenemanager = new SceneManager();
 	
@@ -186,6 +190,9 @@ void Core::calculateFPS() {
 }
 
 Core::~Core() {
+	// delete and save save manager
+	SaveManager::getInstance()->close();
+
 	// delete the window
 	delete _window;
 

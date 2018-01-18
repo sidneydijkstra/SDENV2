@@ -32,6 +32,7 @@
 #include "renderer.h"
 #include "scenemanager.h"
 #include "sdenv2config.h"
+#include "savemanager.h"
 
 /**
 * @brief The Core class
