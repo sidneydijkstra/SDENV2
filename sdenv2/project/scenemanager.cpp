@@ -9,9 +9,6 @@ SceneManager::SceneManager(){
 
 // sceneManager update 
 void SceneManager::update(float deltatime){
-	// update camera vectors
-	getCurrentScene()->camera()->updateCameraVector();
-
 	// update current scene
 	getCurrentScene()->update(deltatime);
 
