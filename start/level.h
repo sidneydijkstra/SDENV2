@@ -3,6 +3,7 @@
 #define LEVEL_H
 
 #include <entity.h>
+#include <camera.h>
 #include "tile.h"
 #include "player.h"
 #include "enemy.h"
@@ -46,6 +47,9 @@ public:
 
 	// get _grid
 	std::vector<Tile*> getGrid();
+
+	// move camera with player
+	void playerFollow(Camera* cam);
 
 private:
 	// map variables

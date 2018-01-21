@@ -92,6 +92,9 @@ MyScene::MyScene(){
 void MyScene::update(float deltatime) {
 	// update level
 	_level->update(deltatime);
+
+	// use camera movement
+	_level->playerFollow(this->camera());
 }
 
 MyScene::~MyScene(){

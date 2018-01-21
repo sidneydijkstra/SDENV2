@@ -134,6 +134,12 @@ std::vector<Tile*> Level::getGrid(){
 	return _grid;
 }
 
+void Level::playerFollow(Camera * cam){
+	if (_player != NULL) {
+		cam->position.x = _player->position.x - SWIDTH / 2; // <-- now use 'SWIDTH / 2' need to fix this in engine
+	}
+}
+
 Level::~Level(){
 	// delete grid and clear vector's
 	for (int i = 0; i < _grid.size(); i++) {
