@@ -78,10 +78,15 @@ void Renderer::render3D(Entity* entity, Shader* shader, Scene* scene, glm::vec3 
 		// get projectioins
 		glm::mat4 projection = glm::perspective(glm::radians(45.0f), (GLfloat)SWIDTH / (GLfloat)SHEIGHT, 0.001f, 100.0f); // render 3D
 
-		// set uniforms
-		shader->setMat4("model", model);
-		shader->setMat4("view", view);
-		shader->setMat4("projection", projection);
+
+		// create model view projection matrix
+		glm::mat4 MVP = projection * view * model;
+
+		// set MVP uniforms
+		shader->setMat4("MVP", MVP);
+
+		// set model uniforms
+		shader->setMat4("model", model); // <-- 3D rendering needs this for normals
 
 		// set object color uniform
 		shader->setVec3("fragObjectColor", entity->color.getColor());
@@ -142,22 +147,23 @@ void Renderer::render2D(Entity* entity, Shader* shader, Scene* scene, glm::vec3 
 
 		// get model matrix
 		glm::mat4 model;
-		model = glm::translate(model, pos);										// position
-		model = glm::scale(model, entity->scale);								// scale
+		model = glm::translate(model, pos);									// position
+		model = glm::scale(model, entity->scale);							// scale
 		model = glm::rotate(model, entity->rotation.x, glm::vec3(1, 0, 0));	// rotation x
 		model = glm::rotate(model, entity->rotation.y, glm::vec3(0, 1, 0));	// rotation y
 		model = glm::rotate(model, entity->rotation.z, glm::vec3(0, 0, 1));	// rotation z
 	
 		// get view
-		//glm::mat4 view = glm::lookAt(scene->camera()->position, scene->camera()->position + scene->camera()->front, scene->camera()->up); // render 3D
-		
-		// get projection
-		glm::mat4 projection = glm::ortho(0.0f, (float)SWIDTH, 0.0f, (float)SHEIGHT, 0.0f, 1.0f); // render 2D
+		glm::mat4 view = glm::lookAt(scene->camera()->position, scene->camera()->position + glm::vec3(0, 0, -1), glm::vec3(0, 1, 0));
 
-		// set uniforms
-		shader->setMat4("model", model);
-		//shader->setMat4("view", view);
-		shader->setMat4("projection", projection);
+		// get projection
+		glm::mat4 projection = glm::ortho(0.0f, (float)SWIDTH, 0.0f, (float)SHEIGHT, 0.0f, 1.0f);
+
+		// create model view projection matrix
+		glm::mat4 MVP = projection * view * model;
+
+		// set MVP uniforms
+		shader->setMat4("MVP", MVP);
 
 		// set object color uniform
 		shader->setVec3("fragObjectColor", entity->color.getColor());

@@ -22,6 +22,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "input.h"
+#include "sdenv2config.h"
 
 /**
 * @brief The Camera class
@@ -44,6 +45,19 @@ public:
 	GLfloat yaw = -90.0f; ///< @brief the yaw of the camera
 	GLfloat pitch = 0.0f; ///< @brief the pitch of the camera
 	GLfloat fov = 70.0f; ///< @brief the fov of the camera
+
+	// temp function
+	void updateCameraVector(){
+		glm::vec3 front;
+		front.x = cos(glm::radians(this->yaw)) * cos(glm::radians(this->pitch));
+		front.y = sin(glm::radians(this->pitch));
+		front.z = sin(glm::radians(this->yaw)) * cos(glm::radians(this->pitch));
+
+		this->front = glm::normalize(front);
+
+		this->right = glm::normalize(glm::cross(this->front, glm::vec3(0.0f, 1.0f, 0.0f)));
+		this->up = glm::normalize(glm::cross(this->right, this->front));
+	}
 private:
 	/// @brief the position movement function of the camera
 	/// @param the deltatime

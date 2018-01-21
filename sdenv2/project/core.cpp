@@ -75,14 +75,12 @@ void Core::init() {
 
 	// create fps text
 	_fps = 0;
-	_textfps = new Text("assets/arial.ttf", 0.35, glm::vec3(0, 0, 0));
-	_textfps->position.y = SHEIGHT - 20;
+	_textfps = new Text("assets/arial.ttf", 0.25, glm::vec3(1, 1, 0));
+	_textfps->position.y = SHEIGHT - 15;
 
 	// set openGL options for rendering text
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	//glEnable(GL_DEPTH_TEST); // <-- for 3D
-	glDisable(GL_DEPTH_TEST); // <-- for 2D
 }
 
 bool Core::run(){

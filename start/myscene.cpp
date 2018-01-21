@@ -2,6 +2,8 @@
 
 
 MyScene::MyScene(){
+	this->setSceneMode(SCENE2D); // <-- set scene mode
+
 	// create top framebuffer
 	fbTop = new FrameBuffer();
 	fbTop->position = glm::vec3(SWIDTH/ 2, (SHEIGHT / 4) * 3, 0);
@@ -90,7 +92,6 @@ MyScene::MyScene(){
 void MyScene::update(float deltatime) {
 	// update level
 	_level->update(deltatime);
-	camera()->position.x += 1 * deltatime;
 }
 
 MyScene::~MyScene(){

@@ -40,7 +40,7 @@ public:
 	/// @brief set the current scene you want to render
 	/// @param the Scene
 	/// @return void
-	void setCurrentScene(Scene* _scene) { _currentScene = _scene; };
+	void setCurrentScene(Scene* _scene);
 	/// @brief get the current scene
 	/// @return Scene*
 	Scene* getCurrentScene() { return _currentScene; };

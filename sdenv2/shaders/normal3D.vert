@@ -10,13 +10,12 @@ out vec3 fragNormal;
 out vec3 fragPosition;
 
 // met4's
+uniform mat4 MVP;
 uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
 
 void main(){
   // set gl position
-    gl_Position = projection * view * model * vec4(position, 1.0f);
+    gl_Position = MVP * vec4(position, 1.0f);
 
     // texture cordinates
     fragTextureCord = vec2(textureCord.x, 1.0 - textureCord.y);

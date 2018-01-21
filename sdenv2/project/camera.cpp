@@ -1,9 +1,13 @@
 
 #include "camera.h"
 
+
 Camera::Camera() {
 	this->lastX = 1000 / 2.0;
 	this->lastY = 800 / 2.0;
+
+	//this->position = glm::vec3(SWIDTH / 2, SHEIGHT / 2, 0);
+	//this->position.z = 630;
 
 	this->yaw = 0.0f;
 	this->pitch = 0.0f;
