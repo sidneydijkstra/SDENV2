@@ -55,9 +55,21 @@ public:
 	/// @return bool
 	static bool getKeyDown(int _keycode);
 
+	/// @brief get if mouse button is pressed
+	/// @param the mouse button
+	/// @return bool
+	static bool getMouseButton(int _mousebuttoncode);
+	/// @brief get if mouse button is down
+	/// @param the mouse button
+	/// @return bool
+	static bool getMouseButtonDown(int _mousebuttoncode);
+
 	/// @brief the key callback function
 	/// @return void
 	static void _handleKey(GLFWwindow* window, int key, int scancode, int action, int mode);
+	/// @brief the mouse callback function
+	/// @return void
+	static void _handleMouseButton(GLFWwindow* window, int button, int action, int mode);
 	/// @brief the mouse callback function
 	/// @return void
 	static void _handleMouse(GLFWwindow* window, double xpos, double ypos);
@@ -76,6 +88,9 @@ private:
 
 	bool _keys[GLFW_KEY_LAST]; ///< @brief the keys
 	bool _keysDown[GLFW_KEY_LAST]; ///< @brief the keys down
+
+	bool _mouse[GLFW_MOUSE_BUTTON_LAST]; ///< @brief the keys
+	bool _mouseDown[GLFW_MOUSE_BUTTON_LAST]; ///< @brief the keys down
 
 	float _mouseX; ///< @brief the mouse x
 	float _mouseY; ///< @brief the mouse y

@@ -29,6 +29,7 @@ void Input::init(GLFWwindow * window){
 
 	// Set the required callback functions
 	glfwSetKeyCallback(window, _handleKey);
+	glfwSetMouseButtonCallback(window, _handleMouseButton);
 	glfwSetCursorPosCallback(window, _handleMouse);
 	glfwSetScrollCallback(window, _handleScroll);
 }
@@ -64,6 +65,21 @@ bool Input::getKeyDown(int _keycode) {
 	return false;
 }
 
+bool Input::getMouseButton(int _mousebuttoncode){	
+	return Input::getInstance()->_mouse[_mousebuttoncode];
+}
+
+bool Input::getMouseButtonDown(int _mousebuttoncode){
+	if (Input::getInstance()->_mouse[_mousebuttoncode] && !Input::getInstance()->_mouseDown[_mousebuttoncode]) {
+		Input::getInstance()->_mouseDown[_mousebuttoncode] = true;
+		return true;
+	}
+	else if (!Input::getInstance()->_mouse[_mousebuttoncode] && Input::getInstance()->_mouseDown[_mousebuttoncode]) {
+		Input::getInstance()->_mouseDown[_mousebuttoncode] = false;
+	}
+	return false;
+}
+
 // key handeler
 void Input::_handleKey(GLFWwindow * window, int key, int scancode, int action, int mode){
 	if (key >= 0 && key <= GLFW_KEY_LAST) {
@@ -81,10 +97,22 @@ void Input::_handleKey(GLFWwindow * window, int key, int scancode, int action, i
 	}
 }
 
+void Input::_handleMouseButton(GLFWwindow * window, int button, int action, int mode){
+	if (button >= 0 && button <= GLFW_KEY_LAST) {
+		if (action == GLFW_PRESS) {
+			Input::getInstance()->_mouse[button] = true;
+		}
+		else if (action == GLFW_RELEASE) {
+			Input::getInstance()->_mouse[button] = false;
+		}
+	}
+}
+
+
 // mouse handeler
 void Input::_handleMouse(GLFWwindow * window, double xpos, double ypos){
 	Input::getInstance()->_mouseX = (float)xpos;
-	Input::getInstance()->_mouseY = (float)ypos;
+	Input::getInstance()->_mouseY = ((float)ypos - 800) * -1;
 }
 
 // scroll handeler
