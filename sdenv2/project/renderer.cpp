@@ -206,24 +206,37 @@ void Renderer::renderFramebuffer(FrameBuffer * framebuffer, Shader * shader){
 	// draw framebuffer on quad
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 	glBindVertexArray(0);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void Renderer::renderText(Text* text, Shader* shader){
-	// set text color
+void Renderer::renderUIText(UIText* text, UICollection* parent, Shader* shader){
 	shader->setVec3("textColor", text->color);
 
 	// set texture and VAO
 	glActiveTexture(GL_TEXTURE0);
 	glBindVertexArray(text->_VAO);
 
-	// get message scale and position
+
+	std::string::const_iterator c;
 	std::string str = text->message;
 	float scale = text->scale;
-	float x = text->position.x;
-	float y = text->position.y;
+
+	// get width and height
+	float w = 0;
+	float h = 0;
+	for (c = str.begin(); c != str.end(); c++) {
+		Character ch = _fontloader->getFont(text->getFont())[*c];
+		w += ch.size.x * scale;
+		h = (ch.size.y * scale) > h ? ch.size.y * scale : h;
+	}
+
+	// get message scale and position
+	float x = (text->position.x + parent->position.x) - w/2;
+	float y = (text->position.y + parent->position.y) - h/2; //(text->position.y - SHEIGHT) * -1 + parent->position.x;
+	
+	std::cout << "x:" << x << " y: " << y << std::endl;
 
 	// Iterate through all characters
-	std::string::const_iterator c;
 	int i = 0;
 	for (c = str.begin(); c != str.end(); c++){
 		// if lerp color set new color
@@ -269,6 +282,83 @@ void Renderer::renderText(Text* text, Shader* shader){
 	}
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void Renderer::RenderCanvas(Canvas * canvas, Shader * shader, Shader* textShader){
+	// if not active return
+	if (!canvas->active) {
+		return;
+	}
+
+	// render all the UICollections in the childeren
+	int size = canvas->getChildCount();
+	std::vector<UICollection*> collection = canvas->getAllChilderen();
+	for (int i = 0; i < size; i++) {
+		this->renderUICollection(collection[i], shader, textShader);
+	}
+}
+
+void Renderer::renderUICollection(UICollection * collection, Shader * shader, Shader* textShader){
+	// if not active return
+	if (!collection->active) {
+		return;
+	}
+
+	// render all the UIElements in the collection
+	int size = collection->getElementsCount();
+	std::vector<UIElement*> elements = collection->getAllElements();
+	for (int i = 0; i < size; i++){
+		shader->use();
+		this->renderUIElement(elements[i], collection, shader);
+	}
+
+	// render all the UIText in the collection
+	size = collection->getUITextCount();
+	std::vector<UIText*> texts = collection->getAllUIText();
+	for (int i = 0; i < size; i++) {
+		textShader->use();
+		this->renderUIText(texts[i], collection, shader);
+	}
+}
+
+
+void Renderer::renderUIElement(UIElement * element, UICollection* parent, Shader * shader){
+	// only render entity if entity is active
+	if (element->active) {
+		// set parent pos
+		glm::vec3 pos = element->position + parent->position;
+
+		// bind VAO
+		glBindVertexArray(element->mesh()->_VAO);
+
+		// activate textures
+		if (element->sprite()->texture() != NULL) {
+			shader->setBool("doTexture", true);
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, _resmanager->getTexture(element->sprite()->texture(), element->sprite()->filter(), element->sprite()->wraping()));
+		}
+		else {
+			glActiveTexture(GL_TEXTURE0);
+			shader->setBool("doTexture", false);
+		}
+
+		// create and set model matrix
+		glm::mat4 model;
+		model = glm::translate(model, pos);
+		model = glm::scale(model, element->size);
+		model = glm::rotate(model, element->rotation.x, glm::vec3(1, 0, 0));
+		model = glm::rotate(model, element->rotation.y, glm::vec3(0, 1, 0));
+		model = glm::rotate(model, element->rotation.z, glm::vec3(0, 0, 1));
+
+		shader->setMat4("model", model);
+
+		// set object color uniform
+		shader->setVec3("fragObjectColor", element->color.getColor());
+
+		// draw cube
+		glDrawArrays(GL_TRIANGLES, 0, element->mesh()->_drawsize);
+		glBindVertexArray(0);
+	}
 }
 
 void Renderer::renderLine(Shader* shader, Line* line){

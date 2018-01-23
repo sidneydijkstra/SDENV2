@@ -76,11 +76,14 @@ private:
 	// shaders
 	Shader* normal3DShader;  ///< @brief the normal 3D shader
 	Shader* normal2DShader;  ///< @brief the normal 2D shader
+	Shader* UIShader;  ///< @brief the normal 2D shader
 	Shader* framebufferShader; ///< @brief the framebuffer shader
 	Shader* textShader; ///< @brief the text shader
 
 	// TEMP DEBUG VAR
 	bool renderTriangle = true; ///< @brief the renderTriangle
+
+	UICollection* uiobject;
 };
 
 #endif /* end CORE_H */

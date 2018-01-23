@@ -7,7 +7,7 @@ Scene::Scene() {
 	_camera = new Camera();
 
 	// set light to NULL
-	light = NULL;
+	_light = NULL;
 
 	// set scene mode
 	_scenemode = SCENE2D;
@@ -29,10 +29,10 @@ void Scene::removeChild(Entity * entity){
 	}
 }
 
-void Scene::removeText(Text * text){
-	for (int i = 0; i < _texts.size(); i++) {
-		if (_texts[i] == text) {
-			_texts.erase(_texts.begin() + i);
+void Scene::removeCanvas(Canvas * canvas){
+	for (int i = 0; i < _canvases.size(); i++) {
+		if (_canvases[i] == canvas) {
+			_canvases.erase(_canvases.begin() + i);
 			break;
 		}
 	}
@@ -66,7 +66,7 @@ Scene::~Scene(){
 
 	// clear arrays
 	_childeren.clear();
-	_texts.clear();
+	_canvases.clear();
 	_framebuffers.clear();
 
 	// remove camera

@@ -161,6 +161,7 @@ set(ALL_LIBS
 ##############
 
 add_library(SDENV2 STATIC
+  # normal engine
 	sdenv2/project/core.cpp
 	sdenv2/project/core.h
 	sdenv2/project/renderer.cpp
@@ -206,6 +207,23 @@ add_library(SDENV2 STATIC
 	sdenv2/project/savemanager.cpp
 	sdenv2/project/savemanager.h
 	sdenv2/project/sdenv2config.h
+
+  # UI engine
+  sdenv2/project/ui.h
+  sdenv2/project/ui/canvas.cpp
+  sdenv2/project/ui/canvas.h
+  sdenv2/project/ui/uielement.cpp
+  sdenv2/project/ui/uielement.h
+  sdenv2/project/ui/uitext.cpp
+  sdenv2/project/ui/uitext.h
+  sdenv2/project/ui/uicollection.cpp
+  sdenv2/project/ui/uicollection.h
+
+  sdenv2/project/ui/debugcanvas.cpp
+  sdenv2/project/ui/debugcanvas.h
+
+  sdenv2/project/ui/uibutton.cpp
+  sdenv2/project/ui/uibutton.h
 )
 
 target_link_libraries(SDENV2

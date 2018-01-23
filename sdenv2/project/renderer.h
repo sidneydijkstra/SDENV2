@@ -55,6 +55,8 @@
 #include "resourcemanager.h"
 // include line
 #include "line.h"
+// include ui
+#include "ui.h"
 
 /**
 * @brief The Renderer class
@@ -94,7 +96,12 @@ public:
 	/// @param the text you want to render
 	/// @param the shader you want to use
 	/// @return void
-	void renderText(Text* text, Shader* shader);
+	void renderUIText(UIText* text, UICollection* parent, Shader* shader);
+
+	// TODO: make ui render functions work
+	void RenderCanvas(Canvas* canvas, Shader* shader, Shader* textShader);
+	void renderUICollection(UICollection* collection, Shader* shader, Shader* textShader);
+	void renderUIElement(UIElement* element, UICollection* parent, Shader* shader);
 
 	// TODO: make the line render function working
 	void renderLine(Shader* shader, Line* line);

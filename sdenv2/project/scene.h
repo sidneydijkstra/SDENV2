@@ -29,6 +29,7 @@
 #include "text.h"
 #include "color.h"
 #include "framebuffer.h"
+#include "ui.h"
 
 /**
 * @brief The Scene class
@@ -74,20 +75,20 @@ public:
 	/// @return std::vector<Entity*>
 	std::vector<Entity*> getChilderen() { return _childeren; };
 
-	/// @brief add a text to the Scene
-	/// @param the text
+	/// @brief add a canvas to the Scene
+	/// @param the canvas
 	/// @return void
-	void addText(Text* text) { _texts.push_back(text); };
-	/// @brief remove a text from the Scene
-	/// @param the text
+	void addCanvas(Canvas* canvas) { _canvases.push_back(canvas); };
+	/// @brief remove a canvas from the Scene
+	/// @param the canvas
 	/// @return void
-	void removeText(Text* text);
-	/// @brief get the text count
+	void removeCanvas(Canvas* text);
+	/// @brief get the canvas count
 	/// @return int
-	int getTextCount() { return _texts.size(); };
-	/// @brief get all the texts
-	/// @return std::vector<Text*>
-	std::vector<Text*> getTexts() { return _texts; };
+	int getCanvasCount() { return _canvases.size(); };
+	/// @brief get all the canvases
+	/// @return std::vector<Canvas*>
+	std::vector<Canvas*> getCanvases() { return _canvases; };
 
 	/// @brief add a framebuffer to the Scene
 	/// @param the framebuffer
@@ -107,18 +108,18 @@ public:
 	/// @brief add a light to the Scene
 	/// @param the light
 	/// @return void
-	void addLight() { light = new Light(); };
+	void addLight() { _light = new Light(); };
 	/// @brief get the light of the Scene
 	/// @return Light*
-	Light* getLight() { return light; };
+	Light* getLight() { return _light; };
 
 private:
 	Input* _input; ///< @brief the Input
 	Camera* _camera; ///< @brief the Camera of the Scene
-	Light* light; ///< @brief the Light of the Scene
+	Light* _light; ///< @brief the Light of the Scene
 
 	std::vector<Entity*> _childeren; ///< @brief the list of childeren
-	std::vector<Text*> _texts; ///< @brief the list of texts
+	std::vector<Canvas*> _canvases; ///< @brief the list of texts
 	std::vector<FrameBuffer*> _framebuffers; ///< @brief the list of framebuffers
 
 	int _scenemode; ///< @brief the Mode of the Scene

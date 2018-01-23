@@ -28,7 +28,7 @@ void Core::createWindow() {
 	glfwMakeContextCurrent(_window);
 
 	// GLFW Options
-	glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL); // <-- cursor mode
 
 	// initializing GLEW
 	glewExperimental = GL_TRUE;
@@ -50,10 +50,17 @@ void Core::init() {
 	normal2DShader = new Shader("shaders/normal2D.vert", "", "shaders/normal2D.frag");
 	framebufferShader = new Shader("shaders/framebuffer.vert", "", "shaders/framebuffer.frag");
 
+	// get projection
+	glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(SWIDTH), 0.0f, static_cast<GLfloat>(SHEIGHT));
+
+	// create ui shader and set projection
+	UIShader = new Shader("shaders/ui.vert", "", "shaders/ui.frag");
+	UIShader->use();
+	UIShader->setMat4("projection", projection);
+
 	// create text shader and set projection
 	textShader = new Shader("shaders/text.vert", "", "shaders/text.frag");
 	textShader->use();
-	glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(SWIDTH), 0.0f, static_cast<GLfloat>(SHEIGHT));
 	textShader->setMat4("projection", projection);
 
 	// init input
@@ -81,6 +88,8 @@ void Core::init() {
 	// set openGL options for rendering text
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	uiobject = NULL;
 }
 
 bool Core::run(){
@@ -141,15 +150,27 @@ bool Core::run(){
 	}
 
 	// render all text in scene
-	textShader->use();
-	int textcount = scene->getTextCount();
-	std::vector<Text*> texts = scene->getTexts();
-	for (int i = 0; i < textcount; i++) {
-		renderer->renderText(texts[i], textShader);
+	int canvascount = scene->getCanvasCount();
+	std::vector<Canvas*> Canvases = scene->getCanvases();
+	for (int i = 0; i < canvascount; i++) {
+		renderer->RenderCanvas(Canvases[i], UIShader, textShader);
 	}
 
-	// display fps
-	renderer->renderText(_textfps, textShader);
+	if (uiobject == NULL) {
+		uiobject = new UICollection();
+		uiobject->size = glm::vec3(100, 30, 0);
+		uiobject->position = glm::vec3(SWIDTH/2, SHEIGHT/2,0);
+
+		UIElement* el = new UIElement();
+		uiobject->addElement(el);
+
+		el->size = glm::vec3(uiobject->size.x, uiobject->size.y,0);
+		el->position = uiobject->top();
+	}
+
+	// render fps text
+	//textShader->use();
+	//renderer->renderText(_textfps, textShader);
 
 	// debug
 
@@ -204,8 +225,12 @@ Core::~Core() {
 	delete normal2DShader;
 	delete framebufferShader;
 	delete textShader;
+	delete UIShader;
 
 	// delete fps text
-	delete _textfps;
+	delete _textfps; 
+
+	// temp
+	delete uiobject;
 }
 
