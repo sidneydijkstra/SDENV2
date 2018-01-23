@@ -10,6 +10,12 @@ Input::Input(){
 		_keysDown[i] = false;
 	}
 
+	// set all button bools to false
+	for (int i = 0; i < GLFW_KEY_LAST; i++) {
+		_mouse[i] = false;
+		_mouseDown[i] = false;
+	}
+
 	_mouseX = 0;
 	_mouseY = 0;
 }
