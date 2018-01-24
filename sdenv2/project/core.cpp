@@ -122,8 +122,18 @@ bool Core::run(){
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			glClearColor(c.x, c.y, c.z, 1);
 
-			// render all currentscene mesh's on screen
-			renderer->renderScene(scene, normal2DShader, normal3DShader);
+			// render all currentscene mesh's on screen or all costum entitys
+			if (fBuffers[i]->isRenderEntitysOnly()) {
+				std::vector<Entity*> costumEntitys = fBuffers[i]->getRenderEntitys();
+				int size = costumEntitys.size();
+				for (int i = 0; i < size; i++)
+				{
+					renderer->render2D(costumEntitys[i], normal2DShader, scene, glm::vec3(0, 0, 0));
+				}
+			}
+			else {
+				renderer->renderScene(scene, normal2DShader, normal3DShader);
+			}
 
 			// unbind buffer
 			fBuffers[i]->unbind();

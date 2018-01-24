@@ -21,6 +21,9 @@ FrameBuffer::FrameBuffer(){
 	position = glm::vec3(SWIDTH / 2, SHEIGHT / 2, 0);
 	rotation = glm::vec3(0,0,0);
 	size = glm::vec3(100, 100, 0);
+
+	// set render entitys to false
+	_renderEntitys = false;
 }
 
 // framebuffer deconstructor
@@ -105,4 +108,16 @@ void FrameBuffer::addCostumShader(const char * vertLocation, const char * fragLo
 	_vertShader = vertLocation;
 	_fragShader = fragLocation;
 	_shader = new Shader(_vertShader, "", _fragShader);
+}
+
+void FrameBuffer::addRenderEntitys(std::vector<Entity*> e){
+	_renderEntitys = true;
+	_entitysToRender.clear();
+
+	_entitysToRender = e;
+}
+
+void FrameBuffer::removeRenderEntitys(){
+	_renderEntitys = false;
+	_entitysToRender.clear();
 }

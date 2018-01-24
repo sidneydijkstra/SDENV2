@@ -87,6 +87,16 @@ MyScene::MyScene(){
 
 	// add level as child
 	this->addChild(_level);
+
+	std::vector<Entity*> costumE;
+	costumE.push_back(_level->getPlayer());
+	std::vector<Enemy*> enemys = _level->getEnemys();
+	for (int i = 0; i < enemys.size(); i++)
+	{
+		costumE.push_back(enemys[i]);
+	}
+
+	fbBottom->addRenderEntitys(costumE);
 }	
 
 void MyScene::update(float deltatime) {

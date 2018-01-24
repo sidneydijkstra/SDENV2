@@ -25,6 +25,7 @@
 #include "shader.h"
 #include "color.h"
 #include "sdenv2config.h"
+#include "entity.h"
 
 /**
 * @brief The FrameBuffer class
@@ -72,6 +73,20 @@ public:
 	/// @return Shader*
 	Shader* shader() { return _shader; };
 
+	/// @brief add costum entitys the framebuffer whil render, remember he whil only render the entitys you give him
+	/// @param the vector of entitys
+	/// @return void
+	void addRenderEntitys(std::vector<Entity*> e);
+	/// @brief remove the costum entitys and go back to scene rendering
+	/// @return void
+	void removeRenderEntitys();
+	/// @brief get if this framebuffer is going to render entitys
+	/// @return bool
+	bool isRenderEntitysOnly() { return _renderEntitys; };
+	/// @brief get the entitys the framebuffer is going to render
+	/// @return std::vector<Entity*>
+	std::vector<Entity*> getRenderEntitys() { return _entitysToRender; };
+
 	glm::vec3 position; ///< @brief the position of the FrameBuffer
 	glm::vec3 rotation; ///< @brief the rotation of the FrameBuffer
 	glm::vec3 size; ///< @brief the size of the FrameBuffer
@@ -92,6 +107,8 @@ private:
 	const GLchar* _vertShader; ///< @brief the vertex shader of the framebuffer
 	const GLchar* _fragShader; ///< @brief the fragment shader of the framebuffer
 
+	std::vector<Entity*> _entitysToRender; ///< @brief the list of costum render entitys of the framebuffer
+	bool _renderEntitys; ///< @brief the bool that stores if this framebuffer uses costum entitys
 };
 
 #endif /* end framebuffer */

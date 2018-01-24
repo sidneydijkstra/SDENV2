@@ -51,6 +51,10 @@ public:
 	// move camera with player
 	void playerFollow(Camera* cam);
 
+	// get player and enemys
+	Player* getPlayer() { return _player; };
+	std::vector<Enemy*> getEnemys() { return _enemys; };
+
 private:
 	// map variables
 	std::vector<const char*> _tilesprites;
