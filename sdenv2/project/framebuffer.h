@@ -74,9 +74,9 @@ public:
 	Shader* shader() { return _shader; };
 
 	/// @brief add costum entitys the framebuffer whil render, remember he whil only render the entitys you give him
-	/// @param the vector of entitys
+	/// @param the entity
 	/// @return void
-	void addRenderEntitys(std::vector<Entity*> e);
+	void addRenderEntity(Entity* e);
 	/// @brief remove the costum entitys and go back to scene rendering
 	/// @return void
 	void removeRenderEntitys();

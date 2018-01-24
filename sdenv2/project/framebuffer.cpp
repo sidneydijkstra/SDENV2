@@ -110,11 +110,11 @@ void FrameBuffer::addCostumShader(const char * vertLocation, const char * fragLo
 	_shader = new Shader(_vertShader, "", _fragShader);
 }
 
-void FrameBuffer::addRenderEntitys(std::vector<Entity*> e){
+void FrameBuffer::addRenderEntity(Entity* e){
 	_renderEntitys = true;
 	_entitysToRender.clear();
 
-	_entitysToRender = e;
+	_entitysToRender.push_back(e);
 }
 
 void FrameBuffer::removeRenderEntitys(){
