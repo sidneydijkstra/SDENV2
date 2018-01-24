@@ -39,6 +39,9 @@ public:
 	/// @param the wrap type
 	/// @return void
 	void loadTexture(const char* location, int filter, int wrap);
+	/// @brief remove a texture
+	/// @return void
+	void removeTexture();
 
 	/// @brief get the texture location
 	/// @return const char*

@@ -21,3 +21,7 @@ void Sprite::loadTexture(const char * location, int filter, int wrap){
 	_wrap = wrap;
 }
 
+void Sprite::removeTexture(){
+	_texturename = NULL;
+}
+
