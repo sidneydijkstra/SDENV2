@@ -15,4 +15,9 @@
 #include "ui/uicollection.h"
 #include "ui/uielement.h"
 
+#include "ui/uibutton.h"
+#include "ui/uitextfield.h"
+#include "ui/uitoggle.h"
+#include "ui/uiclickablelist.h"
+
 #endif /* end UI_H */

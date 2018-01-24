@@ -38,8 +38,15 @@ bool UIElement::OnHovor(){
 	return false;
 }
 
-bool UIElement::OnClick() {
+bool UIElement::OnHold(){
 	if (this->OnHovor() && input()->getMouseButton(GLFW_MOUSE_BUTTON_1)) {
+		return true;
+	}
+	return false;
+}
+
+bool UIElement::OnClick() {
+	if (this->OnHovor() && input()->getMouseButtonDown(GLFW_MOUSE_BUTTON_1)) {
 		return true;
 	}
 	return false;

@@ -28,13 +28,15 @@
 */
 class UIButton : public UICollection{
 public:
-	UIButton(Color nomral, Color hover, Color click); ///< @brief Constructor of the UIButton
+	UIButton(Color nomralc, Color hoverc, Color clickc); ///< @brief Constructor of the UIButton
 	~UIButton(); ///< @brief Destructor of the UIButton
 
 	virtual void update();
 
 	void setButtonText(std::string message);
 	void setButtonScale(float scale);
+
+	bool OnClick();
 
 	Color normal;
 	Color hover;

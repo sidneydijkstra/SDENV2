@@ -89,7 +89,7 @@ void Core::init() {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	uiobject = NULL;
+	_debugCanvas = NULL;
 }
 
 bool Core::run(){
@@ -156,29 +156,22 @@ bool Core::run(){
 		renderer->RenderCanvas(Canvases[i], UIShader, textShader);
 	}
 
-	if (uiobject == NULL) {
-		uiobject = new UICollection();
-		uiobject->size = glm::vec3(100, 30, 0);
-		uiobject->position = glm::vec3(SWIDTH/2, SHEIGHT/2,0);
-
-		UIElement* el = new UIElement();
-		uiobject->addElement(el);
-
-		el->size = glm::vec3(uiobject->size.x, uiobject->size.y,0);
-		el->position = uiobject->top();
-	}
-
-	// render fps text
-	//textShader->use();
-	//renderer->renderText(_textfps, textShader);
 
 	// debug
 
-	// set render style
-	if (Input::getKeyDown(GLFW_KEY_N)) {
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	// render debug canvas
+	if (_debugCanvas == NULL) {
+		_debugCanvas = new DebugCanvas();
 	}
-	if (Input::getKeyDown(GLFW_KEY_M)) {
+
+	_debugCanvas->update();
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	renderer->RenderCanvas(_debugCanvas, UIShader, textShader);
+
+	// set render style
+	if (!_debugCanvas->lineRender) {
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}else{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	}
 
@@ -201,8 +194,9 @@ void Core::calculateFPS() {
 	_currentTime = glfwGetTime();
 	_fps++;
 	if (_currentTime - _lastTime >= 1) {
-
-		_textfps->message = "FPS: " + std::to_string(_fps) + " DELTATIME: " + std::to_string(_deltaTime);
+		if (_debugCanvas != NULL) {
+			_debugCanvas->setFps("fps: " + std::to_string(_fps));
+		}
 		_lastTime = glfwGetTime();
 		_fps = 0;
 	}
@@ -228,9 +222,6 @@ Core::~Core() {
 	delete UIShader;
 
 	// delete fps text
-	delete _textfps; 
-
-	// temp
-	delete uiobject;
+	delete _textfps;
 }
 

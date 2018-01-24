@@ -5,6 +5,8 @@ UIText::UIText(const char* font, float _scale, glm::vec3 _color) {
 	this->scale = _scale;
 	this->color = _color;
 
+	this->center = true;
+
 	this->message = "NULL";
 	this->_lerpColors = std::vector<glm::vec3>();
 

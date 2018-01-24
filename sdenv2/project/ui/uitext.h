@@ -72,6 +72,8 @@ public:
 	glm::vec3 color; ///< @brief the color of the UIText
 	std::string message; ///< @brief the message of the UIText
 
+	bool center; ///< @brief should UIText be centerd
+
 	GLuint _VAO; ///< @brief the VAO of the UIText
 	GLuint _VBO; ///< @brief the VBO of the UIText
 private:

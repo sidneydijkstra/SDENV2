@@ -221,20 +221,27 @@ void Renderer::renderUIText(UIText* text, UICollection* parent, Shader* shader){
 	std::string str = text->message;
 	float scale = text->scale;
 
-	// get width and height
-	float w = 0;
-	float h = 0;
-	for (c = str.begin(); c != str.end(); c++) {
-		Character ch = _fontloader->getFont(text->getFont())[*c];
-		w += ch.size.x * scale;
-		h = (ch.size.y * scale) > h ? ch.size.y * scale : h;
-	}
-
+	float x = 0;
+	float y = 0;
 	// get message scale and position
-	float x = (text->position.x + parent->position.x) - w/2;
-	float y = (text->position.y + parent->position.y) - h/2; //(text->position.y - SHEIGHT) * -1 + parent->position.x;
-	
-	std::cout << "x:" << x << " y: " << y << std::endl;
+	if (text->center) {
+		// get width and height
+		float w = 0;
+		float h = 0;
+		for (c = str.begin(); c != str.end(); c++) {
+			Character ch = _fontloader->getFont(text->getFont())[*c];
+			w += ch.size.x * scale;
+			h = (ch.size.y * scale) > h ? ch.size.y * scale : h;
+		}
+
+		x = (text->position.x + parent->position.x) - w / 2;
+		y = (text->position.y + parent->position.y) - h / 2; //(text->position.y - SHEIGHT) * -1 + parent->position.x;
+
+		x -= 6; // <-- a small offset
+	}else {
+		x = (text->position.x + parent->position.x);
+		y = (text->position.y + parent->position.y); //(text->position.y - SHEIGHT) * -1 + parent->position.x;
+	}
 
 	// Iterate through all characters
 	int i = 0;

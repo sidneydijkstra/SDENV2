@@ -33,6 +33,7 @@
 #include "scenemanager.h"
 #include "sdenv2config.h"
 #include "savemanager.h"
+#include "ui/debugcanvas.h"
 
 /**
 * @brief The Core class
@@ -80,10 +81,11 @@ private:
 	Shader* framebufferShader; ///< @brief the framebuffer shader
 	Shader* textShader; ///< @brief the text shader
 
+	// debug canvas
+	DebugCanvas* _debugCanvas;
+
 	// TEMP DEBUG VAR
 	bool renderTriangle = true; ///< @brief the renderTriangle
-
-	UICollection* uiobject;
 };
 
 #endif /* end CORE_H */

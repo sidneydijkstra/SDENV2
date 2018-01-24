@@ -30,6 +30,7 @@ public:
 	~UIElement(); ///< @brief Destructor of the Timer
 
 	bool OnHovor();
+	bool OnHold();
 	bool OnClick();
 
 	glm::vec3 position;

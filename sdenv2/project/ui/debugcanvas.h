@@ -29,7 +29,16 @@ public:
 
 	virtual void update();
 
+	// function vor renderer and core to set
+	void setFps(std::string str);
+
+	// vars for renderer and core to use
+	bool lineRender;
+
 private:
+	UIButton* _button;
+	UITextField* _fps;
+	UIToggle* _toggle;
 };
 
 #endif /* end DEBUGCANVAS_H */

@@ -224,6 +224,12 @@ add_library(SDENV2 STATIC
 
   sdenv2/project/ui/uibutton.cpp
   sdenv2/project/ui/uibutton.h
+  sdenv2/project/ui/uitextfield.cpp
+  sdenv2/project/ui/uitextfield.h
+  sdenv2/project/ui/uitoggle.cpp
+  sdenv2/project/ui/uitoggle.h
+  sdenv2/project/ui/uiclickablelist.cpp
+  sdenv2/project/ui/uiclickablelist.h
 )
 
 target_link_libraries(SDENV2
