@@ -25,6 +25,7 @@
 #include "input.h"
 #include "sdenv2config.h"
 #include "vector2.h"
+#include "savemanager.h"
 
 /**
 * @brief The Entity class

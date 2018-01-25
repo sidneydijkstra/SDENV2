@@ -118,9 +118,28 @@ void SaveManager::setValue(std::string _key, std::string _value)
 	SaveManager::getInstance()->_saveFileLines = _lines;
 }
 
-void SaveManager::getValue(std::string _key, std::string _value)
-{
-	// TODO
+std::string SaveManager::getValue(std::string _key){
+	if (!SaveManager::getInstance()->_loadedSaveFile) {
+		std::cout << "[SAVEMANAGER] Can't set value because save file is not loaded" << std::endl;
+		return "";
+	}
+
+	std::vector<std::string> _lines = SaveManager::getInstance()->_saveFileLines;
+	for (int i = 0; i < _lines.size(); i++){
+		std::vector<std::string> line = SaveManager::getInstance()->split(_lines[i], ","[0]);
+
+		if (line.empty()) {
+			continue;
+		}
+
+		// if current line is save key save return value
+		if (line[0] == _key) {
+			return line[1];
+		}
+	}
+
+	return "";
+
 }
 
 SaveManager::~SaveManager()

@@ -29,6 +29,7 @@
 #include "text.h"
 #include "color.h"
 #include "framebuffer.h"
+#include "savemanager.h"
 #include "ui.h"
 
 /**

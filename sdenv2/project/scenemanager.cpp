@@ -63,6 +63,13 @@ void SceneManager::setCurrentScene(Scene * _scene){
 	}
 }
 
+void SceneManager::setActiveScene(int index){
+	if (index < 0 && index > _listScene.size()) {
+		return;
+	}
+	this->setCurrentScene(_listScene[index]);
+}
+
 void SceneManager::nextScene(){
 	_listScene[_currentSceneIndex]->state = _listScene[_currentSceneIndex]->none;
 

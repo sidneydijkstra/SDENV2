@@ -46,6 +46,9 @@ public:
 	/// @param the Scene
 	/// @return void
 	void setCurrentScene(Scene* _scene);
+
+	void setActiveScene(int index);
+
 	/// @brief get the current scene
 	/// @return Scene*
 	Scene* getCurrentScene() { return _listScene[_currentSceneIndex]; };

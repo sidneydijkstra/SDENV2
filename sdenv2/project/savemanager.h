@@ -33,7 +33,7 @@ public:
 	static void close();
 
 	static void setValue(std::string _key, std::string _value);
-	static void getValue(std::string _key, std::string _value);
+	static std::string getValue(std::string _key);
 
 private:
 	SaveManager(); ///< @brief Constructor of the SaveManager
