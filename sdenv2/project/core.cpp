@@ -126,8 +126,7 @@ bool Core::run(){
 			if (fBuffers[i]->isRenderEntitysOnly()) {
 				std::vector<Entity*> costumEntitys = fBuffers[i]->getRenderEntitys();
 				int size = costumEntitys.size();
-				for (int i = 0; i < size; i++)
-				{
+				for (int i = 0; i < size; i++){
 					renderer->render2D(costumEntitys[i], normal2DShader, scene, glm::vec3(0, 0, 0));
 				}
 			}

@@ -22,7 +22,7 @@ public:
 
 private:
 	Level* _level;
-
+	
 	FrameBuffer* fbTop;
 	FrameBuffer* fbBottom;
 };

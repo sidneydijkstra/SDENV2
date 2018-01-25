@@ -8,6 +8,7 @@
 #include "player.h"
 #include "enemy.h"
 #include "coin.h"
+#include "framebuffer.h"
 
 struct Layout{
 	glm::vec2 levelSize;
@@ -24,26 +25,21 @@ public:
 	// add tile texture
 	void addTileTexture(const char* _location);
 
-	// add tile to map
-	void addTile();
-	// remove tile from map
-	void removeTile();
-
 	// add player to map
 	void addPlayer(int x, int y);
 	// remove player from map
 	void removePlayer();
 
 	// add enemy to map
-	void addEnemy(int x, int y, int minx, int maxx);
+	void addEnemy(int x, int y, int minx, int maxx, int layer);
 
 	// add coin from map
-	void addCoin(int x, int y);
+	void addCoin(int x, int y, int layer);
 
 	// load a level from file
 	void loadLevelFromFile(const char* _location);
 	// load a level from array
-	void loadLevelFromArray(std::vector<int> _levelmap, int _mapwidth, int _mapheight, int _tilewidth, int _tileheight);
+	void loadLevelFromArray(std::vector<int> _levelmap, int _mapwidth, int _mapheight, int _tilewidth, int _tileheight, std::vector<int> layers);
 
 	// get _grid
 	std::vector<Tile*> getGrid();
@@ -54,6 +50,10 @@ public:
 	// get player and enemys
 	Player* getPlayer() { return _player; };
 	std::vector<Enemy*> getEnemys() { return _enemys; };
+
+	// the framebuffers
+	std::vector<Entity*> fbTopRender;
+	std::vector<Entity*> fbBottomRender;
 
 private:
 	// map variables

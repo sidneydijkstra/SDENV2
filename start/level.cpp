@@ -64,6 +64,8 @@ void Level::addPlayer(int x, int y){
 		float posy = (_layout.tileSize.y / 2) + _layout.tileSize.y * y;
 		_player->position = glm::vec3(posx, posy, 0);
 
+		fbBottomRender.push_back(_player);
+
 		// add player as child
 		this->addChild(_player);
 	}
@@ -78,28 +80,51 @@ void Level::removePlayer(){
 	}
 }
 
-void Level::addEnemy(int x, int y, int minx, int maxx){
+void Level::addEnemy(int x, int y, int minx, int maxx, int layer){
 	Enemy* e = new Enemy(_player, (_layout.tileSize.x / 2) + _layout.tileSize.x * minx, (_layout.tileSize.x / 2) + _layout.tileSize.x * maxx);
 	float posx = (_layout.tileSize.x / 2) + _layout.tileSize.x * x;
 	float posy = (_layout.tileSize.y / 2) + _layout.tileSize.y * y;
 	e->position = glm::vec3(posx, posy, 0);
 
+	// set right render layer
+	if (layer == 0) {
+		this->addChild(e);
+		fbBottomRender.push_back(e);
+	}
+	else if (layer == 1) {
+		this->addChild(e);
+	}
+	else if (layer == 2) {
+		fbBottomRender.push_back(e);
+	}
+
 	this->addChild(e);
 	_enemys.push_back(e);
 }
 
-void Level::addCoin(int x, int y){
+void Level::addCoin(int x, int y, int layer){
 	glm::vec3 position = glm::vec3((_layout.tileSize.x / 2) + _layout.tileSize.x * x, (_layout.tileSize.y / 2) + _layout.tileSize.y * y, 0);
 	Coin* c = new Coin(position);
 
-	this->addChild(c);
+	// set right render layer
+	if (layer == 0) {
+		this->addChild(c);
+		fbBottomRender.push_back(c);
+	}
+	else if (layer == 1) {
+		this->addChild(c);
+	}
+	else if (layer == 2) {
+		fbBottomRender.push_back(c);
+	}
+
 	_coins.push_back(c);
 }
 
 void Level::loadLevelFromFile(const char * _location){
 }
 
-void Level::loadLevelFromArray(std::vector<int> _levelmap, int _mapwidth, int _mapheight, int _tilewidth, int _tileheight){
+void Level::loadLevelFromArray(std::vector<int> _levelmap, int _mapwidth, int _mapheight, int _tilewidth, int _tileheight, std::vector<int> layers){
 	for (int y = 0; y < _mapheight; y++){
 		for (int x = 0; x < _mapwidth; x++) {
 			int _index = y * _mapwidth + x;
@@ -120,8 +145,21 @@ void Level::loadLevelFromArray(std::vector<int> _levelmap, int _mapwidth, int _m
 
 			// create tile
 			Tile* t = new Tile(glm::vec3(posx, posy, 0), glm::vec3(_tilewidth / 2, _tileheight / 2, 0), loc);
+			
+			// set right render layer
+			if (layers[_index] == 0) {
+				this->addChild(t);
+				fbBottomRender.push_back(t);
+			}
+			else if (layers[_index] == 1) {
+				//fbTopRender.push_back(t);
+				this->addChild(t);
+			}
+			else if (layers[_index] == 2) {
+				fbBottomRender.push_back(t);
+			}
+			
 			_grid.push_back(t);
-			this->addChild(t);
 		}
 	}
 

@@ -2,6 +2,7 @@
 #include <core.h>
 #include <sdenv2config.h>
 #include "myscene.h"
+#include "leveleditor.h"
 
 #include <iostream>
 
@@ -14,13 +15,18 @@ int main() {
 	Scene* myscene = new MyScene();
 	core->scenemanager->setCurrentScene(myscene);
 
+	// create level editor and set it as current scene
+	//Scene* leveleditor = new LevelEditor();
+	//core->scenemanager->setCurrentScene(leveleditor);
+
 	// call the run function
 	while (core->run()) {
 		// do something
 	}
 
-	// delete myscene
+	// delete myscene and level editor
 	delete myscene;
+	//delete leveleditor;
 
 	// delete the renderer
 	delete core;

@@ -270,6 +270,16 @@ IF(BUILD_START)
     start/coin.h
     start/collider.cpp
     start/collider.h
+
+    # level editor
+    start/leveleditor.cpp
+    start/leveleditor.h
+    start/editortile.cpp
+    start/editortile.h
+    start/editorcanvas.cpp
+    start/editorcanvas.h
+    start/editorsaver.cpp
+    start/editorsaver.h
   )
 
   target_link_libraries(SDENV2_start

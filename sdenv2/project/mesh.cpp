@@ -2,6 +2,9 @@
 
 // mesh constructor
 Mesh::Mesh(){
+	_VAO = 0;
+	_VBO = 0;
+
 	// define draw size
 	_drawsize = 0;
 }
