@@ -4,6 +4,12 @@ Level::Level(){
 	_tilesprites.push_back("assets/tile_null.png");
 
 	_player = NULL;
+	coinCount = 0;
+	healthCount = 3;
+
+	healthTimer = Timer();
+	healthTimer.start();
+	healthTime = 1.5f;
 }
 
 void Level::update(float deltatime){
@@ -25,12 +31,24 @@ void Level::update(float deltatime){
 		for (int i = 0; i < _enemys.size(); i++) {
 			if (_enemys[i]->collision(_player) && _enemys[i]->topCollision(_player)) {
 				_player->addForce(glm::vec3(0,20,0)); // <-- add froce to player to make him bounce of enemy's
-
-				// remove enemy
 				this->removeChild(_enemys[i]);
 				delete _enemys[i];
 				_enemys.erase(_enemys.begin() + i);
 				break;
+			}
+			else if (_enemys[i]->collision(_player) && _enemys[i]->leftCollision(_player)) {
+				_player->position.x -= 1.5f;
+				if (healthTimer.seconds() > healthTime) {
+					healthTimer.start();
+					healthCount--;
+				}
+			}
+			else if (_enemys[i]->collision(_player) && _enemys[i]->rightCollision(_player)) {
+				_player->position.x += 1.5f;
+				if (healthTimer.seconds() > healthTime) {
+					healthTimer.start();
+					healthCount--;
+				}
 			}
 
 		}
@@ -38,6 +56,7 @@ void Level::update(float deltatime){
 		// check for coin collision with player
 		for (int i = 0; i < _coins.size(); i++) {
 			if (_coins[i]->collision(_player)) {
+				coinCount++;
 
 				// remove coin
 				this->removeChild(_coins[i]);
@@ -80,45 +99,36 @@ void Level::removePlayer(){
 	}
 }
 
-void Level::addEnemy(int x, int y, int minx, int maxx, int layer){
+void Level::addEnemy(int x, int y, int minx, int maxx){
 	Enemy* e = new Enemy(_player, (_layout.tileSize.x / 2) + _layout.tileSize.x * minx, (_layout.tileSize.x / 2) + _layout.tileSize.x * maxx);
 	float posx = (_layout.tileSize.x / 2) + _layout.tileSize.x * x;
 	float posy = (_layout.tileSize.y / 2) + _layout.tileSize.y * y;
 	e->position = glm::vec3(posx, posy, 0);
 
-	// set right render layer
-	if (layer == 0) {
-		this->addChild(e);
-		fbBottomRender.push_back(e);
-	}
-	else if (layer == 1) {
-		this->addChild(e);
-	}
-	else if (layer == 2) {
-		fbBottomRender.push_back(e);
-	}
-
 	this->addChild(e);
 	_enemys.push_back(e);
 }
 
-void Level::addCoin(int x, int y, int layer){
+void Level::addCoin(int x, int y){
 	glm::vec3 position = glm::vec3((_layout.tileSize.x / 2) + _layout.tileSize.x * x, (_layout.tileSize.y / 2) + _layout.tileSize.y * y, 0);
 	Coin* c = new Coin(position);
 
-	// set right render layer
-	if (layer == 0) {
-		this->addChild(c);
-		fbBottomRender.push_back(c);
-	}
-	else if (layer == 1) {
-		this->addChild(c);
-	}
-	else if (layer == 2) {
-		fbBottomRender.push_back(c);
+	this->addChild(c);
+	_coins.push_back(c);
+}
+
+void Level::addEnd(int x, int y, int width, int height){
+	glm::vec3 position = glm::vec3((_layout.tileSize.x / 2) + _layout.tileSize.x * x, (_layout.tileSize.y / 2) + _layout.tileSize.y * y, 0);
+	Tile* c = new Tile(position,glm::vec3(width, height,0), "assets/tile_end.png");
+
+	this->addChild(c);
+
+	if (end != NULL) {
+		this->removeChild(end);
+		delete end;
 	}
 
-	_coins.push_back(c);
+	end = c;
 }
 
 void Level::loadLevelFromFile(const char * _location){

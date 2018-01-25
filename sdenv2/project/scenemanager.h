@@ -37,15 +37,25 @@ public:
 	/// @return void
 	void update(float deltatime);
 
-	/// @brief set the current scene you want to render
+	/// @brief add a scene to the scene list
+	/// @param the Scene
+	/// @return void
+	void addCurrentScene(Scene* _scene);
+
+	/// @brief add a scene to the scene list and set it as current scene
 	/// @param the Scene
 	/// @return void
 	void setCurrentScene(Scene* _scene);
 	/// @brief get the current scene
 	/// @return Scene*
-	Scene* getCurrentScene() { return _currentScene; };
+	Scene* getCurrentScene() { return _listScene[_currentSceneIndex]; };
 private:
 	Scene* _currentScene; ///< @brief the current Scene
+	std::vector<Scene*> _listScene; ///< @brief the list of Scene's
+	int _currentSceneIndex; ///< @brief index of current scene
+
+	void nextScene();
+	void prefScene();
 };
 
 #endif /* end scenemanager */

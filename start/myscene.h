@@ -11,6 +11,7 @@
 #include "tile.h"
 #include "level.h"
 #include "enemy.h"
+#include "hudcanvas.h"
 
 class MyScene: public Scene
 {
@@ -23,6 +24,8 @@ public:
 private:
 	Level* _level;
 	
+	HudCanvas* _hudCanvas;
+
 	FrameBuffer* fbTop;
 	FrameBuffer* fbBottom;
 };

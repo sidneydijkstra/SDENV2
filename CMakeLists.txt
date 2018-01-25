@@ -271,6 +271,10 @@ IF(BUILD_START)
     start/collider.cpp
     start/collider.h
 
+    # UI
+    start/hudcanvas.cpp
+    start/hudcanvas.h
+
     # level editor
     start/leveleditor.cpp
     start/leveleditor.h

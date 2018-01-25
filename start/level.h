@@ -9,6 +9,7 @@
 #include "enemy.h"
 #include "coin.h"
 #include "framebuffer.h"
+#include "timer.h"
 
 struct Layout{
 	glm::vec2 levelSize;
@@ -31,10 +32,13 @@ public:
 	void removePlayer();
 
 	// add enemy to map
-	void addEnemy(int x, int y, int minx, int maxx, int layer);
+	void addEnemy(int x, int y, int minx, int maxx);
 
 	// add coin from map
-	void addCoin(int x, int y, int layer);
+	void addCoin(int x, int y);
+
+	// add the end position
+	void addEnd(int x, int y, int width, int height);
 
 	// load a level from file
 	void loadLevelFromFile(const char* _location);
@@ -55,6 +59,10 @@ public:
 	std::vector<Entity*> fbTopRender;
 	std::vector<Entity*> fbBottomRender;
 
+	// hud values
+	int coinCount;
+	int healthCount;
+
 private:
 	// map variables
 	std::vector<const char*> _tilesprites;
@@ -68,6 +76,11 @@ private:
 	std::vector<Enemy*> _enemys;
 	// list of coins
 	std::vector<Coin*> _coins;
+	// end pos
+	Tile* end;
+
+	Timer healthTimer;
+	float healthTime;
 };
 
 #endif /* end LEVEL_H */

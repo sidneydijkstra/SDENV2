@@ -127,6 +127,11 @@ void Renderer::render2D(Entity* entity, Shader* shader, Scene* scene, glm::vec3 
 	// only render entity if entity is active
 	if(entity->active){
 		// bind VAO
+
+		if (entity->mesh() == NULL) {
+			return;
+		}
+
 		glBindVertexArray(entity->mesh()->_VAO);
 
 		// activate textures

@@ -16,8 +16,10 @@ int main() {
 	core->scenemanager->setCurrentScene(myscene);
 
 	// create level editor and set it as current scene
-	//Scene* leveleditor = new LevelEditor();
-	//core->scenemanager->setCurrentScene(leveleditor);
+	Scene* leveleditor = new LevelEditor();
+	core->scenemanager->addCurrentScene(leveleditor);
+
+	//myscene->NEXT();
 
 	// call the run function
 	while (core->run()) {
@@ -26,7 +28,7 @@ int main() {
 
 	// delete myscene and level editor
 	delete myscene;
-	//delete leveleditor;
+	delete leveleditor;
 
 	// delete the renderer
 	delete core;

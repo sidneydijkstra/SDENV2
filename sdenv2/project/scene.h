@@ -113,6 +113,15 @@ public:
 	/// @return Light*
 	Light* getLight() { return _light; };
 
+
+	// hanndle scene switching
+	static enum State {
+		none, show, pref, next
+	};
+	State state;
+	void NEXT() { state = next; };
+	void PREF() { state = pref; };
+
 private:
 	Input* _input; ///< @brief the Input
 	Camera* _camera; ///< @brief the Camera of the Scene
