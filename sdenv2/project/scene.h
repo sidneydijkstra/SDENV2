@@ -117,11 +117,13 @@ public:
 
 	// hanndle scene switching
 	static enum State {
-		none, show, pref, next
+		none, show, pref, next, go
 	};
 	State state;
+	int gotoScene;
 	void NEXT() { state = next; };
 	void PREF() { state = pref; };
+	void GOTO(int index) { state = go; gotoScene = index; };
 
 private:
 	Input* _input; ///< @brief the Input

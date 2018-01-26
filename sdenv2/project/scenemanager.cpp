@@ -17,6 +17,9 @@ void SceneManager::update(float deltatime){
 	else if (this->getCurrentScene()->state == this->getCurrentScene()->next) {
 		this->nextScene();
 	}
+	else if (this->getCurrentScene()->state == this->getCurrentScene()->go) {
+		this->setActiveScene(this->getCurrentScene()->gotoScene);
+	}
 
 	// update current scene
 	getCurrentScene()->update(deltatime);
@@ -64,7 +67,7 @@ void SceneManager::setCurrentScene(Scene * _scene){
 }
 
 void SceneManager::setActiveScene(int index){
-	if (index < 0 && index > _listScene.size()) {
+	if (index < 0 && index > _listScene.size() - 1) {
 		return;
 	}
 	this->setCurrentScene(_listScene[index]);
@@ -74,7 +77,7 @@ void SceneManager::nextScene(){
 	_listScene[_currentSceneIndex]->state = _listScene[_currentSceneIndex]->none;
 
 	_currentSceneIndex++;
-	if (_currentSceneIndex > _listScene.size()) {
+	if (_currentSceneIndex > _listScene.size() - 1) {
 		_currentSceneIndex = 0;
 	}
 

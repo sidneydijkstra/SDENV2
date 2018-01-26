@@ -35,10 +35,14 @@ public:
 	void initTile(int _textureID);
 	void initCoin();
 	void initEnemy(int minX, int maxX);
+	void initStart();
+	void initEnd();
 
 	bool isTile;
 	bool isCoin;
 	bool isEnemy;
+	bool isStart;
+	bool isEnd;
 
 	int textureID;
 

@@ -173,9 +173,9 @@ bool Core::run(){
 		_debugCanvas = new DebugCanvas();
 	}
 
-	_debugCanvas->update();
+	//_debugCanvas->update();
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	renderer->RenderCanvas(_debugCanvas, UIShader, textShader);
+	//renderer->RenderCanvas(_debugCanvas, UIShader, textShader);
 
 	// set render style
 	if (!_debugCanvas->lineRender) {

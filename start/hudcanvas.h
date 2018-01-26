@@ -25,6 +25,7 @@ public:
 private:
 	UITextField* _textCoin;
 	UITextField* _textHealth;
+	UITextField* _textTimer;
 };
 
 #endif /* end HUDCANVAS_H */

@@ -68,6 +68,8 @@ void EditorTile::initNone(){
 	isTile = false;
 	isEnemy = false;
 	isCoin = false;
+	isStart = false;
+	isEnd = false;
 }
 
 void EditorTile::initTile(int _textureID){
@@ -79,6 +81,8 @@ void EditorTile::initTile(int _textureID){
 	isTile = true;
 	isEnemy = false;
 	isCoin = false;
+	isStart = false;
+	isEnd = false;
 }
 
 void EditorTile::initCoin(){
@@ -90,6 +94,8 @@ void EditorTile::initCoin(){
 	isTile = false;
 	isEnemy = false;
 	isCoin = true;
+	isStart = false;
+	isEnd = false;
 }
 
 void EditorTile::initEnemy(int minX, int maxX){
@@ -101,4 +107,26 @@ void EditorTile::initEnemy(int minX, int maxX){
 	isTile = false;
 	isEnemy = true;
 	isCoin = false;
+	isStart = false;
+	isEnd = false;
+}
+
+void EditorTile::initStart(){
+	textureID = 0;
+
+	isTile = false;
+	isEnemy = false;
+	isCoin = false;
+	isStart = true;
+	isEnd = false;
+}
+
+void EditorTile::initEnd(){
+	textureID = 0;
+
+	isTile = false;
+	isEnemy = false;
+	isCoin = false;
+	isStart = false;
+	isEnd = true;
 }

@@ -27,7 +27,7 @@ LevelEditor::LevelEditor(){
 	this->_currentLayer = 0;
 	_editorcanvas->addLayerText("Layer: " + std::to_string(_currentLayer));
 
-	this->createMap(40, 14);
+	this->createMap(80, 14);
 }
 
 LevelEditor::~LevelEditor(){
@@ -63,7 +63,7 @@ void LevelEditor::updateEditor(float deltatime) {
 		_currentEnemyModeStage = 0;
 		_currentEnemyTile = NULL;
 
-		if (_currentMode >= 3) {
+		if (_currentMode >= 5) {
 			_currentMode = 0;
 		}
 
@@ -160,6 +160,31 @@ void LevelEditor::updateClick(float deltatime){
 				_map[i]->initNone();
 			}
 		}
+	}else if (_currentMode == 3) {
+		for (int i = 0; i < _map.size(); i++) {
+			if (_map[i]->OnClick(camera())) {
+				_map[i]->setTexture("assets/tile_null.png");
+				_map[i]->initStart();
+				_map[i]->layer = _currentLayer;
+			}
+			else if (_map[i]->OnHover(camera()) && input()->getMouseButton(GLFW_MOUSE_BUTTON_2)) {
+				_map[i]->removeTexture();
+				_map[i]->initNone();
+				_map[i]->layer = 0;
+			}
+		}
+	}else if (_currentMode == 4) {
+		for (int i = 0; i < _map.size(); i++) {
+			if (_map[i]->OnClick(camera())) {
+				_map[i]->setTexture("assets/tile_end.png");
+				_map[i]->initEnd();
+			}
+			else if (_map[i]->OnHover(camera()) && input()->getMouseButton(GLFW_MOUSE_BUTTON_2)) {
+				_map[i]->removeTexture();
+				_map[i]->initNone();
+				_map[i]->layer = 0;
+			}
+		}
 	}
 
 	std::cout << _currentEnemyModeStage << std::endl;
@@ -240,12 +265,19 @@ void LevelEditor::saveFile(){
 	std::string coinData = "\nCoin:\n";
 	std::string enemyData = "\nEnemy:\n";
 
+	std::string startData = "\nStart:\n";
+	std::string endData = "\nEnd:\n";
+
 	// save map tile data
 	for (int i = 0; i < _map.size(); i++){
 		if (_map[i]->isCoin) {
 			coinData += std::to_string(_map[i]->x) + "," + std::to_string(_map[i]->y) + "\n";
 		}else if (_map[i]->isEnemy) {
 			enemyData += std::to_string(_map[i]->x) + "," + std::to_string(_map[i]->y) + "," + std::to_string(_map[i]->walkMinX) + "," + std::to_string(_map[i]->walkMaxX) + "\n";
+		}else if (_map[i]->isStart) {
+			startData += std::to_string(_map[i]->x) + "," + std::to_string(_map[i]->y);
+		}else if (_map[i]->isEnd) {
+			endData += std::to_string(_map[i]->x) + "," + std::to_string(_map[i]->y);
 		}
 		layerData += std::to_string(_map[i]->layer);
 		data += std::to_string(_map[i]->textureID);
@@ -259,6 +291,9 @@ void LevelEditor::saveFile(){
 	data += layerData;
 	data += coinData;
 	data += enemyData;
+
+	data += startData;
+	data += endData;
 
 	_editorsaver->saveNewFile(data);
 }

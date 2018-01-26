@@ -59,10 +59,17 @@ public:
 	std::vector<Entity*> fbTopRender;
 	std::vector<Entity*> fbBottomRender;
 
+	void reset();
+
+	// level timer
+	Timer levelTimer;
+
 	// hud values
 	int coinCount;
 	int healthCount;
 
+	bool next;
+	bool dead;
 private:
 	// map variables
 	std::vector<const char*> _tilesprites;
