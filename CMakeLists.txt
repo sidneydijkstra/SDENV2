@@ -230,6 +230,8 @@ add_library(SDENV2 STATIC
   sdenv2/project/ui/uitoggle.h
   sdenv2/project/ui/uiclickablelist.cpp
   sdenv2/project/ui/uiclickablelist.h
+  sdenv2/project/ui/uiimage.cpp
+  sdenv2/project/ui/uiimage.h
 )
 
 target_link_libraries(SDENV2
@@ -258,6 +260,92 @@ IF(BUILD_START)
     start/main.cpp
     start/myscene.cpp
     start/myscene.h
+  )
+
+  target_link_libraries(SDENV2_start
+    glfw
+    SDENV2
+  )
+
+  set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT SDENV2_start)
+
+
+  IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+  	target_link_libraries(SDENV2_start
+  		-lGL
+  	)
+  ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+
+ENDIF(BUILD_START)
+
+####################
+### DEMO PROJECT ###
+####################
+IF(BUILD_DEMO)
+
+  ####################
+  ### MAZE PROJECT ###
+  ####################
+  add_executable(SDENV2_maze
+    demos/maze/main.cpp
+    demos/maze/maze.cpp
+    demos/maze/maze.h
+    demos/maze/cell.cpp
+    demos/maze/cell.h
+    demos/maze/wall.cpp
+    demos/maze/wall.h
+  )
+
+  target_link_libraries(SDENV2_maze
+    glfw
+    SDENV2
+  )
+
+  set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT SDENV2_maze)
+
+  #####################
+  ### SMART ROCKETS ###
+  #####################
+  add_executable(SDENV2_smart_rockets
+    demos/smart_rockets/main.cpp
+    demos/smart_rockets/world.cpp
+    demos/smart_rockets/world.h
+    demos/smart_rockets/rocket.cpp
+    demos/smart_rockets/rocket.h
+  )
+
+  target_link_libraries(SDENV2_smart_rockets
+    glfw
+    SDENV2
+  )
+
+  set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT SDENV2_smart_rockets)
+
+  #################
+  ### CUBE WAVE ###
+  #################
+  add_executable(SDENV2_cube_wave
+    demos/cube_wave/main.cpp
+    demos/cube_wave/world.cpp
+    demos/cube_wave/world.h
+    demos/cube_wave/cube.cpp
+    demos/cube_wave/cube.h
+  )
+
+  target_link_libraries(SDENV2_cube_wave
+    glfw
+    SDENV2
+  )
+
+  set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT SDENV2_cube_wave)
+
+  ################################
+  ### FRAMEBUFFER GAME PROJECT ###
+  ################################
+  add_executable(SDENV2_framebuffer_game
+    start/main.cpp
+    start/myscene.cpp
+    start/myscene.h
     start/player.cpp
     start/player.h
     start/tile.cpp
@@ -283,6 +371,9 @@ IF(BUILD_START)
     start/menucanvas.cpp
     start/menucanvas.h
 
+    start/splashscreen.cpp
+    start/splashscreen.h
+
     # level editor
     start/leveleditor.cpp
     start/leveleditor.h
@@ -294,101 +385,25 @@ IF(BUILD_START)
     start/editorsaver.h
   )
 
-  target_link_libraries(SDENV2_start
+  target_link_libraries(SDENV2_framebuffer_game
     glfw
     SDENV2
   )
 
-  set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT SDENV2_start)
-
-
-  IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-  	target_link_libraries(SDENV2_start
-  		-lGL
-  	)
-  ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-
-ENDIF(BUILD_START)
-
-####################
-### DEMO PROJECT ###
-####################
-
-IF(BUILD_DEMO)
-
-  ####################
-  ### MAZE PROJECT ###
-  ####################
-  add_executable(SDENV2_maze
-    demos/maze/main.cpp
-    demos/maze/maze.cpp
-    demos/maze/maze.h
-    demos/maze/cell.cpp
-    demos/maze/cell.h
-    demos/maze/wall.cpp
-    demos/maze/wall.h
-  )
-
-  target_link_libraries(SDENV2_maze
-    glfw
-    SDENV2
-  )
-
-  set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT SDENV2_maze)
-
-
-  IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-  	target_link_libraries(SDENV2_maze
-  		-lGL
-  	)
-  ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-
-  #####################
-  ### SMART ROCKETS ###
-  #####################
-  add_executable(SDENV2_smart_rockets
-    demos/smart_rockets/main.cpp
-    demos/smart_rockets/world.cpp
-    demos/smart_rockets/world.h
-    demos/smart_rockets/rocket.cpp
-    demos/smart_rockets/rocket.h
-  )
-
-  target_link_libraries(SDENV2_smart_rockets
-    glfw
-    SDENV2
-  )
-
-  set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT SDENV2_smart_rockets)
-
-
-  IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-  	target_link_libraries(SDENV2_smart_rockets
-  		-lGL
-  	)
-  ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-
-  #################
-  ### CUBE WAVE ###
-  #################
-  add_executable(SDENV2_cube_wave
-    demos/cube_wave/main.cpp
-    demos/cube_wave/world.cpp
-    demos/cube_wave/world.h
-    demos/cube_wave/cube.cpp
-    demos/cube_wave/cube.h
-  )
-
-  target_link_libraries(SDENV2_cube_wave
-    glfw
-    SDENV2
-  )
-
-  set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT SDENV2_cube_wave)
+  set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT SDENV2_framebuffer_game)
 
 
   IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   	target_link_libraries(SDENV2_cube_wave
+  		-lGL
+  	)
+  	target_link_libraries(SDENV2_framebuffer_game
+  		-lGL
+  	)
+  	target_link_libraries(SDENV2_smart_rockets
+  		-lGL
+  	)
+  	target_link_libraries(SDENV2_maze
   		-lGL
   	)
   ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")

@@ -1,6 +1,11 @@
 #include "menucanvas.h"
 
 MenuCanvas::MenuCanvas(){
+	_background = new UIImage();
+	_background->setColor(Color(255, 255, 255));
+	_background->position = glm::vec3(SWIDTH / 2, SHEIGHT / 2, 0);
+	_background->size = glm::vec3(SWIDTH / 2, SHEIGHT / 2, 0);
+	this->addChild(_background);
 
 	_title = new UITextField("MirrorRace", "");
 	_title->position = glm::vec3(SWIDTH / 2, 700, 0);
@@ -12,12 +17,13 @@ MenuCanvas::MenuCanvas(){
 	_start->setButtonText("Start");
 	this->addChild(_start);
 
-	_tutorialA = new UITextField("You can move using [A] and [D] for left and right and [SPACE] to jump.", "");
-	_tutorialA->position = glm::vec3(SWIDTH / 2, 570, 0);
-	_tutorialA->text()->center = true;
-	this->addChild(_tutorialA);
+	_ct = new UIImage();
+	_ct->position = glm::vec3(SWIDTH / 2, 400, 0);
+	_ct->size = glm::vec3(150,150,0);
+	_ct->setTetxture("assets/message.png");
+	this->addChild(_ct);
 
-	_tutorialB = new UITextField("In the level, watch out for the snakes and search for the black and white end tile.", "");
+	/*_tutorialB = new UITextField("In the level, watch out for the snakes and search for the black and white end tile.", "");
 	_tutorialB->position = glm::vec3(SWIDTH / 2 - 50, 540, 0);
 	_tutorialB->text()->center = true;
 	this->addChild(_tutorialB);
@@ -35,20 +41,25 @@ MenuCanvas::MenuCanvas(){
 	_creditDev = new UITextField("Programmed by Sidney Dijkstra", "");
 	_creditDev->position = glm::vec3(SWIDTH / 2, 420, 0);
 	_creditDev->text()->center = true;
-	this->addChild(_creditDev);
+	this->addChild(_creditDev);*/
 }
 
 MenuCanvas::~MenuCanvas()
 {
+	delete _background;
+
 	delete _title;
 	delete _start;
-	delete _tutorialA;
+	delete _ct;
+	/*delete _tutorialA;
 	delete _tutorialB;
 	delete _tutorialC;
 	delete _creditArt;
-	delete _creditDev;
+	delete _creditDev;*/
 }
 
 void MenuCanvas::update()
 {
+	_background->update();
+	_ct->update();
 }

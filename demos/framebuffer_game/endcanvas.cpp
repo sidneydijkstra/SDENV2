@@ -1,6 +1,12 @@
 #include "endcanvas.h"
 
 EndCanvas::EndCanvas(){
+	_background = new UIImage();
+	_background->setColor(Color(220,220,220));
+	_background->position = glm::vec3(SWIDTH/2, SHEIGHT/2, 0);
+	_background->size = glm::vec3(SWIDTH/2, SHEIGHT/2, 0);
+	this->addChild(_background);
+
 	_back = new UIButton(Color(100, 100, 100), Color(120, 120, 120), Color(140, 140, 140));
 	_back->position = glm::vec3(SWIDTH / 2, 400, 0);
 	_back->setButtonText("<-- back");
@@ -46,6 +52,7 @@ EndCanvas::EndCanvas(){
 }
 
 EndCanvas::~EndCanvas(){
+	delete _background;
 	delete _back;
 
 	delete _title;
@@ -57,6 +64,7 @@ EndCanvas::~EndCanvas(){
 }
 
 void EndCanvas::update(){
+	_background->update();
 }
 
 void EndCanvas::loadScore(){

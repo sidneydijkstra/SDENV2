@@ -14,6 +14,9 @@ public:
 	UIButton* _start;
 
 private:
+	UIImage* _background;
+	UIImage* _ct;
+
 	UITextField* _title;
 
 	UITextField* _tutorialA; // movement

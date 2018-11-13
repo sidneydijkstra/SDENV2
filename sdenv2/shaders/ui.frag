@@ -14,15 +14,12 @@ uniform sampler2D ourTexture;
 uniform bool doTexture;
 
 void main(){
-  /*if(doTexture){
+  if(doTexture){
     //genarate texture
-    vec4 texture = texture(ourTexture, fragObjectColor);
+    vec4 texture = texture(ourTexture, fragTextureCord);
 
-    exitColor = vec4(texture.rgb, 1);
+    exitColor = vec4(texture.x, texture.y, texture.z, 1);
   }else{
     exitColor = vec4(fragObjectColor, 1);
-  }*/
-
-
-  exitColor = vec4(fragObjectColor,1);
+  }
 }

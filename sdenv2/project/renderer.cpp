@@ -332,7 +332,7 @@ void Renderer::renderUICollection(UICollection * collection, Shader * shader, Sh
 	std::vector<UIText*> texts = collection->getAllUIText();
 	for (int i = 0; i < size; i++) {
 		textShader->use();
-		this->renderUIText(texts[i], collection, shader);
+		this->renderUIText(texts[i], collection, textShader);
 	}
 }
 
@@ -353,7 +353,6 @@ void Renderer::renderUIElement(UIElement * element, UICollection* parent, Shader
 			glBindTexture(GL_TEXTURE_2D, _resmanager->getTexture(element->sprite()->texture(), element->sprite()->filter(), element->sprite()->wraping()));
 		}
 		else {
-			glActiveTexture(GL_TEXTURE0);
 			shader->setBool("doTexture", false);
 		}
 

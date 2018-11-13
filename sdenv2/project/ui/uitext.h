@@ -36,12 +36,12 @@
 */
 class UIText : public UIElement
 {
-public:
+public:	
 	///< @brief Constructor of the UIText
 	/// @param the font you want to use
 	/// @param the scale of the UIText
 	/// @param the color of the UIText
-	UIText(const char* font, float _scale, glm::vec3 _color = glm::vec3(1, 1, 1));
+	UIText(const char* font, float _scale, glm::vec3 _color = glm::vec3(0, 0, 0));
 	~UIText(); ///< @brief Destructor of the Text
 
 	/// @brief set the font

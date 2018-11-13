@@ -19,5 +19,6 @@
 #include "ui/uitextfield.h"
 #include "ui/uitoggle.h"
 #include "ui/uiclickablelist.h"
+#include "ui/uiimage.h"
 
 #endif /* end UI_H */

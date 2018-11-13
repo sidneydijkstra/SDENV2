@@ -17,6 +17,7 @@ public:
 	UIButton* _back;
 
 private:
+	UIImage* _background;
 
 	UITextField* _title;
 	UITextField* _highscore1;

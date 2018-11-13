@@ -16,6 +16,7 @@ UIElement::UIElement(){
 
 	this->active = true;
 
+	_sprite->removeTexture();
 	//sprite()->loadTexture("assets/tile_1.png", 0, 0);
 }
 

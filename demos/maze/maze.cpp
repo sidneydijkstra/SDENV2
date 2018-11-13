@@ -3,7 +3,7 @@
 Maze::Maze(){
 	this->setSceneMode(SCENE2D);
 
-	worldsize = 20;
+	worldsize = 200;
 
 	genStack = std::stack<Cell*>();
 	isSolved = false;
