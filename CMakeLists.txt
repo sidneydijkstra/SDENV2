@@ -57,6 +57,41 @@ set(OPENGL_LIBRARY
 )
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
+####################################
+### SDNW - netowrking for engine ###
+####################################
+
+
+if(WIN32)
+  add_library(SDNW STATIC
+    external/sdnw/networkmanager.cpp
+    external/sdnw/networkmanager.h
+    external/sdnw/networkhandler.cpp
+    external/sdnw/networkhandler.h
+
+    external/sdnw/networkaction.cpp
+    external/sdnw/networkaction.h
+    external/sdnw/package.cpp
+    external/sdnw/package.h
+    external/sdnw/socket.cpp
+    external/sdnw/socket.h
+    external/sdnw/tcpclient.cpp
+    external/sdnw/tcpclient.h
+    external/sdnw/tcpconnection.cpp
+    external/sdnw/tcpconnection.h
+    external/sdnw/tcplistener.cpp
+    external/sdnw/tcplistener.h
+    external/sdnw/tcpobject.cpp
+    external/sdnw/tcpobject.h
+  )
+
+  include_directories(
+    ${CMAKE_SOURCE_DIR}/external/sdnw/
+  )
+
+  target_link_libraries(SDNW wsock32 ws2_32)
+endif()
+
 ############
 ### GLEW ###
 ############
@@ -339,50 +374,70 @@ IF(BUILD_DEMO)
 
   set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT SDENV2_cube_wave)
 
+  ##########################
+  ### NETWORKING PROJECT ###
+  ##########################
+
+  if(WIN32) # TODO: add lib that supports some use as winsock2
+    add_executable(SDENV2_network_chatting
+      demos/network_chatting/main.cpp
+      demos/network_chatting/myscene.cpp
+      demos/network_chatting/myscene.h
+    )
+
+    target_link_libraries(SDENV2_network_chatting
+      glfw
+      SDENV2
+      SDNW
+    )
+
+    set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT SDENV2_network_chatting)
+  endif()
+
   ################################
   ### FRAMEBUFFER GAME PROJECT ###
   ################################
   add_executable(SDENV2_framebuffer_game
-    start/main.cpp
-    start/myscene.cpp
-    start/myscene.h
-    start/player.cpp
-    start/player.h
-    start/tile.cpp
-    start/tile.h
-    start/level.cpp
-    start/level.h
-    start/enemy.cpp
-    start/enemy.h
-    start/coin.cpp
-    start/coin.h
-    start/collider.cpp
-    start/collider.h
+    demos/framebuffer_game/main.cpp
+    demos/framebuffer_game/myscene.cpp
+    demos/framebuffer_game/myscene.h
+    demos/framebuffer_game/player.cpp
+    demos/framebuffer_game/player.h
+    demos/framebuffer_game/tile.cpp
+    demos/framebuffer_game/tile.h
+    demos/framebuffer_game/level.cpp
+    demos/framebuffer_game/level.h
+    demos/framebuffer_game/enemy.cpp
+    demos/framebuffer_game/enemy.h
+    demos/framebuffer_game/coin.cpp
+    demos/framebuffer_game/coin.h
+    demos/framebuffer_game/collider.cpp
+    demos/framebuffer_game/collider.h
 
     # levels
-    start/levela.cpp
-    start/levela.h
+    demos/framebuffer_game/levela.cpp
+    demos/framebuffer_game/levela.h
 
     # UI
-    start/hudcanvas.cpp
-    start/hudcanvas.h
-    start/endcanvas.cpp
-    start/endcanvas.h
-    start/menucanvas.cpp
-    start/menucanvas.h
+    demos/framebuffer_game/hudcanvas.cpp
+    demos/framebuffer_game/hudcanvas.h
+    demos/framebuffer_game/endcanvas.cpp
+    demos/framebuffer_game/endcanvas.h
+    demos/framebuffer_game/menucanvas.cpp
+    demos/framebuffer_game/menucanvas.h
 
-    start/splashscreen.cpp
-    start/splashscreen.h
+    demos/framebuffer_game/splashscreen.cpp
+    demos/framebuffer_game/splashscreen.h
 
     # level editor
-    start/leveleditor.cpp
-    start/leveleditor.h
-    start/editortile.cpp
-    start/editortile.h
-    start/editorcanvas.cpp
-    start/editorcanvas.h
-    start/editorsaver.cpp
-    start/editorsaver.h
+    demos/framebuffer_game/leveleditor.cpp
+    demos/framebuffer_game/leveleditor.h
+    demos/framebuffer_game/editortile.cpp
+    demos/framebuffer_game/editortile.h
+    demos/framebuffer_game/editorcanvas.cpp
+    demos/framebuffer_game/editorcanvas.h
+    demos/framebuffer_game/editorsaver.cpp
+    demos/framebuffer_game/editorsaver.h
   )
 
   target_link_libraries(SDENV2_framebuffer_game
@@ -404,6 +459,9 @@ IF(BUILD_DEMO)
   		-lGL
   	)
   	target_link_libraries(SDENV2_maze
+  		-lGL
+  	)
+  	target_link_libraries(SDENV2_network_chatting
   		-lGL
   	)
   ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")

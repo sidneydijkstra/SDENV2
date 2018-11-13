@@ -40,7 +40,7 @@ std::string SaveManager::build(std::vector<std::string> stringList, char delim) 
 SaveManager* SaveManager::getInstance(){
 	if (instance == NULL)
 	{
-		std::cout << "instance of input made!" << std::endl;
+		std::cout << "instance of SaveManager made!" << std::endl;
 		instance = new SaveManager();
 	}
 
