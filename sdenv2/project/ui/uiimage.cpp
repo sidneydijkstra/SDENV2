@@ -4,7 +4,7 @@ UIImage::UIImage(){
 	_main = new UIElement();
 	_main->position = glm::vec3(0,0,0);
 	_main->size = glm::vec3(0,0,0);
-	this->addElement(_main);
+	this->add(_main);
 }
 
 UIImage::~UIImage(){

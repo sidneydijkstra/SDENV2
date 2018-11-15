@@ -12,6 +12,7 @@
 
 #include <iostream>
 
+#include "input.h"
 #include "ui.h"
 
 // include glew
@@ -39,6 +40,7 @@ private:
 	UIButton* _button;
 	UITextField* _fps;
 	UIToggle* _toggle;
+	UITextField* _mousepos;
 };
 
 #endif /* end DEBUGCANVAS_H */

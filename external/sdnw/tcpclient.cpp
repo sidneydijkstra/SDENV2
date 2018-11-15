@@ -4,6 +4,8 @@ TcpClient::TcpClient(IpAddress _ip, int _port){
 	// create socket
 	_socket = new Socket(_ip, _port);
 	_socket->create();
+
+	_receivedData = std::vector<std::string>();
 }
 
 TcpClient::~TcpClient(){
@@ -18,7 +20,7 @@ bool TcpClient::connectClient(std::function<void(std::string)> _receiveData){
 
 	_OnReceiveData = _receiveData;
 
-	_listenThread = std::thread(&TcpClient::_listen, this);
+	_listenThread = std::thread(&TcpClient::_listen, this, std::ref(_receivedData));
 
 	return true;
 }
@@ -31,13 +33,20 @@ void TcpClient::sendData(std::string _message){
 	}
 }
 
+void TcpClient::update(){
+	for (size_t i = 0; i < _receivedData.size(); i++){
+		_OnReceiveData(_receivedData[i]);
+	}
+	_receivedData.clear();
+}
+
 void TcpClient::terminate(){
 	//_listenThread.join(); // TODO: stop thread from running (call std::terminate in thread)
 	// TODO: shutdown(_clientSocket, SD_SEND) are you closing connection on right way?
 	delete _socket;
 }
 
-void TcpClient::_listen(){
+void TcpClient::_listen(std::vector<std::string> &_list){
 	int result = 0;
 	char buffer[1028];
 	while (true) {
@@ -48,7 +57,8 @@ void TcpClient::_listen(){
 			for (int i = 0; i < result; i++) {
 				_message += buffer[i];
 			}
-			_OnReceiveData(_message);
+			//_OnReceiveData(_message);
+			_list.push_back(_message); // TODO: fix callback
 		}
 		else {
 			printf("TERMINATING THREAD! recv failed: %d\n", WSAGetLastError());

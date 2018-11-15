@@ -8,11 +8,11 @@ UIToggle::UIToggle(bool value){
 	_main = new UIElement();
 	_main->size = this->size;
 	_main->color = Color(30,30,30);
-	this->addElement(_main);
+	this->add(_main);
 
 	_inner = new UIElement();
 	_inner->size = this->size - this->_offset;
-	this->addElement(_inner);
+	this->add(_inner);
 
 	this->_switch();
 }

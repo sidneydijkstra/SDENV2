@@ -37,13 +37,9 @@ public:
 
 	bool active;
 
-	void addElement(UIElement* element);
-	void removeElement(UIElement* element);
 	std::vector<UIElement*> getAllElements();
 	int getElementsCount();
 
-	void addUIText(UIText* text);
-	void removeUITextt(UIText* text);
 	std::vector<UIText*> getAllUIText();
 	int getUITextCount();
 
@@ -51,9 +47,18 @@ public:
 	glm::vec3 left();
 	glm::vec3 top();
 
+protected:
+	void add(UIElement* element);
+	void remove(UIElement* element);
+
+	void add(UIText* text);
+	void remove(UIText* text);
+
 private:
+
 	std::vector<UIElement*> _elements;
 	std::vector<UIText*> _texts;
+
 };
 
 #endif /* end UICOLLECTION_H */

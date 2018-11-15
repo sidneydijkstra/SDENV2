@@ -13,6 +13,8 @@ public:
 	void listen(std::string _id, std::function<void(Package)> _callback);
 	void send(Package _pack);
 
+	bool isRunning() { return NetworkManager::getInstance()->isRunning(); };
+
 private:
 	static NetworkHandler* _instance;
 	NetworkHandler();

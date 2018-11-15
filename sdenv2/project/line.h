@@ -7,7 +7,7 @@
 *
 */
 
-#ifndef TIMER_H
+#ifndef LINE_H
 #define LINE_H
 
 #include <iostream>
@@ -29,8 +29,8 @@
 class Line
 {
 public:
-	Line(); ///< @brief Constructor of the Timer
-	~Line(); ///< @brief Destructor of the Timer
+	Line(); ///< @brief Constructor of the Line
+	~Line(); ///< @brief Destructor of the Line
 
 	void addPoint(glm::vec3 point);
 	std::vector<glm::vec3> getPoints();
@@ -39,4 +39,4 @@ private:
 	std::vector<glm::vec3> _points;
 };
 
-#endif /* end TIMER_H */
+#endif /* end LINE_H */

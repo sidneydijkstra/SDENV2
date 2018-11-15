@@ -40,6 +40,8 @@ public:
 	std::vector<UICollection*> getAllChilderen();
 	int getChildCount();
 
+	glm::vec3 center();
+
 private:
 	std::vector<UICollection*> _childeren;
 };

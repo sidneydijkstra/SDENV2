@@ -7,8 +7,8 @@ UIButton::UIButton(Color nomralc, Color hoverc, Color clickc){
 	_button = new UIElement();
 	_text = new UIText("", 0.5);
 
-	this->addElement(_button);
-	this->addUIText(_text);
+	this->add(_button);
+	this->add(_text);
 
 	_button->size = glm::vec3(this->size.x, this->size.y, 0);
 	_button->position = this->center();

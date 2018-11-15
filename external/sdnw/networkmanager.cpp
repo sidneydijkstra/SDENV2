@@ -18,6 +18,11 @@ NetworkManager::NetworkManager() {
 	this->_running = false;
 }
 
+void NetworkManager::update() {
+	if(_running)
+		_client->update();
+}
+
 void NetworkManager::handleData(std::string _message){
 	OnReceiveData.run(_message);
 }

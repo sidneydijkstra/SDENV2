@@ -3,7 +3,7 @@
 UIClickableList::UIClickableList(){
 	_background = new UIElement();
 	_background->color = Color(200,200,200);
-	this->addElement(_background);
+	this->add(_background);
 }
 
 UIClickableList::~UIClickableList(){
@@ -23,7 +23,7 @@ void UIClickableList::addItem(std::string name){
 	t->center = false;
 	t->position = glm::vec3(0, 20 * (_items.size() + 1), 0);
 	t->message = name;
-	this->addUIText(t);
+	this->add(t);
 	_items.push_back(t);
 
 	_background->position = glm::vec3(50, t->position.y / 2 + 17, 0);

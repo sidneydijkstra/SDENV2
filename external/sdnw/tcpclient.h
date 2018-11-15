@@ -11,7 +11,7 @@
 #include <sdkddkver.h>
 #include <conio.h>
 #include <stdio.h>
-
+#include <mutex> 
 #include <thread>
 
 #include "tcpobject.h"
@@ -24,11 +24,14 @@ public:
 	bool connectClient(std::function<void(std::string)> _receiveData);
 	void sendData(std::string _message);
 
+	void update();
+
 	void terminate();
 
 private:
 	// callbacks
 	std::function<void(std::string)> _OnReceiveData;
+	std::vector<std::string> _receivedData;
 
-	void _listen();
+	void _listen(std::vector<std::string> &_list);
 };

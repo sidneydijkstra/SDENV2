@@ -13,12 +13,12 @@ UICollection::~UICollection(){
 void UICollection::update(){
 }
 
-void UICollection::addElement(UIElement * element){
+void UICollection::add(UIElement * element){
 	_elements.push_back(element);
 	element->parentPosition = (&this->position);
 }
 
-void UICollection::removeElement(UIElement * element){
+void UICollection::remove(UIElement * element){
 	for (int i = 0; i < _elements.size(); i++) {
 		if (_elements[i] == element) {
 			_elements.erase(_elements.begin() + i);
@@ -35,11 +35,11 @@ int UICollection::getElementsCount(){
 	return _elements.size();
 }
 
-void UICollection::addUIText(UIText * text){
+void UICollection::add(UIText * text){
 	_texts.push_back(text);
 }
 
-void UICollection::removeUITextt(UIText * text){
+void UICollection::remove(UIText * text){
 	for (int i = 0; i < _texts.size(); i++) {
 		if (_texts[i] == text) {
 			_texts.erase(_texts.begin() + i);

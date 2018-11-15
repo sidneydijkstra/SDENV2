@@ -27,6 +27,10 @@ std::vector<UICollection*> Canvas::getAllChilderen(){
 	return _childeren;
 }
 
+glm::vec3 Canvas::center() {
+	return glm::vec3(SWIDTH/2, SHEIGHT/2, 0);
+}
+
 int Canvas::getChildCount(){
 	return _childeren.size();
 }

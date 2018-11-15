@@ -14,6 +14,10 @@ DebugCanvas::DebugCanvas(){
 	_toggle->position = glm::vec3(25, SHEIGHT - 95, 0);
 	this->addChild(_toggle);
 
+	_mousepos = new UITextField("X: 0 Y: 0");
+	_mousepos->position = glm::vec3(5, SHEIGHT - 140, 0);
+	this->addChild(_mousepos);
+
 	this->lineRender = false;
 }
 
@@ -21,15 +25,14 @@ DebugCanvas::~DebugCanvas(){
 	delete _button;
 	delete _fps;
 	delete _toggle;
+	delete _mousepos;
 }
 
 void DebugCanvas::update(){
 	_button->update();
 	_toggle->update();
 	this->lineRender = _toggle->isOn();
-	if (_button->OnClick()) {
-		//this->lineRender = !this->lineRender;
-	}
+	_mousepos->text()->message = "X: " + std::to_string(Input::getMouseX()) + " Y: " + std::to_string(Input::getMouseY());
 }
 
 void DebugCanvas::setFps(std::string str){

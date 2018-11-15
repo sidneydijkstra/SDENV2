@@ -26,10 +26,13 @@ class NetworkManager{ // TODO: build group connection logic in difrent class or 
 		~NetworkManager();
 
 		bool init(IpAddress _ip, int _port);
+		void update();
 
 		void sendData(std::string _message) {
 			_client->sendData(_message);
 		}
+
+		bool isRunning() { return _running; };
 
 	private:
 		static NetworkManager* NetworkManager::_instance;

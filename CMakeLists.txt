@@ -242,6 +242,7 @@ add_library(SDENV2 STATIC
 	sdenv2/project/savemanager.cpp
 	sdenv2/project/savemanager.h
 	sdenv2/project/sdenv2config.h
+  sdenv2/project/action.h
 
   # UI engine
   sdenv2/project/ui.h
