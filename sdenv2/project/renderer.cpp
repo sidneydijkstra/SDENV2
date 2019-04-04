@@ -124,6 +124,7 @@ void Renderer::render2D(Entity* entity, Shader* shader, Scene* scene, glm::vec3 
 	if (entity == NULL) {
 		return;
 	}
+
 	// get new pos of entity
 	glm::vec3 pos = entity->position + parentPosition;
 

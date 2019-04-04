@@ -1,7 +1,7 @@
 #include "resourcemanager.h"
 
-Resourcemanager::Resourcemanager()
-{
+Resourcemanager::Resourcemanager(){
+	_textures = std::map<std::string, Texture*>();
 }
 
 Resourcemanager::~Resourcemanager(){

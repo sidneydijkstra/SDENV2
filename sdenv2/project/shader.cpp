@@ -9,21 +9,21 @@ Shader::Shader(const GLchar* vertexPath, const GLchar* geometryPath, const GLcha
 	// set vertexshader
 	std::string vertexSourcePointer = loadShaderFile(vertexPath);
 	const char* vertexSourch = vertexSourcePointer.c_str();
-	GLuint vertexShader = createShader(GL_VERTEX_SHADER, vertexSourch, "vertex shader");
+	GLuint vertexShader = createShader(GL_VERTEX_SHADER, vertexSourch, vertexPath);
 	glAttachShader(this->program, vertexShader);
 
 	// set geometryshader
 	std::string geometrySourcePointer = loadShaderFile(geometryPath);
 	if (geometrySourcePointer.compare("") != 0) {
 		const char* geometrySourch = geometrySourcePointer.c_str();
-		GLuint geometryShader = createShader(GL_GEOMETRY_SHADER, geometrySourch, "geometry shader");
+		GLuint geometryShader = createShader(GL_GEOMETRY_SHADER, geometrySourch, geometryPath);
 		glAttachShader(this->program, geometryShader);
 	}
 
 	// set fragmentshader
 	std::string fragmentSourcePointer = loadShaderFile(fragmentPath);
 	const char* fragmentSourch = fragmentSourcePointer.c_str();
-	GLuint fragmentShader = createShader(GL_FRAGMENT_SHADER, fragmentSourch, "fragment shader");
+	GLuint fragmentShader = createShader(GL_FRAGMENT_SHADER, fragmentSourch, fragmentPath);
 	glAttachShader(this->program, fragmentShader);
 
 
@@ -124,5 +124,5 @@ void Shader::setInt(const char * name, float value) {
 // set bool in shader
 void Shader::setBool(const char * name, bool value) {
 	GLint uniform = glGetUniformLocation(this->program, name);
-	glUniform1d(uniform, value);
+	glUniform1i(uniform, (value ? 1 : 0));
 }

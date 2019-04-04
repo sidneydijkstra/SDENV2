@@ -24,7 +24,7 @@ void Texture::loadTexture(const char * location, int filter, int wrap){
 	int _width, _height;
 	unsigned char* image = SOIL_load_image(location, &_width, &_height, 0, SOIL_LOAD_RGB);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, _width, _height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
-
+	
 	// filter the Texture
 	if (filter <= 0 || filter > 3) {
 		// No filtering.
