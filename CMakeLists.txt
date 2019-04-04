@@ -121,25 +121,6 @@ add_subdirectory(
   external/freetype-2.8.1
 )
 
-##############
-### OpenAL ###
-##############
-
-add_subdirectory (external/openal)
-include_directories(
-	${CMAKE_SOURCE_DIR}/external/openal/include/
-)
-
-link_directories(
-	${CMAKE_SOURCE_DIR}/external/openal/
-)
-
-IF(WIN32)
-	SET(OPENAL OpenAL32)
-ELSE()
-	SET(OPENAL openal)
-ENDIF()
-
 ############
 ### SOIL ###
 ############
@@ -176,9 +157,6 @@ include_directories(
   # freetype
   ${CMAKE_SOURCE_DIR}/external/freetype-2.8.1/include
   ${CMAKE_SOURCE_DIR}/external/freetype-2.8.1/src
-
-  # openAL
-  ${CMAKE_SOURCE_DIR}/external/openal-soft/OpenAL32/
 )
 
 
@@ -188,7 +166,6 @@ set(ALL_LIBS
 	glfw
 	GLEW_200
   freetype
-  # ${OPENAL}
 )
 
 ##############
