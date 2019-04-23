@@ -5,6 +5,7 @@ NetworkHandler::NetworkHandler(){
 	NetworkManager::getInstance()->OnReceiveData += [this](std::string _data) { 
 		this->_listen(_data); 
 	};
+	_running = false;
 }
 
 NetworkHandler::~NetworkHandler(){
@@ -28,6 +29,10 @@ void NetworkHandler::_listen(std::string _data){
 	Package pack = Package::format(_data);
 	for (size_t i = 0; i < _listeners.size(); i++){
 		PackageListener p = _listeners[i];
+		if (pack.getName() == "INIT") {
+			_networkID = pack.getInt("network_id");
+			_running = true;
+		}
 		if (pack.getName() == p.id) {
 			p.callback(pack);
 		}

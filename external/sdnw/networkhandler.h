@@ -13,7 +13,8 @@ public:
 	void listen(std::string _id, std::function<void(Package)> _callback);
 	void send(Package _pack);
 
-	bool isRunning() { return NetworkManager::getInstance()->isRunning(); };
+	int getNetworkID() { return _networkID; };
+	bool isRunning() { return _running; };
 
 private:
 	static NetworkHandler* _instance;
@@ -25,6 +26,8 @@ private:
 		std::function<void(Package)> callback;
 	};
 
+	bool _running;
+	int _networkID;
 	std::vector<PackageListener> _listeners;
 
 	void _listen(std::string _data);

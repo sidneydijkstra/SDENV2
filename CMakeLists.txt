@@ -361,6 +361,8 @@ IF(BUILD_DEMO)
       demos/network_chatting/main.cpp
       demos/network_chatting/myscene.cpp
       demos/network_chatting/myscene.h
+      demos/network_chatting/player.cpp
+      demos/network_chatting/player.h
     )
 
     target_link_libraries(SDENV2_network_chatting

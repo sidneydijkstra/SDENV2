@@ -3,7 +3,6 @@
 
 MyScene::MyScene(){
 	this->setSceneMode(SCENE2D); // <-- set scene mode
-	_messages = std::vector<UITextField*>();
 
 	_canvas = new Canvas();
 	this->addCanvas(_canvas);
@@ -15,19 +14,64 @@ MyScene::MyScene(){
 	_button = new UIButton(Color(100, 100, 100), Color(150, 150, 150), Color(200, 200, 200));
 	_button->position = _canvas->center() - glm::vec3(0, 100, 0);
 
-	_input = new UITextField("");
-	_input->text()->center = true;
-	_input->position = _canvas->center() - glm::vec3(0, 100, 0);
-
 	_canvas->addChild(_message);
 	_canvas->addChild(_button);
 
+	_player == NULL;
+	//_timer = Timer();
+	
+
 	// setup packages
-	p_sendMessage = new Package("SMESSAGE");
 
 	// setup network actions
-	NetworkHandler::getInstance()->listen("SMESSAGE", [this](Package _pack) { // on receive [send message]
-		displayMessage(_pack);
+	NetworkHandler::getInstance()->listen("INIT", [this](Package _pack) { // on receive [INIT]
+		_canvas->removeChild(_message);
+		_canvas->removeChild(_button);
+
+		_player = new Player();
+		this->addChild(_player);
+
+		_networkPlayers = std::vector<Player*>();
+		//_timer.start();
+
+		p_updatePosition = new Package("g_update_position", _pack.getInt("network_id"));
+		p_updatePosition->set("network_id", _pack.getInt("network_id"));
+		std::cout << "network_id: " << _pack.getInt("network_id") << std::endl;
+	});
+
+	NetworkHandler::getInstance()->listen("CONNECT", [this](Package _pack) { // on receive [send message]
+		std::cout << "connection with id: " << _pack.getInt("network_id") << std::endl;
+
+		// add player to client lost
+		Player* p = new Player();
+		this->addChild(p);
+		p->networkID = _pack.getInt("network_id");
+		_networkPlayers.push_back(p);
+	});
+
+	NetworkHandler::getInstance()->listen("DISCONNECT", [this](Package _pack) { // on receive [send message]
+		std::cout << "lost connection with id: " << _pack.getInt("network_id") << std::endl;
+
+		// remove player from client list
+		int id = _pack.getInt("network_id");
+		for (int i = 0; i < _networkPlayers.size(); i++){
+			if (_networkPlayers[i]->networkID == id) {
+				this->removeChild(_networkPlayers[i]);
+				_networkPlayers.erase(_networkPlayers.begin() + i);
+				break;
+			}
+		}
+	});
+
+	NetworkHandler::getInstance()->listen("g_update_position", [this](Package _pack) { // on receive [send message]
+		// update client position in list
+		int id = _pack.getInt("network_id");
+		for (int i = 0; i < _networkPlayers.size(); i++) {
+			if (_networkPlayers[i]->networkID == id) {
+				_networkPlayers[i]->position = glm::vec3(_pack.getFloat("position_x"), _pack.getFloat("position_y"), 0);
+				break;
+			}
+		}
 	});
 	
 }	
@@ -41,7 +85,6 @@ void MyScene::update(float deltatime) {
 		_message->text()->message = "connecting to server: IP: 127.0.0.1 PORT: 8001";
 		if (NetworkManager::getInstance()->init(IpAddress("127.0.0.1"), 8001)) {
 			_message->text()->message = "connected to server: IP: 127.0.0.1 PORT: 8001";
-			connected();
 		}
 		else {
 			_message->text()->message = "could not connect to server: IP: 127.0.0.1 PORT: 8001";
@@ -49,76 +92,24 @@ void MyScene::update(float deltatime) {
 	}
 
 	if (NetworkHandler::getInstance()->isRunning()) {
-		getInput();
+		_player->update(deltatime);
+		//if (_timer.seconds() > 1) {
+			p_updatePosition->set("position_x", _player->position.x);
+			p_updatePosition->set("position_y", _player->position.y);
+			NetworkHandler::getInstance()->send(*p_updatePosition);
+			//_timer.start();
+		//}
 	}
 }
 
 void MyScene::connected(){
-	_canvas->removeChild(_message);
-	_canvas->removeChild(_button);
-	_canvas->addChild(_input);
-
-	p_sendMessage->set("username", std::string("test tesst"));
-
-	_messages.clear();
-}
-
-void MyScene::getInput(){
-	if (Input::getKeyDown(GLFW_KEY_ENTER)) {
-		sendMessage(_input->text()->message);
-		_input->text()->message = "";
-		return;
-	}
-	if (Input::getKeyDown(GLFW_KEY_BACKSPACE)) {
-		if (_input->text()->message.empty())
-			return;
-
-		_input->text()->message.erase(_input->text()->message.end() - 1);
-		return;
-	}
-
-	for (size_t i = 0; i < GLFW_KEY_LAST; i++){
-		if (Input::getKeyDown(i)) {
-			char key = (char)i;
-			_input->text()->message += key;
-		}
-	}
-	
-}
-
-void MyScene::sendMessage(std::string _message){
-	p_sendMessage->set("username", std::string(_message));
-	NetworkHandler::getInstance()->send(*p_sendMessage);
-}
-
-void MyScene::displayMessage(Package _pack){
-
-	if (_messages.size() > 10) {
-		UITextField* field = _messages[0];
-		_messages.erase(_messages.begin());
-		_canvas->removeChild(field);
-		delete field;
-	}
-
-	for (int i = _messages.size()-1; i >= 0 ; i--){
-		_messages[i]->position = _canvas->center() + glm::vec3(0, (i+1) * 30, 0);
-	}
-
-	UITextField* temp = new UITextField(_pack.getString("username"));
-	temp->text()->center = true;
-	temp->position = _canvas->center() + glm::vec3(0, 0, 0);
-
-	_canvas->addChild(temp);
-	_messages.push_back(temp);
-
-	std::cout << temp->position.x << "/" << temp->position.y << _pack.getString("username") << std::endl;
 }
 
 MyScene::~MyScene(){
 	delete _message;
 	delete _button;
-	delete _input;
-	_messages.clear();
 	delete _canvas;
+	if(_player != NULL)
+		delete _player;
 }
 

@@ -10,6 +10,8 @@
 #include <package.h>
 #include <action.h>
 
+#include "player.h"
+
 class MyScene: public Scene
 {
 public:
@@ -20,19 +22,18 @@ public:
 private:
 
 	void connected();
-	void getInput();
-	void sendMessage(std::string _message);
-	void displayMessage(Package _pack);
+
+	std::vector<Player*> _networkPlayers;
+	Player* _player;
+
+	Timer _timer;
 
 	Canvas* _canvas;
 	UIButton* _button;
 	UITextField* _message;
-	UITextField* _input;
-
-	std::vector<UITextField*> _messages;
 
 	// network packages
-	Package* p_sendMessage;
+	Package* p_updatePosition;
 };
 
 #endif /* end MYSCENE_H */
