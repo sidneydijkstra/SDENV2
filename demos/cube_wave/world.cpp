@@ -39,7 +39,7 @@ World::~World()
 
 
 void World::update(float deltatime){
-	this->camera()->move(deltatime);
+	this->camera()->move3D(deltatime);
 
 	float offset = 0;
 	for (int i = 0; i < cubes.size(); i++)

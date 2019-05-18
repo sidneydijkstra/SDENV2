@@ -15,6 +15,22 @@ Camera::Camera() {
 	std::cout << "made a camera" << std::endl;
 }
 
+void Camera::move2D(float deltaTime, float speed) {
+	// Camera controls
+	if (Input::getKey(GLFW_KEY_A)) {
+		this->position.x -= speed * deltaTime;
+	}else
+	if (Input::getKey(GLFW_KEY_D)) {
+		this->position.x += speed * deltaTime;
+	}
+	if (Input::getKey(GLFW_KEY_W)) {
+		this->position.y += speed * deltaTime;
+	}else
+	if (Input::getKey(GLFW_KEY_S)) {
+		this->position.y -= speed * deltaTime;
+	}
+}
+
 void Camera::cameraPositionMovement(float deltaTime) {
 	// Camera controls
 	GLfloat cameraSpeed = 5.0f * deltaTime;

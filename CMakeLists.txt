@@ -394,6 +394,28 @@ IF(BUILD_DEMO)
 
   set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT SDENV2_mag)
 
+  #####################
+  ### STRATEGY GAME ###
+  #####################
+  add_executable(SDENV2_strategy_game
+    demos/strategy_game/main.cpp
+    demos/strategy_game/myscene.cpp
+    demos/strategy_game/myscene.h
+    demos/strategy_game/player.cpp
+    demos/strategy_game/player.h
+    demos/strategy_game/map.cpp
+    demos/strategy_game/map.h
+    demos/strategy_game/tile.cpp
+    demos/strategy_game/tile.h
+  )
+
+  target_link_libraries(SDENV2_strategy_game
+    glfw
+    SDENV2
+  )
+
+  set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT SDENV2_strategy_game)
+
   ################################
   ### FRAMEBUFFER GAME PROJECT ###
   ################################

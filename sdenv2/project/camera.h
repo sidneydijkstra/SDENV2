@@ -32,10 +32,15 @@ class Camera
 public:
 	Camera(); ///< @brief Constructor of the Camera
 
-	/// @brief the move function of the camera
+	/// @brief the move3D function of the camera in 3D space
 	/// @param the deltatime
 	/// @return void
-	void move(float deltaTime) { cameraMouseMovement(deltaTime); cameraPositionMovement(deltaTime); };
+	void move3D(float deltaTime) { cameraMouseMovement(deltaTime); cameraPositionMovement(deltaTime); };
+	/// @brief the move2D function of the camera in 2D space
+	/// @param the deltatime
+	/// @param the move speed
+	/// @return void
+	void move2D(float deltaTime, float speed);
 	
 	glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f); ///< @brief the position of the camera
 	glm::vec3 front = glm::vec3(0.0f, 0.0f, -1.0f); ///< @brief the front of the camera
