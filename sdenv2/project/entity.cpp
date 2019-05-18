@@ -6,7 +6,8 @@ Entity::Entity(){
 	_input = Input::getInstance();
 
 	position = glm::vec3(0, 0, 0);
-	scale = glm::vec3(0, 0, 0);
+	scale = glm::vec3(1, 1, 1);
+	size = glm::vec3(1, 1, 1);
 	rotation = glm::vec3(0, 0, 0);
 
 	color = Color();

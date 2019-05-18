@@ -374,6 +374,26 @@ IF(BUILD_DEMO)
     set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT SDENV2_network_chatting)
   endif()
 
+  ###########################
+  ### MOVING AND GROOVING ###
+  ###########################
+  add_executable(SDENV2_mag
+    demos/moving_and_grooving/main.cpp
+    demos/moving_and_grooving/myscene.cpp
+    demos/moving_and_grooving/myscene.h
+    demos/moving_and_grooving/collision.cpp
+    demos/moving_and_grooving/collision.h
+    demos/moving_and_grooving/object.cpp
+    demos/moving_and_grooving/object.h
+  )
+
+  target_link_libraries(SDENV2_mag
+    glfw
+    SDENV2
+  )
+
+  set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT SDENV2_mag)
+
   ################################
   ### FRAMEBUFFER GAME PROJECT ###
   ################################

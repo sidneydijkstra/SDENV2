@@ -17,11 +17,11 @@ Rocket::Rocket(){
 		movement.push_back(glm::vec3(x, y, 0));
 	}
 	
-	this->sprite()->loadTexture("assets/wood.jpg", 1, 2);
+	//this->sprite()->loadTexture("assets/wood.jpg", 1, 2);
 
-	//this->addSpriteAnimator();
-	//std::vector<const char*> locations = { "assets/animations/one.png" ,"assets/animations/two.png" ,"assets/animations/three.png" ,"assets/animations/fore.png" };
-	//this->spriteAnimator()->addAnimations(locations, 0.4f, 0, 0);
+	this->addSpriteAnimator();
+	std::vector<const char*> locations = { "assets/animations/one.png" ,"assets/animations/two.png" ,"assets/animations/three.png" ,"assets/animations/fore.png" };
+	this->spriteAnimator()->addAnimations(locations, 0.4f, 0, 0);
 }
 
 Rocket::~Rocket()
@@ -29,7 +29,7 @@ Rocket::~Rocket()
 }
 
 void Rocket::update(float deltatime){
-	//this->spriteAnimator()->update();
+	this->spriteAnimator()->update();
 	this->rotation.z += 5 * deltatime;
 	/*
 	if (_current < 150) {

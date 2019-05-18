@@ -40,10 +40,6 @@ Player::~Player()
 {
 }
 
-void Player::update(float deltatime)
-{
-}
-
 void Player::update(float deltatime, std::vector<Tile*> t){
 
 	this->spriteAnimator()->update();

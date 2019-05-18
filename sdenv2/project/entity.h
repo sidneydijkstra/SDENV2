@@ -38,6 +38,7 @@ public:
 
 	glm::vec3 position; ///< @brief the position of entity
 	glm::vec3 scale; ///< @brief the scale of entity
+	glm::vec3 size; ///< @brief the size of entity ( only 2D )
 	glm::vec3 rotation; ///< @brief the rotation of entity
 
 	bool active; ///< @brief the active bool of entity

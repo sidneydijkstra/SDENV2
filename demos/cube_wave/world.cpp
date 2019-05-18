@@ -47,5 +47,5 @@ void World::update(float deltatime){
 		offset = glm::distance(cubes[i]->position, glm::vec3(5, 0, 5));
 		cubes[i]->scale.y = (sin(angle + (offset)) * 5);
 	}
-	angle += 0.001f;
+	angle += 0.01f;
 }

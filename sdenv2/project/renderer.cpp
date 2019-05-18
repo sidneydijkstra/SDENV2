@@ -157,7 +157,7 @@ void Renderer::render2D(Entity* entity, Shader* shader, Scene* scene, glm::vec3 
 		// get model matrix
 		glm::mat4 model;
 		model = glm::translate(model, pos);									// position
-		model = glm::scale(model, entity->scale);							// scale
+		model = glm::scale(model, entity->scale * entity->size);			// size ( with scale )
 		model = glm::rotate(model, entity->rotation.x, glm::vec3(1, 0, 0));	// rotation x
 		model = glm::rotate(model, entity->rotation.y, glm::vec3(0, 1, 0));	// rotation y
 		model = glm::rotate(model, entity->rotation.z, glm::vec3(0, 0, 1));	// rotation z
