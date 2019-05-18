@@ -1,0 +1,3 @@
+a networking lib for c++ game frameworks/engines, this lib is windows only.
+
+Copyright (c) Sidney Dijkstra. All Rights Reserved.

@@ -57,9 +57,9 @@ set(OPENGL_LIBRARY
 )
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
-####################################
-### SDNW - netowrking for engine ###
-####################################
+########################################
+### SDNW - netowrking lib for engine ###
+########################################
 
 
 if(WIN32)
@@ -90,6 +90,23 @@ if(WIN32)
   )
 
   target_link_libraries(SDNW wsock32 ws2_32)
+endif()
+
+###########################################
+### SDNW - neuralnetowrk lib for engine ###
+###########################################
+
+if(WIN32)
+  add_library(SDNN STATIC
+    external/sdnn/NeuralNetwork.cpp
+    external/sdnn/NeuralNetwork.h
+    external/sdnn/matrix.cpp
+    external/sdnn/matrix.h
+  )
+
+  include_directories(
+    ${CMAKE_SOURCE_DIR}/external/sdnn/
+  )
 endif()
 
 ############
@@ -415,6 +432,25 @@ IF(BUILD_DEMO)
   )
 
   set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT SDENV2_strategy_game)
+
+  #########################
+  ### NEURALNETOWRK XOR ###
+  #########################
+  add_executable(SDENV2_xor
+    demos/xor/main.cpp
+    demos/xor/myscene.cpp
+    demos/xor/myscene.h
+    demos/xor/tile.cpp
+    demos/xor/tile.h
+  )
+
+  target_link_libraries(SDENV2_xor
+    glfw
+    SDENV2
+    SDNN
+  )
+
+  set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT SDENV2_xor)
 
   ################################
   ### FRAMEBUFFER GAME PROJECT ###

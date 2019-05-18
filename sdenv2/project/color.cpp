@@ -6,8 +6,7 @@ Color::Color(int _r, int _g, int _b){
 	b = _b;
 }
 
-Color::~Color()
-{
+Color::~Color(){
 }
 
 void Color::setColor(int _r, int _g, int _b){

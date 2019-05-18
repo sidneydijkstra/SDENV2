@@ -1,0 +1,3 @@
+a neuralnetwork lib for c++ frameworks/engines.
+
+Copyright (c) Sidney Dijkstra. All Rights Reserved.
